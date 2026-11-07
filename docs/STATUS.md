@@ -24,6 +24,6 @@
 
 ## Next
 1. Decide on metro size equivalents (states only, or aggregate counties to metros from the OMB delineation file).
-3. Write the profiles (`profiles/2026/*.md`), the Key Findings and the Climbers & Fallers from the real data.
-4. Build the front-end in `web/`: globe, table, compare, race, neighbors, quiz, archive, country page, edition page.
-5. Create the Webflow objects as drafts, then the release assets, then the handoff.
+2. Write the profiles (`profiles/2026/*.md`), the Key Findings and the Climbers & Fallers from the real data.
+3. Build the front-end in `web/`: globe, table, compare, race, neighbors, quiz, archive, country page, edition page.
+4. Create the Webflow objects as drafts, then the release assets, then the handoff.
