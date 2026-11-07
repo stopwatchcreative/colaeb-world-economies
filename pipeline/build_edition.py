@@ -529,7 +529,7 @@ def spot_check(ed: dict, k: int, seed: int | None) -> list[str]:
 
 # ---------------------------------------------------------------- outputs
 CSV_COLS = ["rank", "prior_rank", "rank_change", "iso3", "name", "region", "income_group", "currency", "capital",
-            "gdp", "share_world", "growth", "gdp_pc", "gdp_pc_ppp", "gdp_pc_ppp_rank", "population", "inflation",
+            "gdp_usd_billions", "share_world", "growth", "gdp_pc", "gdp_pc_ppp", "gdp_pc_ppp_rank", "population", "inflation",
             "unemployment", "debt_pct_gdp", "sector_1", "sector_2", "sector_3", "size_equivalent"]
 
 
@@ -537,12 +537,20 @@ def write_csv(ed: dict, path: Path):
     with path.open("w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         srcs = ["gdp", "growth", "gdp_pc", "gdp_pc_ppp", "population", "inflation", "unemployment", "debt"]
-        w.writerow(CSV_COLS + [f"source_{s}" for s in srcs] + [f"gdp_{y}" for y in range(2000, ed["data_year"] + 1)])
+        # GDP columns are in US$ billions (current prices), rounded to 3 decimals so the smallest economies
+        # (tens of millions of dollars) keep their precision; trailing zeros are dropped.
+        def bn(v):
+            return None if v is None else float(f"{v / 1e9:.3f}")
+        w.writerow(CSV_COLS + [f"source_{s}" for s in srcs] + [f"gdp_{y}_usd_billions" for y in range(2000, ed["data_year"] + 1)])
         for e in ed["economies"]:
             sec = [f"{s['sector']} {s['share']}% ({s['year']})" for s in e["sectors"]] + ["", "", ""]
-            row = [e.get(c) for c in CSV_COLS[:19]] + sec[:3] + [(e["size_equivalent"] or {}).get("label")]
+            def cell(c):
+                if c == "gdp_usd_billions": return bn(e["gdp"])
+                v = e.get(c)
+                return int(v) if isinstance(v, float) and v.is_integer() and c in ("population", "gdp_pc", "gdp_pc_ppp") else v
+            row = [cell(c) for c in CSV_COLS[:19]] + sec[:3] + [(e["size_equivalent"] or {}).get("label")]
             row += [e["field_sources"].get(s if s != "debt" else "debt") for s in srcs]
-            row += [e["gdp_history"].get(y) for y in range(2000, ed["data_year"] + 1)]
+            row += [bn(e["gdp_history"].get(y)) for y in range(2000, ed["data_year"] + 1)]
             w.writerow(row)
 
 
