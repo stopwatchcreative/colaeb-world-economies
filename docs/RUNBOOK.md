@@ -59,7 +59,9 @@ One edition a year, released November–December. Each edition is named for its 
 - Refresh the masthead edition mark ("2027") and, optionally, the edition accent tone.
 
 ### 8. Point the flagship to the new edition (10 min)
-- In the custom code of `/world-economies` and both template pages, change `WER_EDITION` and the version (tag or commit hash) in the two CDN URLs. That's the only change. Keep the archived edition's data file reachable: the edition template loads `data/economies-<year>.json` for whichever year is in its URL.
+- Run `web/build.sh` to rebuild `wer.min.js` / `wer.min.css` after any front-end change, and commit.
+- In the custom code of `/world-economies` and both template pages, change `WER_EDITION`, the data preload path (`economies-<year>.json`) and the version (tag or commit hash) in every CDN URL (preload, stylesheet, script).
+- After publishing, open each page once yourself: a new version is fetched cold by the CDN the first time. That's the only change. Keep the archived edition's data file reachable: the edition template loads `data/economies-<year>.json` for whichever year is in its URL.
 - Update the page SEO title year: "World Ranking of Economies <year>: All Countries by GDP | Colaeb Annual Report".
 
 ### 9. Spot-check, stage, publish (2–3 hrs)
