@@ -35,6 +35,7 @@ WB = "https://api.worldbank.org/v2"
 IMF = "https://www.imf.org/external/datamapper/api/v1"
 BEA = "https://apps.bea.gov/api/data"
 UN = "https://population.un.org/dataportalapi/api/v1"
+CENSUS_DELINEATION = "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2023/delineation-files/list1_2023.xlsx"
 
 SOURCES: list[dict] = []
 # IMF's firewall returns 403 for a bare product token; a token plus a contact URL passes.
@@ -125,32 +126,104 @@ def bea_gdp(year: int) -> list[dict]:
     if not key:
         print("! BEA_API_KEY not set: size equivalents will be empty", file=sys.stderr)
         return []
-    rows = []
-    for table, geo, kind in (("SAGDP2", "STATE", "state"), ("CAGDP2", "MSA", "metro")):
-        params = {"UserID": key, "method": "GetData", "datasetname": "Regional", "TableName": table,
-                  "LineCode": 1, "GeoFips": geo, "Year": "LAST5", "ResultFormat": "json"}
-        js = get_json(BEA, params)
-        res = js.get("BEAAPI", {}).get("Results", {})
-        data = res.get("Data") if isinstance(res, dict) else None
-        if not data:
-            # BEA's API stopped serving GeoFips=MSA for CAGDP2 (2026): only county/state geographies remain.
-            err = (res.get("Error") or {}).get("APIErrorDescription", "no Data in response") if isinstance(res, dict) else "bad response"
-            print(f"WARN BEA {table} ({kind}) unavailable: {err}. {kind.title()} size equivalents skipped.", file=sys.stderr)
+    out: list[dict] = []
+    rows = _bea_rows(key, "SAGDP2", "STATE", year)
+    if rows:
+        use = rows[0]["TimePeriod"]
+        for d in rows:
+            if d["GeoFips"] in ("00000", "00998") or int(d["GeoFips"]) >= 57000:  # skip U.S. total and BEA multi-state regions
+                continue
+            v = _bea_value(d)
+            if v is not None:
+                out.append({"name": d["GeoName"].replace(" *", "").rstrip("*").strip(), "kind": "state", "year": int(use), "gdp": v})
+        log_source("BEA Regional SAGDP2 (state GDP, current $)", f"{BEA}?datasetname=Regional&TableName=SAGDP2&LineCode=1&GeoFips=STATE", data_year_used=int(use))
+    out.extend(metro_gdp(key, year))
+    return out
+
+
+def _bea_value(d: dict) -> float | None:
+    try:
+        # BEA reports the scale per row (UNIT_MULT: 3 = thousands, 6 = millions)
+        return float(d["DataValue"].replace(",", "")) * 10 ** int(d.get("UNIT_MULT", 6))
+    except (ValueError, AttributeError):
+        return None
+
+
+def _bea_rows(key: str, table: str, geo: str, year: int) -> list[dict]:
+    """Rows for the latest year <= `year` that BEA has published for this table."""
+    params = {"UserID": key, "method": "GetData", "datasetname": "Regional", "TableName": table,
+              "LineCode": 1, "GeoFips": geo, "Year": "LAST5", "ResultFormat": "json"}
+    res = get_json(BEA, params).get("BEAAPI", {}).get("Results", {})
+    data = res.get("Data") if isinstance(res, dict) else None
+    if not data:
+        err = (res.get("Error") or {}).get("APIErrorDescription", "no Data") if isinstance(res, dict) else "bad response"
+        print(f"WARN BEA {table} {geo} unavailable: {err}", file=sys.stderr)
+        return []
+    years = sorted({int(d["TimePeriod"]) for d in data if int(d["TimePeriod"]) <= year})
+    return [d for d in data if int(d["TimePeriod"]) == years[-1]] if years else []
+
+
+def metro_gdp(key: str, year: int) -> list[dict]:
+    """Metro GDP = sum of BEA county GDP over the OMB/Census metropolitan statistical area delineation.
+
+    BEA's API stopped serving GeoFips=MSA for CAGDP2 (2026), so metros are rebuilt from counties.
+    BEA combines some Virginia independent cities with their surrounding county (and Kalawao with
+    Maui, HI) into one FIPS such as 51901 "Albemarle + Charlottesville"; those are matched by name.
+    Puerto Rico municipios are not in BEA's county table, so PR metros are skipped (PR is ranked as
+    its own economy).
+    """
+    try:
+        import openpyxl, io
+    except ImportError:
+        print("WARN openpyxl not installed: metro size equivalents skipped (pip install openpyxl)", file=sys.stderr)
+        return []
+    url = CENSUS_DELINEATION
+    try:
+        r = requests.get(url, headers=UA, timeout=90); r.raise_for_status()
+    except Exception as e:
+        print(f"WARN Census delineation file unavailable ({e}): metro size equivalents skipped", file=sys.stderr)
+        return []
+    ws = openpyxl.load_workbook(io.BytesIO(r.content), read_only=True).active
+    c2m, title, by_name = {}, {}, {}
+    for row in ws.iter_rows(min_row=4, values_only=True):
+        if row[0] and row[4] == "Metropolitan Statistical Area":
+            fips = f"{row[9]}{row[10]}"
+            c2m[fips] = row[0]; title[row[0]] = row[3]
+            nm = re.sub(r"\s+(County|city|City and Borough|Borough|Parish|Municipality|Census Area|Planning Region)$", "", row[7]).lower()
+            by_name[(row[9], nm)] = row[0]
+    counties = _bea_rows(key, "CAGDP2", "COUNTY", year)
+    if not counties:
+        return []
+    use = int(counties[0]["TimePeriod"])
+    sums: dict[str, float] = {}
+    unmatched = []
+    for d in counties:
+        f, v = d["GeoFips"], _bea_value(d)
+        if v is None or f.endswith("000"):
             continue
-        years = sorted({int(d["TimePeriod"]) for d in data if int(d["TimePeriod"]) <= year})
-        use = years[-1]
-        for d in data:
-            if int(d["TimePeriod"]) != use or d["GeoFips"] in ("00000", "00998"):
-                continue
-            try:
-                # BEA reports the scale per row (UNIT_MULT: 3 = thousands, 6 = millions)
-                v = float(d["DataValue"].replace(",", "")) * 10 ** int(d.get("UNIT_MULT", 6))
-            except ValueError:
-                continue
-            name = re.sub(r"\s*\(Metropolitan Statistical Area\)", "", d["GeoName"]).replace(" *", "")
-            rows.append({"name": name, "kind": kind, "year": use, "gdp": v})
-        log_source(f"BEA Regional {table} ({kind} GDP, current $)", f"{BEA}?datasetname=Regional&TableName={table}&LineCode=1&GeoFips={geo}", data_year_used=use)
-    return rows
+        cbsa = c2m.get(f)
+        if cbsa is None and "+" in d["GeoName"]:
+            st = f[:2]
+            parts = re.split(r",\s*|\s*\+\s*", re.sub(r",\s*[A-Z]{2}\*?$", "", d["GeoName"]))
+            hits = {by_name.get((st, p.strip().lower())) for p in parts} - {None}
+            if len(hits) == 1:
+                cbsa = hits.pop()
+            elif len(hits) > 1:
+                print(f"WARN BEA combo {f} {d['GeoName']} spans metros {hits}: skipped", file=sys.stderr)
+        if cbsa is None:
+            unmatched.append(f)
+            continue
+        sums[cbsa] = sums.get(cbsa, 0.0) + v
+    log_source("Census Bureau / OMB metropolitan delineation (July 2023)", url)
+    log_source("BEA Regional CAGDP2 (county GDP, current $), summed to metro areas", f"{BEA}?datasetname=Regional&TableName=CAGDP2&LineCode=1&GeoFips=COUNTY", data_year_used=use)
+    out = []
+    for cbsa, v in sums.items():
+        # "Atlanta-Sandy Springs-Roswell, GA" -> "Atlanta"
+        city, _, states = title[cbsa].partition(",")
+        short = f"{city.split('-')[0].strip()}, {states.strip().split('-')[0]}"   # "Atlanta, GA"
+        out.append({"name": short, "full_name": title[cbsa], "cbsa": cbsa, "kind": "metro", "year": use, "gdp": v})
+    print(f"  metros: {len(out)} built from {len(counties)} BEA counties ({use})", file=sys.stderr)
+    return out
 
 
 # ---------------------------------------------------------------- UN WPP (population fill)
@@ -317,8 +390,13 @@ def build(cfg: dict, args) -> dict:
             x["size_equivalent"] = {"label": f"Larger than any U.S. state ({x['gdp'] / top['gdp']:.1f}× {top['name']})",
                                     "name": top["name"], "kind": "state", "gdp": top["gdp"], "year": top["year"]}
             continue
+        low = min(us, key=lambda s: s["gdp"])
+        if x["gdp"] < low["gdp"] * 0.8:
+            x["size_equivalent"] = {"label": f"Smaller than any U.S. metro area ({x['gdp'] / low['gdp'] * 100:.0f}% of {low['name']})",
+                                    "name": low["name"], "kind": low["kind"], "gdp": low["gdp"], "year": low["year"]}
+            continue
         best = min(us, key=lambda s: abs(math.log(s["gdp"] / x["gdp"])))
-        x["size_equivalent"] = {"label": f"About the size of {best['name']}" + (" metro area" if best["kind"] == "metro" else ""),
+        x["size_equivalent"] = {"label": f"About the size of {best['name']}" + (" metro area" if best["kind"] == "metro" else "") + f" ({best['year']} GDP)",
                                 **best}
 
     # ---- missing-value notes

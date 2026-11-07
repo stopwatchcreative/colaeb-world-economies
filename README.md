@@ -10,8 +10,8 @@ The pipeline, data files and front-end code behind colaeb.com/world-economies.
 
 ## Requirements
 
-- Python 3.11 or later, plus `pip install requests`
-- Network access to `api.worldbank.org`, `www.imf.org`, `apps.bea.gov` and (optionally) `population.un.org`
+- Python 3.11 or later, plus `pip install requests openpyxl`
+- Network access to `api.worldbank.org`, `www.imf.org`, `apps.bea.gov`, `www2.census.gov` and (optionally) `population.un.org`
 - `BEA_API_KEY` (free: https://apps.bea.gov/API/signup) for U.S. state and metro size equivalents
 - `UN_WPP_TOKEN` (optional) for UN population fill. Without it, IMF population is used.
 
@@ -42,6 +42,7 @@ python pipeline/build_edition.py --edition 2027 --from-build
 - **Field priority:** World Bank WDI first, then IMF WEO. Debt and forecasts come from IMF WEO only. Each value's source is stored in `field_sources`.
 - **Sectors:** WDI value added as % of GDP for agriculture, industry and services. This uses the latest year at or before the data year, and that year is recorded. Manufacturing is a subset of industry. The shares don't sum to 100 because net taxes on products are excluded.
 - **Movement:** the first edition compares data-year GDP ranks with the prior year's. Later editions compare against `prior_edition_file`.
+- **Size equivalents:** the closest U.S. state (BEA SAGDP2, data year) or metro area by GDP. BEA's API no longer serves metro GDP directly, so metro GDP is the sum of BEA county GDP (CAGDP2, latest year, currently one year behind) over the OMB July 2023 metropolitan delineations from the Census Bureau. County sums are checked against state totals. Economies under 80% of the smallest metro read "Smaller than any U.S. metro area."
 - **Missing values:** stored as `null`, with a plain-English reason in `missing`. The site shows "—" with that reason as a tooltip.
 - **Never overwrite:** a released edition (listed in `data/released.json`) can't be rebuilt.
 
