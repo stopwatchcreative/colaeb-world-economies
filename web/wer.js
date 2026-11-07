@@ -698,8 +698,7 @@
       ["U.S. Bureau of Economic Analysis, Regional Accounts (state and county GDP)", "https://apps.bea.gov/regional/"], ["U.S. Census Bureau / OMB, Metropolitan delineation files (July 2023)", "https://www.census.gov/geographies/reference-files/time-series/demo/metro-micro/delineation-files.html"],
       ["UN, World Population Prospects", "https://population.un.org/wpp/"], ["Natural Earth via world-atlas (TopoJSON boundaries)", "https://github.com/topojson/world-atlas"], ["mledoze/countries (flags, currencies; ODbL)", "https://github.com/mledoze/countries"]];
     section(el, "methodology", "Methodology & Sources", null, [h("div", { class: "wer-methods" }, blocks.map(function (b) { return h("div", {}, [h("h4", { text: b[0] }), h("p", { text: b[1] })]); })),
-      h("h4", { class: "wer-chart-title", text: "Sources" }), h("ol", { class: "wer-sources" }, list.map(function (s) { return h("li", {}, [h("a", { href: s[1], rel: "noopener", target: "_blank", text: s[0] })]); })),
-      h("p", { class: "wer-note" }, [h("a", { href: BASE + "/data/sources-" + EDITION + ".json", text: "Full source log with retrieval timestamps (JSON)" })])]);
+      h("h4", { class: "wer-chart-title", text: "Sources" }), h("ol", { class: "wer-sources" }, list.map(function (s) { return h("li", {}, [h("a", { href: s[1], rel: "noopener", target: "_blank", text: s[0] })]); }))]);
   }
   function renderFooter(el) {
     var d = new Date(state.ed.generated).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
