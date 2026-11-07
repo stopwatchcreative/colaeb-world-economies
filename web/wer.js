@@ -90,8 +90,11 @@
     }
   }
   function load(url) { return fetch(url).then(function (r) { if (!r.ok) throw new Error(url + " " + r.status); return r.json(); }); }
-  function script(src) {
-    return new Promise(function (res, rej) { var s = document.createElement("script"); s.src = src; s.async = true; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+  var scriptP = {};
+  function script(src, ordered) {
+    // ordered: download in parallel with other ordered scripts but execute in insertion order
+    if (scriptP[src]) return scriptP[src];
+    return (scriptP[src] = new Promise(function (res, rej) { var s = document.createElement("script"); s.src = src; s.async = !ordered; s.onload = res; s.onerror = rej; document.head.appendChild(s); }));
   }
   function mounts(name) { return [].slice.call(document.querySelectorAll('[data-wer="' + name + '"]')); }
   function countryUrl(e) { return SITE + "/economies/" + e.slug; }
@@ -377,18 +380,27 @@
     state.legend = legend; state.stage = stage;
     var force = q("globe"), small = force === "2d" || CFG.force2d || (force !== "3d" && (innerWidth < 760 || !webgl() || (navigator.hardwareConcurrency || 8) < 4));
     loadGeo().then(function (geo) {
-      if (small) return map2d(stage, geo);
-      return script(BASE + "/web/vendor/globe.gl.min.js").then(function () { return globe3d(stage, geo); }).catch(function () { return map2d(stage, geo); });
+      map2d(stage, geo);  // fast flat map first, so the hero is never empty
+      if (small) return;
+      var idle = window.requestIdleCallback || function (f) { setTimeout(f, 300); };
+      idle(function () {
+        script(BASE + "/web/vendor/globe.gl.min.js").then(function () { globe3d(stage, geo); }).catch(function (err) { console.warn("[wer] 3D globe unavailable, keeping flat map", err); });
+      });
     }).catch(function (err) { stage.querySelector(".wer-globe-loading").textContent = "Map unavailable."; console.warn(err); });
     paintLegend();
   }
   function webgl() { try { var c = document.createElement("canvas"); return !!(window.WebGLRenderingContext && (c.getContext("webgl") || c.getContext("experimental-webgl"))); } catch (e) { return false; } }
-  var geoP;
+  var geoRaw, geoP;
+  function fetchGeo() {
+    // starts as early as possible (boot), in parallel with the edition data
+    if (!geoRaw) geoRaw = Promise.all([script(BASE + "/web/vendor/topojson-client.min.js", true), script(BASE + "/web/vendor/d3-array.min.js", true), script(BASE + "/web/vendor/d3-geo.min.js", true),
+      load(BASE + "/web/vendor/countries-110m.json"), load(BASE + "/web/vendor/n3-iso3.json"), load(BASE + "/web/vendor/latlng.json")]);
+    return geoRaw;
+  }
   function loadGeo() {
     if (geoP) return geoP;
-    geoP = Promise.all([script(BASE + "/web/vendor/topojson-client.min.js"), script(BASE + "/web/vendor/d3-array.min.js").then(function () { return script(BASE + "/web/vendor/d3-geo.min.js"); }),
-      load(BASE + "/web/vendor/countries-110m.json"), load(BASE + "/web/vendor/n3-iso3.json"), load(BASE + "/web/vendor/latlng.json")]).then(function (r) {
-      var topo = r[2], n3 = r[3], ll = r[4];
+    geoP = fetchGeo().then(function (r) {
+      var topo = r[3], n3 = r[4], ll = r[5];
       var fc = topojson.feature(topo, topo.objects.countries);
       var un = {}; unranked().forEach(function (u) { un[u.iso3] = u; });
       var feats = fc.features.map(function (f) { f.iso3 = n3[f.id] || null; f.e = f.iso3 ? state.by[f.iso3] : null; f.un = !f.e && f.iso3 ? un[f.iso3] : null; return f; });
@@ -401,6 +413,11 @@
     return geoP;
   }
   function globe3d(stage, geo) {
+    var flat = stage.querySelector(".wer-map2d");
+    stage.style.height = ""; stage.style.minHeight = "";
+    var holder = h("div", { class: "wer-globe-3d" }); stage.insertBefore(holder, stage.firstChild);
+    var swap = function () { if (flat) flat.remove(); holder.classList.add("is-in"); };
+    stage = holder;
     var color = function (f) { var s = state.scale; return f.e ? s.color(METRICS[state.metric].get(f.e)) : NODATA; };
     var g = Globe({ animateIn: !REDUCED })(stage)
       .width(stage.clientWidth).height(stage.clientHeight).backgroundColor("rgba(0,0,0,0)")
@@ -413,6 +430,7 @@
       .pointColor(function (d) { return state.scale.color(METRICS[state.metric].get(d.e)); }).pointLabel(function (d) { return tipHtml(d.e); })
       .onPointClick(function (d) { onPick(d.e); })
       .arcColor(function () { return ["#DD7330", "#101828"]; }).arcStroke(0.6).arcDashLength(0.5).arcDashGap(0.15).arcDashAnimateTime(REDUCED ? 0 : 2400).arcAltitudeAutoScale(0.4);
+    swap();
     var mat = g.globeMaterial(); mat.color.set("#F2EEE6"); if (mat.emissive) mat.emissive.set("#E9E3D7");
     var c = g.controls(); c.autoRotate = !REDUCED; c.autoRotateSpeed = 0.35; c.enableZoom = true;
     stage.addEventListener("pointerdown", function () { c.autoRotate = false; });
@@ -457,7 +475,7 @@
       shapes.push([c, d.e]); root.appendChild(c);
     });
     var ld = stage.querySelector(".wer-globe-loading"); if (ld) ld.remove();
-    stage.insertBefore(root, stage.firstChild); stage.style.height = "auto"; stage.style.minHeight = "0";
+    stage.insertBefore(root, stage.firstChild); if (innerWidth < 760) { stage.style.height = "auto"; stage.style.minHeight = "0"; }
     state.globe = { repaint: function () { shapes.forEach(function (s) { s[0].setAttribute("fill", s[1] ? state.scale.color(METRICS[state.metric].get(s[1])) : NODATA); }); }, flyTo: function () {}, arcs: function () {} };
     state.globe.repaint();
   }
@@ -759,6 +777,7 @@
 
   // ------------------------------------------------------------ boot
   function boot() {
+    if (document.querySelector('[data-wer="globe"],[data-wer="country"]')) fetchGeo().catch(function () {});
     var dataUrl = CFG.dataUrl || BASE + "/data/economies-" + EDITION + ".json";
     Promise.all([load(dataUrl), load(BASE + "/data/editions.json").catch(function () { return []; }), load(BASE + "/findings/" + EDITION + "/findings.json").catch(function () { return null; }),
       load(BASE + "/data/sources-" + EDITION + ".json").catch(function () { return null; })]).then(function (r) {
@@ -777,6 +796,7 @@
       if (/^#rank-\d+$/.test(location.hash)) jumpTo(+location.hash.slice(6));
       else if (location.hash === "#compare") scrollToMount("compare");
       document.documentElement.setAttribute("data-wer-ready", "1");
+      document.documentElement.classList.remove("wer-loading");
     }).catch(function (err) { console.error("[wer] data load failed", err); [].forEach.call(document.querySelectorAll("[data-wer]"), function (el) { el.innerHTML = "<p style='padding:24px'>The report data could not be loaded. Please refresh.</p>"; }); });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
