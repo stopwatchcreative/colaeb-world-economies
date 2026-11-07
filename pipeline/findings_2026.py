@@ -22,6 +22,7 @@ by = {e["iso3"]: e for e in E}
 def T(v): return f"US${v / 1e12:.2f} trillion"
 def B(v): return f"US${v / 1e9:.1f} billion"
 def M(v): return T(v) if v >= 1e12 else B(v)
+def S(v): return f"${v / 1e12:.2f}T" if v >= 1e12 else f"${v / 1e9:.1f}B"
 def P(v, nd=1, s=False): return f"{v:+.{nd}f}%" if s else f"{v:.{nd}f}%"
 def usd_chg(e): return (e["gdp"] / e["gdp_prev"] - 1) * 100
 def fc(e, y): return (e["imf_forecast"] or {}).get(str(y))
@@ -52,16 +53,16 @@ f27 = sorted([e for e in E if fc(e, fy)], key=lambda e: -fc(e, fy))
 findings = [
     {"title": f"The world economy reached {T(W['gdp'])}",
      "body": f"World GDP in {Y} came to {T(W['gdp'])} in current U.S. dollars. Measured across the economies with data for both years, dollar GDP rose {P(world_chg, 1)} on {Y - 1}. (World total is the World Bank's world aggregate.)",
-     "number": T(W["gdp"]), "link": "?metric=gdp"},
+     "number": S(W["gdp"]), "link": "?metric=gdp"},
     {"title": f"The U.S. alone is {P(USA['share_world'], 2)} of world output",
      "body": f"At {T(USA['gdp'])}, the United States produced {P(USA['share_world'], 2)} of world GDP. Add China and the two account for {P(USA['share_world'] + CHN['share_world'], 2)}. The U.S. economy is {USA['gdp'] / CHN['gdp']:.2f} times the size of China's.",
      "number": P(USA["share_world"], 2), "link": "?compare=united-states,china"},
     {"title": "The UK retook fifth place from India, narrowly",
      "body": f"The UK's {T(GBR['gdp'])} edged out India's {T(IND['gdp'])}, even though India's real growth ({P(IND['growth'], 1, True)}) outpaced the UK's ({P(GBR['growth'], 1, True)}). Both the World Bank and IMF figures put the UK ahead for {Y}.",
-     "number": T(GBR["gdp"]), "link": "?compare=united-kingdom,india"},
+     "number": S(GBR["gdp"]), "link": "?compare=united-kingdom,india"},
     {"title": f"India passes Japan and the UK in {fy}, the IMF projects",
      "body": f"In the IMF's October 2026 forecasts, India reaches {T(fc(IND, fy))} in {fy}, ahead of the UK ({T(fc(GBR, fy))}) and Japan ({T(fc(JPN, fy))}), making it the {ordn(f27.index(IND) + 1)}-largest economy that year. In {Y}, Japan was {ordn(JPN['rank'])} and India {ordn(IND['rank'])}.",
-     "number": T(fc(IND, fy)), "link": "?compare=india,japan,united-kingdom"},
+     "number": S(fc(IND, fy)), "link": "?compare=india,japan,united-kingdom"},
     {"title": f"The trillion-dollar club grew to {len(tc)}",
      "body": f"{len(tc)} economies topped US$1 trillion in {Y}, up from {len(tc) - len(tc_new)} in {Y - 1}. The newcomers: " + " and ".join(f"{e['name']} ({T(e['gdp'])})" for e in tc_new) + ".",
      "number": str(len(tc)), "link": f"#rank-{len(tc)}"},

@@ -1,0 +1,135 @@
+[
+ {
+  "name": "World Bank country metadata (regions, income groups, capitals)",
+  "url": "https://api.worldbank.org/v2/country?format=json&per_page=500",
+  "retrieved": "2026-11-07T04:12:49+00:00"
+ },
+ {
+  "name": "World Bank WDI NY.GDP.MKTP.CD",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.MKTP.CD?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:49+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "World Bank WDI NY.GDP.PCAP.CD",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:49+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "World Bank WDI NY.GDP.PCAP.PP.CD",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.PP.CD?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:50+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "World Bank WDI NY.GDP.MKTP.KD.ZG",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.MKTP.KD.ZG?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:50+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "World Bank WDI FP.CPI.TOTL.ZG",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/FP.CPI.TOTL.ZG?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:51+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "World Bank WDI SL.UEM.TOTL.ZS",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/SL.UEM.TOTL.ZS?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:52+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "World Bank WDI SP.POP.TOTL",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:52+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "World Bank WDI NV.AGR.TOTL.ZS",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/NV.AGR.TOTL.ZS?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:53+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "World Bank WDI NV.IND.TOTL.ZS",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/NV.IND.TOTL.ZS?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:53+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "World Bank WDI NV.IND.MANF.ZS",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/NV.IND.MANF.ZS?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:53+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "World Bank WDI NV.SRV.TOTL.ZS",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/NV.SRV.TOTL.ZS?format=json&date=2000:2025",
+  "retrieved": "2026-11-07T04:12:54+00:00",
+  "source_last_updated": "2026-10-08"
+ },
+ {
+  "name": "IMF WEO NGDPD",
+  "url": "https://www.imf.org/external/datamapper/api/v1/NGDPD",
+  "retrieved": "2026-11-07T04:12:55+00:00"
+ },
+ {
+  "name": "IMF WEO NGDPDPC",
+  "url": "https://www.imf.org/external/datamapper/api/v1/NGDPDPC",
+  "retrieved": "2026-11-07T04:12:56+00:00"
+ },
+ {
+  "name": "IMF WEO PPPPC",
+  "url": "https://www.imf.org/external/datamapper/api/v1/PPPPC",
+  "retrieved": "2026-11-07T04:12:57+00:00"
+ },
+ {
+  "name": "IMF WEO NGDP_RPCH",
+  "url": "https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH",
+  "retrieved": "2026-11-07T04:12:57+00:00"
+ },
+ {
+  "name": "IMF WEO PCPIPCH",
+  "url": "https://www.imf.org/external/datamapper/api/v1/PCPIPCH",
+  "retrieved": "2026-11-07T04:12:58+00:00"
+ },
+ {
+  "name": "IMF WEO LUR",
+  "url": "https://www.imf.org/external/datamapper/api/v1/LUR",
+  "retrieved": "2026-11-07T04:12:59+00:00"
+ },
+ {
+  "name": "IMF WEO GGXWDG_NGDP",
+  "url": "https://www.imf.org/external/datamapper/api/v1/GGXWDG_NGDP",
+  "retrieved": "2026-11-07T04:13:00+00:00"
+ },
+ {
+  "name": "IMF WEO LP",
+  "url": "https://www.imf.org/external/datamapper/api/v1/LP",
+  "retrieved": "2026-11-07T04:13:01+00:00"
+ },
+ {
+  "name": "mledoze/countries (flags, currencies, common names; ODbL)",
+  "url": "https://github.com/mledoze/countries",
+  "retrieved": "2026-11-07T04:13:01+00:00"
+ },
+ {
+  "name": "BEA Regional SAGDP2 (state GDP, current $)",
+  "url": "https://apps.bea.gov/api/data?datasetname=Regional&TableName=SAGDP2&LineCode=1&GeoFips=STATE",
+  "retrieved": "2026-11-07T04:13:02+00:00",
+  "data_year_used": 2025
+ },
+ {
+  "name": "Census Bureau / OMB metropolitan delineation (July 2023)",
+  "url": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2023/delineation-files/list1_2023.xlsx",
+  "retrieved": "2026-11-07T04:13:03+00:00"
+ },
+ {
+  "name": "BEA Regional CAGDP2 (county GDP, current $), summed to metro areas",
+  "url": "https://apps.bea.gov/api/data?datasetname=Regional&TableName=CAGDP2&LineCode=1&GeoFips=COUNTY",
+  "retrieved": "2026-11-07T04:13:03+00:00",
+  "data_year_used": 2024
+ }
+]

@@ -72,7 +72,9 @@
 .wer-section-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:32px;border-top:1px solid var(--wer-ink);padding-top:16px;margin-bottom:28px}
 .wer-h2{font-family:var(--wer-serif);font-weight:600;font-size:clamp(30px,3.4vw,44px);line-height:1.05;letter-spacing:-.015em;margin:0}
 .wer-dek{color:var(--wer-slate);margin:4px 0 0;font-size:17px}
-.wer-findings{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1px;background:var(--wer-line);border:1px solid var(--wer-line)}
+.wer-findings{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));}
+@media (min-width:1180px){.wer-findings{grid-template-columns:repeat(5,1fr)}}
+.wer-findings{gap:1px;background:var(--wer-line);border:1px solid var(--wer-line)}
 .wer-finding-card{background:#fff;padding:22px 22px 20px;display:flex;flex-direction:column;gap:10px;text-decoration:none}
 .wer-finding-card:hover{background:#FFF8F2}
 .wer-finding-n{font-family:var(--wer-mono);font-size:12px;color:var(--wer-mute)}
@@ -157,8 +159,8 @@
 .wer-country-flag{font-size:56px;line-height:1}
 .wer-country-rank{font-family:var(--wer-mono);font-size:15px;color:var(--wer-slate);margin-top:10px}
 .wer-mini-globe{width:100%;max-width:340px;justify-self:end}
-.wer-stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1px;background:var(--wer-line);border:1px solid var(--wer-line);margin-top:28px}
-.wer-stat-grid>div{background:#fff;padding:14px 16px}
+.wer-stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));border-top:1px solid var(--wer-line);border-left:1px solid var(--wer-line);margin-top:28px}
+.wer-stat-grid>div{background:#fff;padding:14px 16px;border-right:1px solid var(--wer-line);border-bottom:1px solid var(--wer-line)}
 .wer-profile{font-family:var(--wer-serif);font-size:21px;line-height:1.5;max-width:760px}
 .wer-presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 
@@ -175,6 +177,7 @@
   .wer-page{font-size:16px}
   .wer-wrap{padding:0 16px}
   .wer-globe{height:auto;min-height:0}
+  .wer-legend{position:static;margin:8px}
   .wer-findings{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:1px}
   .wer-finding-card{min-width:84%;scroll-snap-align:start}
   .wer-table-wrap{max-height:none;border:0;background:transparent}
