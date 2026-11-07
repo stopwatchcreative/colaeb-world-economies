@@ -19,6 +19,7 @@ One edition a year, released November–December. Each edition is named for its 
 ---
 
 ### 1. Confirm the sources are out (15 min)
+- Allowed network: api.worldbank.org, www.imf.org, apps.bea.gov, www2.census.gov (+ population.un.org).
 - World Bank WDI: check that `https://api.worldbank.org/v2/country/WLD/indicator/NY.GDP.MKTP.CD?date=<data year>&format=json` returns a value. The annual GDP update usually lands in early July.
 - IMF WEO: check that the October WEO is live (imf.org/en/Publications/WEO) and that the DataMapper `NGDPD` series runs to data year + 5.
 - Write the WEO label (for example "IMF World Economic Outlook, October 2027") into `pipeline/config.json`.
@@ -31,7 +32,7 @@ One edition a year, released November–December. Each edition is named for its 
 
 ### 3. Upload the new versioned data file (20 min)
 1. Run `python pipeline/build_edition.py --edition <year> --from-build` to promote the files to `data/`.
-2. Commit, then tag `v<year>.0` (for example `v2027.0`). jsDelivr serves the tag immutably at `https://cdn.jsdelivr.net/gh/<owner>/colaeb-world-economies@v2027.0/data/economies-2027.json`.
+2. Commit, then tag `v<year>.0` (for example `v2027.0`). jsDelivr serves a tag or a full commit hash immutably, e.g. `https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@v2027.0/data/economies-2027.json`. The 2026 drafts pin the commit hash.
 3. Never edit or retag a past edition's tag or file. A correction goes out as `v<year>.1`, with a note in the edition's methodology field.
 
 ### 4. Create the new Report Editions item, then archive the prior one (30 min)
@@ -41,13 +42,13 @@ One edition a year, released November–December. Each edition is named for its 
 ### 5. Update the Economies items (1.5–2 days)
 - Import `build/cms-economies-<year>.json`. Each item is matched by slug, and current figures are overwritten.
 - `rank-history` is already appended by the pipeline (the prior editions plus the new one). Check a few items.
-- Profiles: write `profiles/<year>/<slug>.md` for every economy (120–180 words, figures only from the dataset or a cited source). Re-run with `--from-build` so they merge in, then re-import. The archived edition keeps its own profile folder in the repo.
+- Profiles: run `python pipeline/profile_facts.py --edition <year>` to write one fact sheet per economy to `build/facts-<year>/`, write `profiles/<year>/<slug>.md` from those sheets only (120–180 words), then run `python pipeline/check_profiles.py --edition <year>`: it fails any profile containing a number not in its sheet. Re-run the pipeline with `--from-build` so they merge in, then re-import `build/cms-economies-<year>.json`. The archived edition keeps its own profile folder in the repo.
 - New economies get new items. Economies that drop out stay in the CMS with a note. Don't delete them, because past editions still link to them.
 
 ### 6. Write Key Findings and Climbers & Fallers (4–6 hrs)
 - Ten findings, each with one supporting number taken from the edition file and a deep link into the page (`?metric=`, `#rank-…`, or `?compare=`).
 - Climbers & Fallers: the top 5 each way by rank change. Give the reason using the data, splitting real growth from currency moves (compare the US$ GDP change with real growth) and from revisions.
-- Save to `findings/<year>/findings.json` and paste into the Report Editions item.
+- Copy `pipeline/findings_2026.py` to `findings_<year>.py`, rewrite the copy, and run it: every number is formatted from the edition file, never typed. It writes `findings/<year>/findings.json`; paste the findings into the Report Editions item.
 
 ### 7. Produce the release assets (1 day)
 - PDF executive summary (8–12 pp): cover, Key Findings, top 50 table, regional snapshots, methodology, sources.
@@ -58,7 +59,7 @@ One edition a year, released November–December. Each edition is named for its 
 - Refresh the masthead edition mark ("2027") and, optionally, the edition accent tone.
 
 ### 8. Point the flagship to the new edition (10 min)
-- In the `/world-economies` page settings, edit the custom code: change `WER_EDITION` and the loader tag to the new version. That's the only change.
+- In the custom code of `/world-economies` and both template pages, change `WER_EDITION` and the version (tag or commit hash) in the two CDN URLs. That's the only change. Keep the archived edition's data file reachable: the edition template loads `data/economies-<year>.json` for whichever year is in its URL.
 - Update the page SEO title year: "World Ranking of Economies <year>: All Countries by GDP | Colaeb Annual Report".
 
 ### 9. Spot-check, stage, publish (2–3 hrs)

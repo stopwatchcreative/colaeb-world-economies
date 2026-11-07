@@ -22,7 +22,11 @@
   - BEA no longer serves metro (MSA) GDP through the API. Metros are rebuilt from BEA county GDP (2024) over the OMB 2023 delineation: 387 metros, county sums match all 51 state totals.
   - IMF-filled GDP: ABW, AFG, ARE, BHS, LBN, LIE, SMR, SSD, YEM, plus TWN added. 22 economies excluded for no 2025 GDP (incl. CUB, PRK, SYR, ERI, MCO, BMU, CYM).
 
+- [x] 196 profiles (`profiles/2026/`), all pass `check_profiles.py`
+- [x] Key Findings, Climbers & Fallers (`findings/2026/findings.json`)
+- [x] Front-end (`web/wer.js`, `web/wer.css`), previews in `web/dev/`
+- [x] Webflow drafts created; see `docs/HANDOFF-2026.md` for every object and ID
+- [x] CSV, press kit, YourInfoDaily draft, OG image (`release/2026/`), data gaps (`docs/DATA-GAPS-2026.md`)
+
 ## Next
-1. Write the profiles (`profiles/2026/*.md`), the Key Findings and the Climbers & Fallers from the real data.
-2. Build the front-end in `web/`: globe, table, compare, race, neighbors, quiz, archive, country page, edition page.
-3. Create the Webflow objects as drafts, then the release assets, then the handoff.
+See "To finish before release" in `docs/HANDOFF-2026.md`. Deferred to v1.1: Rank Race, quiz, radar chart, PNG export, PDF, per-finding share images.
