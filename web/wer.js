@@ -246,6 +246,8 @@
       h("div", {}, [
         h("p", { class: "wer-kicker", text: "A Colaeb Annual Report" + (eds.length === 1 ? " · Inaugural Edition" : "") }),
         h("h1", { class: "wer-title", text: "World Ranking of Economies" }),
+        h("p", { class: "wer-lede", html: "Colaeb's annual ranking of the world's economies by size: all " + state.E.length + " ranked by " + ed.data_year + " GDP in current U.S. dollars. "
+          + "Every figure comes from the World Bank's World Development Indicators and the " + esc(ed.imf_weo.replace(/^IMF World Economic Outlook, (.+)$/, "IMF's $1 World Economic Outlook")) + ", and each value is traced to its source in the <a href='#methodology'>methodology</a>." }),
         h("div", { class: "wer-meta" }, [h("span", { html: "<b>" + EDITION + " Edition</b>" }), h("span", { html: "Data year <b>" + ed.data_year + "</b>" }),
           h("span", { html: rel ? "Released <b>" + rel + "</b>" : "Data compiled <b>" + compiled + "</b>" }), h("span", { html: "<b>" + state.E.length + "</b> economies" })]),
         h("div", { class: "wer-actions" }, [sw,

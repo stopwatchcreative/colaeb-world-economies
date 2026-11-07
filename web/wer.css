@@ -15,6 +15,8 @@
 .wer-kicker{font-family:var(--wer-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--wer-slate);margin:0 0 10px}
 .wer-title{font-family:var(--wer-serif);font-weight:600;font-size:clamp(38px,5.4vw,72px);line-height:.98;letter-spacing:-.02em;margin:0}
 .wer-edition-mark{font-family:var(--wer-serif);font-weight:300;font-size:clamp(84px,13vw,184px);line-height:.8;color:var(--wer-accent);letter-spacing:-.04em;margin:0}
+.wer-lede{font-family:var(--wer-serif);font-size:clamp(19px,1.6vw,22px);line-height:1.45;color:var(--wer-slate);max-width:760px;margin:16px 0 0}
+.wer-lede a{color:var(--wer-ink);text-decoration-color:var(--wer-accent);text-underline-offset:3px}
 .wer-meta{display:flex;flex-wrap:wrap;gap:6px 22px;margin:18px 0 0;font-size:14px;color:var(--wer-slate)}
 .wer-meta b{color:var(--wer-ink);font-weight:600}
 .wer-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
