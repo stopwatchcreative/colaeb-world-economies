@@ -363,6 +363,19 @@
       else {
         body.appendChild(wf);
         var mo = new MutationObserver(function () { if (ok && getComputedStyle(ok).display !== "none") { mo.disconnect(); done(); } });
+        // Webflow keeps the button disabled until its Turnstile spam check finishes (a few seconds once the
+        // form is on screen); say so instead of showing a dead button.
+        var btn = form && form.querySelector('[type="submit"]');
+        if (btn && !btn._werWait) {
+          btn._werWait = true;
+          var label = btn.value, WAIT = "Checking your browser\u2026";
+          var sync = function () {
+            if (btn.disabled && btn.value === label) btn.value = WAIT;
+            else if (!btn.disabled && btn.value === WAIT) btn.value = label;
+          };
+          new MutationObserver(sync).observe(btn, { attributes: true, attributeFilter: ["disabled"] });
+          sync();
+        }
         if (wf._werMo) wf._werMo.disconnect();
         wf._werMo = mo;
         mo.observe(wf, { attributes: true, subtree: true, attributeFilter: ["style", "class"] });
