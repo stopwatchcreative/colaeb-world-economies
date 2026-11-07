@@ -62,3 +62,8 @@ Rank Race animation, Guess the Rank quiz, Compare radar chart and "Download PNG"
 - CSV: `data/economies-2026.csv`
 - Press kit and YourInfoDaily draft: `release/2026/`
 - Pipeline, README, runbook: `pipeline/`, `README.md`, `docs/RUNBOOK.md`
+
+## 5. Changes to existing site objects (requested after release, Nov 6, 2026)
+- **Home page:** a call-to-action strip under the nav (`wer-home-cta`, element `f3f7a0c5-08fc-7090-e38e-3367059a0ce4`), linking to `/world-economies`. New classes: `wer-home-cta`, `wer-home-cta-inner`, `wer-home-cta-text`, `wer-home-cta-tag`, `wer-home-cta-btn`.
+- **Colaeb Footer component:** "World Ranking of Economies" link added to the Company column after "About Colaeb" (element `99da12d8-bcbe-e32e-fbcb-2ac0380ed3fe`, existing `hp-footer-link` class). Shows on every page using the footer.
+- **Data download forms:** native Webflow form "WER Data Download" on `/world-economies` and the Report Editions template.
