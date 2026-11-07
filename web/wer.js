@@ -191,6 +191,7 @@
     tip.style.left = x + "px"; tip.style.top = y + "px";
   }
   function hideTip() { if (tip) tip.style.display = "none"; }
+  function unTip(u) { return "<div style='font-size:15px;font-weight:600'>" + esc(u.name) + "</div><div>Not ranked in the " + EDITION + " Edition: no " + state.Y + " GDP from the World Bank or IMF.</div>"; }
   function tipHtml(e) {
     var m = METRICS[state.metric], v = m.get(e);
     var ch = e.rank_change; var mv = ch == null ? "" : ch === 0 ? " · no change" : ch > 0 ? " · ▲" + ch : " · ▼" + (-ch);
@@ -248,6 +249,7 @@
         h("h1", { class: "wer-title", text: "World Ranking of Economies" }),
         h("p", { class: "wer-lede", html: "Colaeb's annual ranking of the world's economies by size: all " + state.E.length + " ranked by " + ed.data_year + " GDP in current U.S. dollars. "
           + "Every figure comes from the World Bank's World Development Indicators and the " + esc(ed.imf_weo.replace(/^IMF World Economic Outlook, (.+)$/, "IMF's $1 World Economic Outlook")) + ", and each value is traced to its source in the <a href='#methodology'>methodology</a>." }),
+        unrankedNote(),
         h("div", { class: "wer-meta" }, [h("span", { html: "<b>" + EDITION + " Edition</b>" }), h("span", { html: "Data year <b>" + ed.data_year + "</b>" }),
           h("span", { html: rel ? "Released <b>" + rel + "</b>" : "Data compiled <b>" + compiled + "</b>" }), h("span", { html: "<b>" + state.E.length + "</b> economies" })]),
         h("div", { class: "wer-actions" }, [sw,
@@ -265,6 +267,32 @@
     (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { var t = btn.textContent; btn.textContent = "Copied"; setTimeout(function () { btn.textContent = t; }, 1600); }, function () { prompt("Copy:", text); });
   }
 
+
+
+  // ------------------------------------------------------------ unranked economies
+  var UNRANKED_NAMES = { PRK: "North Korea", SYR: "Syria", CUW: "Curaçao", VIR: "U.S. Virgin Islands", MAF: "Saint Martin (French part)" };
+  var UNRANKED_ALIASES = { PRK: ["dprk", "korea, north", "democratic people's republic of korea"], SYR: ["syrian arab republic"], VIR: ["virgin islands (u.s.)", "usvi"] };
+  function unranked() {
+    return ((state.ed.universe_notes || {}).excluded_no_gdp || []).map(function (x) {
+      var iso = x.slice(0, 3), raw = x.slice(4);
+      return { iso3: iso, name: UNRANKED_NAMES[iso] || raw, raw: raw };
+    }).sort(function (a, b) { return a.name.localeCompare(b.name); });
+  }
+  function unrankedMatch(q) {
+    q = q.trim().toLowerCase(); if (q.length < 3) return null;
+    return unranked().filter(function (u) {
+      return [u.name, u.raw].concat(UNRANKED_ALIASES[u.iso3] || []).some(function (n) { return n.toLowerCase().indexOf(q) >= 0; }) || u.iso3.toLowerCase() === q;
+    })[0] || null;
+  }
+  function unrankedReason() { return "Neither the World Bank nor the IMF publishes a " + state.Y + " GDP figure for it, so it can't be ranked without estimating."; }
+  function unrankedNote() {
+    var U = unranked(); if (!U.length) return null;
+    var famous = ["PRK", "CUB", "SYR", "ERI"].map(function (i) { return U.filter(function (u) { return u.iso3 === i; })[0]; }).filter(Boolean).map(function (u) { return u.name; });
+    return h("details", { class: "wer-unranked" }, [
+      h("summary", {}, [h("b", { text: "Not ranked: " }), U.length + " economies, including " + (famous.length > 1 ? famous.slice(0, -1).join(", ") + " and " + famous[famous.length - 1] : famous.join("")) + ", have no " + state.Y + " GDP figure from either the World Bank or the IMF, so they aren't in this edition's ranking. ", h("span", { class: "wer-unranked-more", text: "See all " + U.length })]),
+      h("p", { text: U.map(function (u) { return u.name; }).join(" · ") }),
+      h("p", { class: "wer-note", text: "We don't estimate missing figures. An economy joins the ranking in the first edition after either source publishes its GDP." })]);
+  }
 
   // ------------------------------------------------------------ email gate for the data download
   // A native Webflow form ([data-wer-gate], named "WER Data Download") collects the email; once Webflow
@@ -362,7 +390,8 @@
       load(BASE + "/web/vendor/countries-110m.json"), load(BASE + "/web/vendor/n3-iso3.json"), load(BASE + "/web/vendor/latlng.json")]).then(function (r) {
       var topo = r[2], n3 = r[3], ll = r[4];
       var fc = topojson.feature(topo, topo.objects.countries);
-      var feats = fc.features.map(function (f) { f.iso3 = n3[f.id] || null; f.e = f.iso3 ? state.by[f.iso3] : null; return f; });
+      var un = {}; unranked().forEach(function (u) { un[u.iso3] = u; });
+      var feats = fc.features.map(function (f) { f.iso3 = n3[f.id] || null; f.e = f.iso3 ? state.by[f.iso3] : null; f.un = !f.e && f.iso3 ? un[f.iso3] : null; return f; });
       var onMap = {}; feats.forEach(function (f) { if (f.e) onMap[f.iso3] = 1; });
       var dots = state.E.filter(function (e) { return !onMap[e.iso3] && ll[e.iso3]; }).map(function (e) { return { e: e, lat: ll[e.iso3][0], lng: ll[e.iso3][1] }; });
       feats.forEach(function (f) { if (f.e) { var c = d3.geoCentroid(f); state.centroid[f.iso3] = { lat: c[1], lng: c[0] }; } });
@@ -377,7 +406,7 @@
       .width(stage.clientWidth).height(stage.clientHeight).backgroundColor("rgba(0,0,0,0)")
       .showAtmosphere(true).atmosphereColor("#F5BC86").atmosphereAltitude(0.14)
       .hexPolygonsData(geo.feats).hexPolygonResolution(3).hexPolygonMargin(0.42).hexPolygonUseDots(true).hexPolygonAltitude(0.006)
-      .hexPolygonColor(color).hexPolygonLabel(function (f) { return f.e ? tipHtml(f.e) : ""; })
+      .hexPolygonColor(color).hexPolygonLabel(function (f) { return f.e ? tipHtml(f.e) : f.un ? unTip(f.un) : ""; })
       .onHexPolygonClick(function (f) { if (f.e) onPick(f.e); })
       .onHexPolygonHover(function (f) { stage.style.cursor = f && f.e ? "pointer" : "grab"; })
       .pointsData(geo.dots).pointLat("lat").pointLng("lng").pointAltitude(0.012).pointRadius(0.55)
@@ -409,6 +438,10 @@
     geo.feats.forEach(function (f) {
       if (f.id === "010") return; // Antarctica
       var p = svg("path", { d: path(f) || "" });
+      if (f.un) {
+        p.setAttribute("aria-label", f.un.name + ", not ranked");
+        p.addEventListener("mousemove", function (ev) { showTip(unTip(f.un), ev); }); p.addEventListener("mouseleave", hideTip);
+      }
       if (f.e) {
         p.setAttribute("tabindex", "0"); p.setAttribute("aria-label", f.e.name + ", rank " + f.e.rank);
         p.addEventListener("mousemove", function (ev) { showTip(tipHtml(f.e), ev); }); p.addEventListener("mouseleave", hideTip);
@@ -533,6 +566,11 @@
       });
       tbody.appendChild(frag);
       count.textContent = rows.length + " of " + state.E.length + " economies";
+      if (!rows.length) {
+        var u = s ? unrankedMatch(s) : null;
+        tbody.appendChild(h("tr", { class: "wer-empty" }, [h("td", { colspan: String(COLS.length), class: "wer-l", style: "white-space:normal;padding:18px 14px",
+          text: u ? u.name + " isn't ranked in the " + EDITION + " Edition. " + unrankedReason() : "No economies match." })]));
+      }
     }
     [search, reg, inc].forEach(function (x) { x.addEventListener("input", draw); });
     jump.addEventListener("keydown", function (ev) { if (ev.key === "Enter") jumpTo(+jump.value); });
