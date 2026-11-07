@@ -310,14 +310,27 @@
       document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(u); a.remove(); }, 4000);
     }).catch(function () { window.open(url, "_blank", "noopener"); });
   }
-  var gateBox;
+  var gateBox, gateWf, gateHome;
+  // The Webflow form block: the custom attribute may sit on the wrapper or on the <form> itself, so always
+  // take the .w-form wrapper. Webflow's submit handler (and its Turnstile spam check) only works while the form
+  // stays inside that wrapper, and the success message lives in it too.
+  function gateForm() {
+    if (gateWf) return gateWf;
+    var el = document.querySelector("[data-wer-gate]");
+    if (!el) return null;
+    gateWf = (el.closest && el.closest(".w-form")) || el;
+    gateHome = gateWf.parentNode;
+    return gateWf;
+  }
   function openGate(url) {
     if (gatePassed()) return downloadFile(url);
     var last = document.activeElement;
-    function close() { if (!gateBox) return; gateBox.classList.remove("is-open"); document.removeEventListener("keydown", onKey); if (last) last.focus(); }
+    function park() { if (gateWf && gateHome && gateBox && gateBox.contains(gateWf)) gateHome.appendChild(gateWf); }
+    function close() { if (!gateBox) return; gateBox.classList.remove("is-open"); document.removeEventListener("keydown", onKey); if (!gatePassed()) park(); if (last) last.focus(); }
     function onKey(ev) { if (ev.key === "Escape") close(); }
     function done() {
       gateRemember();
+      park();
       body.innerHTML = "";
       body.appendChild(h("p", { class: "wer-gate-ok", text: "Thanks! Your download has started." }));
       body.appendChild(h("p", { class: "wer-note" }, ["If it didn't, ", h("a", { href: url, target: "_blank", rel: "noopener", text: "download the CSV here" }), "."]));
@@ -327,6 +340,8 @@
       gateBox = h("div", { class: "wer-gate wer-page", role: "dialog", "aria-modal": "true", "aria-labelledby": "wer-gate-title" });
       document.body.appendChild(gateBox);
     }
+    var wf = gateForm();
+    park();
     gateBox.innerHTML = "";
     var body = h("div", { class: "wer-gate-body" });
     var card = h("div", { class: "wer-gate-card" }, [
@@ -337,9 +352,8 @@
       body]);
     gateBox.appendChild(h("div", { class: "wer-gate-scrim", onclick: close }));
     gateBox.appendChild(card);
-    var wf = document.querySelector("[data-wer-gate]");
     if (wf) {
-      var form = wf.querySelector("form");
+      var form = wf.tagName === "FORM" ? wf : wf.querySelector("form");
       if (form && !form.querySelector('input[name="Edition"]')) {
         form.appendChild(h("input", { type: "hidden", name: "Edition", value: EDITION }));
         form.appendChild(h("input", { type: "hidden", name: "Page", value: location.pathname }));
@@ -349,8 +363,10 @@
       else {
         body.appendChild(wf);
         var mo = new MutationObserver(function () { if (ok && getComputedStyle(ok).display !== "none") { mo.disconnect(); done(); } });
+        if (wf._werMo) wf._werMo.disconnect();
+        wf._werMo = mo;
         mo.observe(wf, { attributes: true, subtree: true, attributeFilter: ["style", "class"] });
-        if (!window.Webflow && form) form.addEventListener("submit", function (ev) { ev.preventDefault(); if (form.checkValidity()) { mo.disconnect(); done(); } });
+        if (!window.Webflow && form) form.onsubmit = function (ev) { ev.preventDefault(); if (form.checkValidity()) { mo.disconnect(); done(); } };
       }
     } else {
       // No Webflow form on this page (e.g. local preview): same UI, nothing is collected.
