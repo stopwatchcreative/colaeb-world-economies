@@ -193,3 +193,18 @@
   .wer-table td[data-k]:not([data-k=rank]):not([data-k=name]):not([data-k=gdp]){font-size:13px;grid-column:2/4}
 }
 @media (prefers-reduced-motion:reduce){.wer-panel{transition:none}}
+
+/* data-download email gate */
+[data-wer-gate]{display:none}
+.wer-gate{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:16px}
+.wer-gate.is-open{display:flex}
+.wer-gate-scrim{position:absolute;inset:0;background:rgba(16,24,40,.45)}
+.wer-gate-card{position:relative;background:#fff;width:min(460px,100%);padding:30px 28px 26px;box-shadow:0 20px 60px rgba(16,24,40,.3);border-top:4px solid var(--wer-accent)}
+.wer-gate-title{font-family:var(--wer-serif);font-size:30px;line-height:1.1;margin:4px 0 8px}
+.wer-gate-body [data-wer-gate]{display:block;margin:18px 0 0}
+.wer-gate-body form{display:grid;gap:6px;margin:18px 0 0}
+.wer-gate-body label{font-size:13px;font-weight:600;color:var(--wer-slate);margin-top:6px}
+.wer-gate-body input[type=email],.wer-gate-body input[type=text]{width:100%;font:16px var(--wer-sans);border:1px solid #C9CED6;padding:11px 12px;border-radius:2px;margin:0;height:auto;background:#fff;color:var(--wer-ink)}
+.wer-gate-body input[type=submit],.wer-gate-body button[type=submit]{margin-top:14px;background:var(--wer-accent);border:1px solid var(--wer-accent);color:#fff;font:600 15px var(--wer-sans);padding:12px 16px;border-radius:2px;cursor:pointer;width:100%}
+.wer-gate-body .w-form-fail{margin-top:10px;font-size:14px}
+.wer-gate-ok{font-family:var(--wer-serif);font-size:22px;margin:18px 0 4px}

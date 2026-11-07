@@ -75,8 +75,7 @@
     var dataset = { "@context": "https://schema.org", "@type": "Dataset", name: "World Ranking of Economies " + EDITION + " Edition (" + ed.data_year + " data)",
       description: "GDP and related indicators for " + state.E.length + " economies, " + ed.data_year + ", compiled from the World Bank WDI and IMF World Economic Outlook.",
       creator: org, publisher: org, version: EDITION, temporalCoverage: "2000/" + state.FY,
-      isAccessibleForFree: true, distribution: [{ "@type": "DataDownload", encodingFormat: "text/csv", contentUrl: BASE + "/data/economies-" + EDITION + ".csv" },
-        { "@type": "DataDownload", encodingFormat: "application/json", contentUrl: BASE + "/data/economies-" + EDITION + ".json" }] };
+      isAccessibleForFree: true, url: "https://colaeb.com/world-economies-report/" + EDITION };
     if (PAGE === "edition") {
       canonical("https://colaeb.com/world-economies-report/" + EDITION);
       ldjson({ "@context": "https://schema.org", "@type": "Report", name: "World Ranking of Economies — " + EDITION + " Edition", author: org, publisher: org,
@@ -251,7 +250,7 @@
           h("span", { html: rel ? "Released <b>" + rel + "</b>" : "Data compiled <b>" + compiled + "</b>" }), h("span", { html: "<b>" + state.E.length + "</b> economies" })]),
         h("div", { class: "wer-actions" }, [sw,
           meta.pdf ? h("a", { class: "wer-btn", href: asset(meta.pdf) }, ["Download report (PDF)"]) : null,
-          h("a", { class: "wer-btn wer-btn-accent", href: asset(meta.csv) || BASE + "/data/economies-" + EDITION + ".csv", download: "wer-" + EDITION + "-data.csv" }, ["Download data (CSV)"]),
+          h("button", { class: "wer-btn wer-btn-accent", "aria-haspopup": "dialog", onclick: function () { openGate(asset(meta.csv) || BASE + "/data/economies-" + EDITION + ".csv"); } }, ["Download data (CSV)"]),
           h("button", { class: "wer-btn", "aria-controls": "wer-cite", "aria-expanded": "false", onclick: function (ev) { var o = cite.classList.toggle("is-open"); ev.currentTarget.setAttribute("aria-expanded", o); } }, ["Cite this report"])]),
         cite]),
       h("p", { class: "wer-edition-mark", "aria-hidden": "true", text: EDITION })])]));
@@ -262,6 +261,75 @@
   }
   function copy(text, btn) {
     (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { var t = btn.textContent; btn.textContent = "Copied"; setTimeout(function () { btn.textContent = t; }, 1600); }, function () { prompt("Copy:", text); });
+  }
+
+
+  // ------------------------------------------------------------ email gate for the data download
+  // A native Webflow form ([data-wer-gate], named "WER Data Download") collects the email; once Webflow
+  // confirms the submission the CSV downloads. A visitor who has already submitted (this browser) skips the form.
+  var GATE_KEY = "wer-data-gate";
+  function gatePassed() { try { return localStorage.getItem(GATE_KEY) === "1"; } catch (e) { return false; } }
+  function gateRemember() { try { localStorage.setItem(GATE_KEY, "1"); } catch (e) {} }
+  function downloadFile(url) {
+    var name = "wer-" + EDITION + "-data.csv";
+    fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); }).then(function (b) {
+      var u = URL.createObjectURL(b), a = h("a", { href: u, download: name, style: "display:none" });
+      document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(u); a.remove(); }, 4000);
+    }).catch(function () { window.open(url, "_blank", "noopener"); });
+  }
+  var gateBox;
+  function openGate(url) {
+    if (gatePassed()) return downloadFile(url);
+    var last = document.activeElement;
+    function close() { if (!gateBox) return; gateBox.classList.remove("is-open"); document.removeEventListener("keydown", onKey); if (last) last.focus(); }
+    function onKey(ev) { if (ev.key === "Escape") close(); }
+    function done() {
+      gateRemember();
+      body.innerHTML = "";
+      body.appendChild(h("p", { class: "wer-gate-ok", text: "Thanks! Your download has started." }));
+      body.appendChild(h("p", { class: "wer-note" }, ["If it didn't, ", h("a", { href: url, target: "_blank", rel: "noopener", text: "download the CSV here" }), "."]));
+      downloadFile(url);
+    }
+    if (!gateBox) {
+      gateBox = h("div", { class: "wer-gate wer-page", role: "dialog", "aria-modal": "true", "aria-labelledby": "wer-gate-title" });
+      document.body.appendChild(gateBox);
+    }
+    gateBox.innerHTML = "";
+    var body = h("div", { class: "wer-gate-body" });
+    var card = h("div", { class: "wer-gate-card" }, [
+      h("button", { class: "wer-btn wer-btn-sm wer-panel-close", "aria-label": "Close", onclick: close }, ["✕"]),
+      h("p", { class: "wer-kicker", text: "World Ranking of Economies · " + EDITION + " Edition" }),
+      h("h3", { id: "wer-gate-title", class: "wer-gate-title", text: "Download the full dataset" }),
+      h("p", { class: "wer-dek", text: "Enter your email and the CSV downloads right away: all " + state.E.length + " economies, every field with its source." }),
+      body]);
+    gateBox.appendChild(h("div", { class: "wer-gate-scrim", onclick: close }));
+    gateBox.appendChild(card);
+    var wf = document.querySelector("[data-wer-gate]");
+    if (wf) {
+      var form = wf.querySelector("form");
+      if (form && !form.querySelector('input[name="Edition"]')) {
+        form.appendChild(h("input", { type: "hidden", name: "Edition", value: EDITION }));
+        form.appendChild(h("input", { type: "hidden", name: "Page", value: location.pathname }));
+      }
+      var ok = wf.querySelector(".w-form-done");
+      if (ok && getComputedStyle(ok).display !== "none") { done(); }
+      else {
+        body.appendChild(wf);
+        var mo = new MutationObserver(function () { if (ok && getComputedStyle(ok).display !== "none") { mo.disconnect(); done(); } });
+        mo.observe(wf, { attributes: true, subtree: true, attributeFilter: ["style", "class"] });
+        if (!window.Webflow && form) form.addEventListener("submit", function (ev) { ev.preventDefault(); if (form.checkValidity()) { mo.disconnect(); done(); } });
+      }
+    } else {
+      // No Webflow form on this page (e.g. local preview): same UI, nothing is collected.
+      console.warn("[wer] data-download form not found; download is not gated on this page");
+      var f = h("form", { class: "wer-gate-form", onsubmit: function (ev) { ev.preventDefault(); done(); } }, [
+        h("label", { for: "wer-gate-email", text: "Email" }), h("input", { id: "wer-gate-email", type: "email", required: true, class: "wer-input" }),
+        h("button", { class: "wer-btn wer-btn-accent", type: "submit", text: "Get the data" })]);
+      body.appendChild(f);
+    }
+    gateBox.classList.add("is-open");
+    document.addEventListener("keydown", onKey);
+    var first = gateBox.querySelector('input[type="email"]') || card.querySelector("button"); if (first) first.focus();
   }
 
   // ------------------------------------------------------------ hero: globe / 2D map + stat strip
