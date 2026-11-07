@@ -28,5 +28,7 @@
 - [x] Webflow drafts created; see `docs/HANDOFF-2026.md` for every object and ID
 - [x] CSV, press kit, YourInfoDaily draft, OG image (`release/2026/`), data gaps (`docs/DATA-GAPS-2026.md`)
 
+- [x] **Released Nov 6, 2026** (site publish 2026-11-07 06:32 UTC): /world-economies, 196 economy pages, /world-economies-report/2026. Template SEO bindings and share image set.
+
 ## Next
-See "To finish before release" in `docs/HANDOFF-2026.md`. Deferred to v1.1: Rank Race, quiz, radar chart, PNG export, PDF, per-finding share images.
+Optional: tag `v2026.0` on the release commit. Link the report from the nav/home. See also "To finish before release" in `docs/HANDOFF-2026.md`. Deferred to v1.1: Rank Race, quiz, radar chart, PNG export, PDF, per-finding share images.
