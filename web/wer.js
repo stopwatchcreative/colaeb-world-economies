@@ -67,6 +67,29 @@
     var why = (e.missing || {})[key] || "Not reported for this economy.";
     return h("span", { class: "wer-missing", tabindex: "0", title: why, "aria-label": "Not available: " + why, text: "—" });
   }
+  function asset(p) { return !p ? null : /^https?:/.test(p) ? p : BASE + "/" + p.replace(/^\//, ""); }
+  function ldjson(obj) { var s = document.createElement("script"); s.type = "application/ld+json"; s.text = JSON.stringify(obj); document.head.appendChild(s); }
+  function canonical(url) { if (document.querySelector('link[rel="canonical"]')) return; var l = document.createElement("link"); l.rel = "canonical"; l.href = url; document.head.appendChild(l); }
+  function seo() {
+    var ed = state.ed, org = { "@type": "Organization", name: "Colaeb", url: "https://colaeb.com" };
+    var dataset = { "@context": "https://schema.org", "@type": "Dataset", name: "World Ranking of Economies " + EDITION + " Edition (" + ed.data_year + " data)",
+      description: "GDP and related indicators for " + state.E.length + " economies, " + ed.data_year + ", compiled from the World Bank WDI and IMF World Economic Outlook.",
+      creator: org, publisher: org, version: EDITION, temporalCoverage: "2000/" + state.FY,
+      isAccessibleForFree: true, distribution: [{ "@type": "DataDownload", encodingFormat: "text/csv", contentUrl: BASE + "/data/economies-" + EDITION + ".csv" },
+        { "@type": "DataDownload", encodingFormat: "application/json", contentUrl: BASE + "/data/economies-" + EDITION + ".json" }] };
+    if (PAGE === "edition") {
+      canonical("https://colaeb.com/world-economies-report/" + EDITION);
+      ldjson({ "@context": "https://schema.org", "@type": "Report", name: "World Ranking of Economies — " + EDITION + " Edition", author: org, publisher: org,
+        datePublished: ed.release_date || undefined, version: EDITION, temporalCoverage: String(ed.data_year), url: "https://colaeb.com/world-economies-report/" + EDITION });
+      ldjson(dataset);
+    } else if (PAGE === "country") {
+      var e = state.bySlug[CFG.slug || PATH.split("/").pop()]; if (!e) return;
+      canonical("https://colaeb.com/economies/" + e.slug);
+      ldjson({ "@context": "https://schema.org", "@type": "Article", headline: e.name + " economy: GDP, rank and profile (" + EDITION + " Edition)", author: org, publisher: org,
+        about: { "@type": "Country", name: e.name }, isPartOf: { "@type": "Report", name: "World Ranking of Economies — " + EDITION + " Edition", url: "https://colaeb.com/world-economies-report/" + EDITION },
+        temporalCoverage: String(ed.data_year), url: "https://colaeb.com/economies/" + e.slug });
+    }
+  }
   function load(url) { return fetch(url).then(function (r) { if (!r.ok) throw new Error(url + " " + r.status); return r.json(); }); }
   function script(src) {
     return new Promise(function (res, rej) { var s = document.createElement("script"); s.src = src; s.async = true; s.onload = res; s.onerror = rej; document.head.appendChild(s); });
@@ -227,8 +250,8 @@
         h("div", { class: "wer-meta" }, [h("span", { html: "<b>" + EDITION + " Edition</b>" }), h("span", { html: "Data year <b>" + ed.data_year + "</b>" }),
           h("span", { html: rel ? "Released <b>" + rel + "</b>" : "Data compiled <b>" + compiled + "</b>" }), h("span", { html: "<b>" + state.E.length + "</b> economies" })]),
         h("div", { class: "wer-actions" }, [sw,
-          meta.pdf ? h("a", { class: "wer-btn", href: meta.pdf }, ["Download report (PDF)"]) : null,
-          h("a", { class: "wer-btn wer-btn-accent", href: meta.csv || BASE + "/data/economies-" + EDITION + ".csv", download: "wer-" + EDITION + "-data.csv" }, ["Download data (CSV)"]),
+          meta.pdf ? h("a", { class: "wer-btn", href: asset(meta.pdf) }, ["Download report (PDF)"]) : null,
+          h("a", { class: "wer-btn wer-btn-accent", href: asset(meta.csv) || BASE + "/data/economies-" + EDITION + ".csv", download: "wer-" + EDITION + "-data.csv" }, ["Download data (CSV)"]),
           h("button", { class: "wer-btn", "aria-controls": "wer-cite", "aria-expanded": "false", onclick: function (ev) { var o = cite.classList.toggle("is-open"); ev.currentTarget.setAttribute("aria-expanded", o); } }, ["Cite this report"])]),
         cite]),
       h("p", { class: "wer-edition-mark", "aria-hidden": "true", text: EDITION })])]));
@@ -643,6 +666,7 @@
       var R = { masthead: renderMasthead, globe: renderGlobe, findings: renderFindings, movers: renderMovers, table: renderTable, compare: renderCompare, neighbors: renderNeighbors,
         regions: renderRegions, archive: renderArchive, methods: renderMethods, footer: renderFooter, country: renderCountry };
       [].forEach.call(document.querySelectorAll("[data-wer]"), function (el) { var f = R[el.getAttribute("data-wer")]; if (f) { el.classList.add("wer-page"); try { f(el); } catch (err) { console.error("[wer]", el.getAttribute("data-wer"), err); } } });
+      try { seo(); } catch (err) { console.warn("[wer] seo", err); }
       if (/^#rank-\d+$/.test(location.hash)) jumpTo(+location.hash.slice(6));
       else if (location.hash === "#compare") scrollToMount("compare");
       document.documentElement.setAttribute("data-wer-ready", "1");

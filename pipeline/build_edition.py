@@ -547,22 +547,46 @@ def write_csv(ed: dict, path: Path):
 
 
 def to_cms(ed: dict) -> list[dict]:
-    """Rows keyed by Webflow 'Economies' field slugs."""
+    """Rows keyed by Webflow 'Economies' field slugs (30-field CMS plan limit).
+
+    Webflow Number fields created through the API are integer-only, so decimal values are stored as
+    display strings ("+6.0%"); the site's charts read the full-precision edition JSON instead.
+    History and forecast are compact JSON in US$ billions.
+    """
+    def pct(v, sign=False):
+        return None if v is None else (f"{v:+.1f}%" if sign else f"{v:.1f}%")
+
+    def money(v):
+        if v is None:
+            return None
+        return f"US${v / 1e12:.2f} trillion" if v >= 1e12 else f"US${v / 1e9:.1f} billion" if v >= 1e9 else f"US${v / 1e6:.0f} million"
+
+    def bn(d):
+        return json.dumps({k: round(v / 1e9, 2) for k, v in (d or {}).items() if v is not None}, separators=(",", ":"))
+
+    def i(v):
+        return None if v is None else int(round(v))
+
     out = []
     for e in ed["economies"]:
+        sw = e["share_world"]
+        prof = "".join(f"<p>{p.strip()}</p>" for p in (e["profile"] or "").split("\n\n") if p.strip())
         out.append({
             "name": e["name"], "slug": e["slug"], "iso3": e["iso3"], "flag": e["flag"], "region": e["region"],
             "income-group": e["income_group"], "currency": e["currency"], "capital": e["capital"],
             "rank": e["rank"], "prior-rank": e["prior_rank"], "rank-change": e["rank_change"],
-            "rank-history": json.dumps(e["rank_history"]), "gdp-usd": e["gdp"], "share-of-world-gdp": e["share_world"],
-            "gdp-growth": e["growth"], "gdp-per-capita": e["gdp_pc"], "gdp-per-capita-ppp": e["gdp_pc_ppp"],
-            "ppp-rank": e["gdp_pc_ppp_rank"], "population": e["population"], "inflation": e["inflation"],
-            "unemployment": e["unemployment"], "debt-pct-gdp": e["debt_pct_gdp"],
-            "top-sectors": "; ".join(f"{s['sector']} {s['share']}%" for s in e["sectors"]),
+            "rank-history": json.dumps(e["rank_history"], separators=(",", ":")),
+            "gdp-usd": i(e["gdp"]), "gdp-formatted": money(e["gdp"]),
+            "share-of-world-gdp": "<0.01%" if sw < 0.01 else f"{sw:.2f}%",
+            "gdp-growth": pct(e["growth"], True), "gdp-per-capita": i(e["gdp_pc"]), "gdp-per-capita-ppp": i(e["gdp_pc_ppp"]),
+            "ppp-rank": e["gdp_pc_ppp_rank"], "population": i(e["population"]), "inflation": pct(e["inflation"]),
+            "unemployment": pct(e["unemployment"]), "debt-pct-gdp": pct(e["debt_pct_gdp"]),
+            "top-sectors": "; ".join(f"{s['sector']} {s['share']}% ({s['year']})" for s in e["sectors"]) or None,
             "size-equivalent": (e["size_equivalent"] or {}).get("label"),
-            "gdp-history": json.dumps(e["gdp_history"]), "imf-forecast": json.dumps(e["imf_forecast"]),
-            "missing-notes": json.dumps(e["missing"]), "source-notes": json.dumps(e["field_sources"]),
-            "profile": e["profile"], "data-year": ed["data_year"], "edition": ed["edition"],
+            "gdp-history": bn(e["gdp_history"]), "imf-forecast": bn(e["imf_forecast"]),
+            "missing-notes": json.dumps(e["missing"], separators=(",", ":")) if e["missing"] else None,
+            "source-notes": "; ".join(sorted({v for v in e["field_sources"].values() if v})),
+            "profile": prof or None,
             "seo-title": f"{e['name']} Economy {ed['data_year']}: GDP, Rank #{e['rank']} | Colaeb",
             "seo-description": f"{e['name']} ranks #{e['rank']} of {ed['world']['count']} economies by GDP in the "
                                f"World Ranking of Economies {ed['edition']}. See GDP, growth, per-capita income and rank history.",

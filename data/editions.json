@@ -5,8 +5,8 @@
   "status": "current",
   "headline": "The world economy reached US$118.35 trillion",
   "url": "/world-economies-report/2026",
-  "data": "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@v2026.0/data/economies-2026.json",
-  "csv": "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@v2026.0/data/economies-2026.csv",
+  "data": "data/economies-2026.json",
+  "csv": "data/economies-2026.csv",
   "pdf": null,
   "methodology_changes": "None: this is the inaugural edition."
  }
