@@ -1,0 +1,3 @@
+Chile ranked 46th in 2000 and ranks 46th today, even as output grew 4.6 times in US$ terms to US$357.4 billion in 2025. It sits between Iran and Portugal, and is the 5th-largest economy in Latin America & Caribbean. US$ GDP rose 8.5%, mostly exchange-rate and price effects, while real growth was 2.5%.
+
+Industry makes up 31.4% of output, though manufacturing accounts for only 9.0%; services contribute 55.5% and agriculture 3.5%. Unemployment was 9.0%, inflation 4.2% and government gross debt 41.5% of GDP. GDP per capita of US$17,995 ranks 68th of 196, rising to 64th on a purchasing-power basis. The economy is about the size of the Detroit, MI metro area's 2024 GDP. The IMF projects GDP of US$466.6 billion by 2030, up 31%, which would place it 47th.

@@ -1,0 +1,3 @@
+Micronesia's GDP per capita of US$4,414 ranks 131st of 196, but drops 34 places to 165th on a purchasing-power basis, as local prices are high. The economy reached US$502 million in 2025, holding 191st place between Tonga and Kiribati, with real growth of 1.1% and a 4.3% rise in US$ terms.
+
+Services account for 65.3% of output and agriculture 24.2%, while industry makes up 5.3% and manufacturing 0.5%. Inflation was 2.8% and government gross debt 8.8% of GDP. With a population of 113,683, the economy is smaller than any U.S. metro area, at 20% of Eagle Pass, TX. Micronesia ranked 187th in 2000, when GDP was US$230 million, and output has grown 2.2 times in US$ terms since. The IMF projects GDP of US$616 million by 2030, up 23%, which would place it 183rd.

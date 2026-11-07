@@ -1,0 +1,3 @@
+Madagascar's GDP per capita of US$599 ranks 191st of 196 economies, across a population of 32.7 million. Total output reached US$19.6 billion in 2025, holding 136th place between Afghanistan and North Macedonia. The 11.5% US$ rise was mostly exchange-rate and price effects; real growth was 3.0%.
+
+Services account for 48.8% of output, industry 23.9% and agriculture 21.7%; manufacturing stood at 13.1% as of 2024. Inflation was 8.1% and government gross debt 47.7% of GDP. Madagascar ranked 121st in 2000, when GDP was US$4.6 billion, and output has grown 4.2 times in US$ terms since. The economy is about the size of the Bend, OR metro area's 2024 GDP. The IMF projects GDP of US$30.4 billion by 2030, a 55% increase that would lift it to 127th.

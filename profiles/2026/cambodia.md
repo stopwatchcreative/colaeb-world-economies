@@ -1,0 +1,3 @@
+Industry, not services, is the largest part of Cambodia's economy, at 43.1% of output, with manufacturing alone at 29.0%. Services contribute 35.0% and agriculture 16.1%. US$ GDP rose 10.6% to US$51.3 billion in 2025, mostly exchange-rate and price effects, while real growth ran at 5.3%. The country climbed 2 places to 96th, between Macao SAR, China and Zimbabwe. Unemployment was 0.3%, inflation 2.4% and government gross debt 25.5% of GDP. GDP per capita of US$2,872 ranks 150th of 196.
+
+The long-run climb is steep: Cambodia ranked 127th in 2000, with GDP of US$3.7 billion, and output has grown 13.9 times in US$ terms since. The IMF projects GDP of US$72.3 billion by 2030, up 41%, which would lift it to 93rd.

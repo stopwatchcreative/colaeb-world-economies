@@ -1,0 +1,3 @@
+Yemen's economy is smaller in US$ terms than it was in 2000: GDP of US$7.9 billion in 2025 stands at 0.8 times its 2000 level of US$9.7 billion, and far below its 2014 peak of US$43.2 billion. Yemen ranked 90th in 2000; it now ranks 156th.
+
+In 2025, GDP fell 2.6% in US$ terms and 0.5% in real terms, and the country slipped 1 place, now between Barbados and the Maldives. GDP per capita of US$418 ranks 195th of 196, for a population of 41.8 million. Inflation ran at 20.2% and unemployment at 17.3%. As of 2018, services made up 41.8% of output, agriculture 28.7% and industry 25.4%. The economy is about the size of the Fairbanks, AK metro area's 2024 GDP. The IMF projects GDP of US$10.5 billion by 2030, up 34%, which would place it 149th.

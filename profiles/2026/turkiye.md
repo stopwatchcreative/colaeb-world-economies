@@ -1,0 +1,3 @@
+Turkiye climbed 1 place to 16th in 2025 as US$ GDP jumped 17.5% to US$1.60 trillion, a rise that was mostly exchange-rate and price effects; real growth ran at 3.6%. Inflation stood at 34.9%.
+
+Services make up 59.4% of output, industry 24.0% and agriculture 5.2%, while manufacturing accounted for 16.8% as of 2024. Government gross debt was 23.7% of GDP and unemployment 8.5%. GDP per capita of US$18,599 ranks 67th of 196, rising to 55th on a purchasing-power basis. The economy now sits between Australia and Indonesia and is about the size of Florida. Since 2000, when Turkiye ranked 19th with GDP of US$274.7 billion, output has grown 5.8 times in US$ terms. The IMF projects GDP of US$2.31 trillion by 2030, up 44%, which would keep it 16th.

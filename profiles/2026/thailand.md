@@ -1,0 +1,3 @@
+Thailand's consumer prices fell 0.1% in 2025, and unemployment sat at just 0.8%. The economy held 31st place at US$577.0 billion, between Austria and Norway. US$ GDP rose 9.0%, mostly exchange-rate and price effects, against real growth of 2.4%.
+
+Services account for 60.2% of output, industry 31.1% and agriculture 8.7%; manufacturing alone makes up 23.7%. GDP per capita was US$8,057, 97th of 196, but ranks 15 places higher on a purchasing-power basis, at 82nd, as local prices are low. Government gross debt stood at 64.7% of GDP. Output has grown 4.6 times in US$ terms since 2000, when Thailand ranked 32nd, and is now about the size of the Miami, FL metro area's 2024 GDP. The IMF projects GDP of US$669.3 billion by 2030, up 16%, though its rank would slip to 35th.

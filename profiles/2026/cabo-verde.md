@@ -1,0 +1,3 @@
+Cabo Verde carries government gross debt of 115.4% of GDP, against an economy of US$3.1 billion in 2025. Real growth reached 6.3%, and US$ GDP rose 12.6%, mostly exchange-rate and price effects; the country held 171st place, between the Central African Republic and Saint Lucia.
+
+Services make up 67.9% of output, industry 10.7% and agriculture 5.0%, with manufacturing at 5.2%. GDP per capita of US$5,796 ranks 119th of 196, for a population of 527,326. Inflation was 2.3% and unemployment 11.9%. Cabo Verde ranked 175th in 2000, when GDP was US$539 million, and output has grown 5.7 times in US$ terms since. The economy is about the size of the Eagle Pass, TX metro area's 2024 GDP. The IMF projects GDP of US$4.5 billion by 2030, up 46%, which would lift it to 163rd.

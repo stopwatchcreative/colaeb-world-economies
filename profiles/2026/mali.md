@@ -1,0 +1,3 @@
+Agriculture accounts for 33.0% of Mali's output, close behind services at 36.6%, with industry at 23.4% and manufacturing at 7.5%. The economy grew 5.6% in real terms in 2025, while US$ GDP rose 12.4% to US$30.1 billion, mostly exchange-rate and price effects. Even so, Mali slipped 2 places to 116th, between Albania and Armenia.
+
+GDP per capita was US$1,193, 175th of 196, for a population of 25.2 million; the World Bank classes Mali as low income. Inflation was 3.3% and government gross debt 40.3% of GDP. Mali ranked 130th in 2000, when GDP was US$3.5 billion, and output has grown 8.5 times in US$ terms since. The economy is about the size of the Mobile, AL metro area's 2024 GDP. The IMF projects GDP of US$46.5 billion by 2030, a 55% rise that would lift it to 111th.

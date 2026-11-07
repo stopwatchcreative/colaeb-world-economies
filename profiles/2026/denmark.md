@@ -1,0 +1,3 @@
+Denmark's 6.0 million people generate GDP per capita of US$76,970, 9th of 196 economies. Total output reached US$462.5 billion in 2025, lifting the country 1 place to 36th, between Malaysia and Colombia. The 9.0% US$ rise was mostly exchange-rate and price effects; real growth was 2.9%.
+
+Services make up 62.7% of output, industry 24.8% and agriculture 1.2%, with manufacturing at 18.7%. Inflation was 1.9%, unemployment 5.5% and government gross debt 27.4% of GDP. On a purchasing-power basis, per capita income ranks 17th. Output has grown 2.8 times in US$ terms since 2000, when Denmark ranked 29th, and the economy is now about the size of Missouri. The IMF projects GDP of US$585.7 billion by 2030, up 27%, though that would leave it 40th.

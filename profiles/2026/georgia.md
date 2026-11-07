@@ -1,0 +1,3 @@
+Georgia's real economy grew 7.5% in 2025, and US$ GDP rose 11.6% to US$38.1 billion, holding it at 108th, between Iceland and Senegal. Services account for 63.9% of output, industry 18.6%, manufacturing 8.0% and agriculture 5.2%. Inflation stood at 3.9% and government gross debt at 34.3% of GDP, but unemployment was high at 12.1%.
+
+The long view stands out. In 2000 Georgia's GDP was US$3.1 billion and it ranked 137th; its US$ GDP has since grown 12.5 times, to about the size of the Manchester, NH metro area. With 3.9 million people, GDP per capita is US$9,692, 90th of 196, and low local prices lift it 15 places on a PPP basis, to 75th at $29,414 international dollars. The IMF projects a +68% rise to US$64.1 billion by 2030, which would move Georgia up to 98th.

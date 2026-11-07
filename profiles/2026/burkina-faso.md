@@ -1,0 +1,3 @@
+Burkina Faso climbed 3 places to 121st in 2025 as US$ GDP rose 19.4% to US$27.6 billion, mostly exchange-rate and price effects; real growth was 5.3%. Consumer prices fell 0.6%. Services make up 41.5% of output, industry 30.1% and agriculture 19.9%, with manufacturing at 6.6%.
+
+GDP per capita of US$1,148 ranks 177th of 196, and 181st on a purchasing-power basis, for a population of 24.1 million. Government gross debt stood at 53.2% of GDP. Since 2000, when Burkina Faso ranked 138th with GDP of US$3.0 billion, output has grown 9.3 times in US$ terms. It now sits between Malta and Guyana and is about the size of the Peoria, IL metro area's 2024 GDP. The IMF projects GDP of US$41.9 billion by 2030, up 52%, which would place it 113th.

@@ -1,0 +1,3 @@
+Gambia's real economy grew 5.9% and US$ GDP rose 7.9% to US$2.6 billion, holding it at 173rd, between Saint Lucia and Lesotho. Services make up 53.1% of output and agriculture 23.8%, with industry at 15.8%; manufacturing accounted for just 1.5% as of 2024. Inflation ran at 7.9%, unemployment at 6.5% and government gross debt at 73.7% of GDP.
+
+With 2.8 million people, GDP per capita is US$919, 183rd of 196, rising to 174th on a PPP basis at $3,706 international dollars. The 42nd-largest of 47 economies in Sub-Saharan Africa, Gambia is about the size of the Eagle Pass, TX metro area. In 2000, GDP stood at US$783 million and it ranked 169th; US$ GDP has since grown 3.3 times. The IMF projects a +58% rise to US$4.1 billion by 2030, which would place Gambia 164th.

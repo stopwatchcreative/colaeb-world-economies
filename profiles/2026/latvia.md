@@ -1,0 +1,3 @@
+Latvia's GDP per capita ranks 54th of 196 economies whether measured in US dollars, at US$26,312, or on a purchasing-power basis. Total output reached US$48.6 billion in 2025, holding 101st place between Bahrain and Libya. The 10.5% US$ rise was mostly exchange-rate and price effects; real growth was 2.1%.
+
+Services make up 64.2% of output, industry 18.7% and agriculture 4.0%, with manufacturing at 10.0%. Inflation was 3.8%, unemployment 6.6% and government gross debt 46.9% of GDP. Latvia ranked 102nd in 2000, when GDP was US$7.8 billion, and output has grown 6.3 times in US$ terms since. The economy of 1.8 million people is about the size of the Provo, UT metro area's 2024 GDP. The IMF projects GDP of US$65.0 billion by 2030, up 34%, which would lift it to 97th.

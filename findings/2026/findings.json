@@ -1,0 +1,181 @@
+{
+ "edition": 2026,
+ "data_year": 2025,
+ "movement_note": "Movement compares 2025 with 2024 GDP ranks for the same economies (inaugural edition). Revisions to past data are not counted as movement in this edition.",
+ "findings": [
+  {
+   "title": "The world economy reached US$118.35 trillion",
+   "body": "World GDP in 2025 came to US$118.35 trillion in current U.S. dollars. Measured across the economies with data for both years, dollar GDP rose 6.0% on 2024. (World total is the World Bank's world aggregate.)",
+   "number": "US$118.35 trillion",
+   "link": "?metric=gdp"
+  },
+  {
+   "title": "The U.S. alone is 26.00% of world output",
+   "body": "At US$30.77 trillion, the United States produced 26.00% of world GDP. Add China and the two account for 42.47%. The U.S. economy is 1.58 times the size of China's.",
+   "number": "26.00%",
+   "link": "?compare=united-states,china"
+  },
+  {
+   "title": "The UK retook fifth place from India, narrowly",
+   "body": "The UK's US$4.00 trillion edged out India's US$3.96 trillion, even though India's real growth (+7.6%) outpaced the UK's (+1.4%). Both the World Bank and IMF figures put the UK ahead for 2025.",
+   "number": "US$4.00 trillion",
+   "link": "?compare=united-kingdom,india"
+  },
+  {
+   "title": "India passes Japan and the UK in 2027, the IMF projects",
+   "body": "In the IMF's October 2026 forecasts, India reaches US$4.52 trillion in 2027, ahead of the UK (US$4.49 trillion) and Japan (US$4.47 trillion), making it the 4th-largest economy that year. In 2025, Japan was 4th and India 6th.",
+   "number": "US$4.52 trillion",
+   "link": "?compare=india,japan,united-kingdom"
+  },
+  {
+   "title": "The trillion-dollar club grew to 21",
+   "body": "21 economies topped US$1 trillion in 2025, up from 19 in 2024. The newcomers: Switzerland (US$1.04 trillion) and Poland (US$1.04 trillion).",
+   "number": "21",
+   "link": "#rank-21"
+  },
+  {
+   "title": "Currency, not output, drove the biggest climb",
+   "body": "Ghana rose 10 places to 71st, the biggest climb in this edition. Its dollar GDP jumped 37.1% while real output grew +6.0%: most of the gain came from exchange-rate and price effects.",
+   "number": "+10 places",
+   "link": "?metric=rank_change"
+  },
+  {
+   "title": "Fast growth, falling rank",
+   "body": "Ethiopia's real economy grew +9.8%, the 6th-fastest rate in the world, yet it fell 7 places to 68th as its GDP measured in dollars dropped 15.6%.",
+   "number": "+9.8%",
+   "link": "?metric=growth"
+  },
+  {
+   "title": "Ten economies hold 66.3% of world output",
+   "body": "The top 10 produced 66.3% of world GDP. The smallest 100 economies together produced 1.42%.",
+   "number": "66.3%",
+   "link": "#rankings"
+  },
+  {
+   "title": "China's economy is 15.9 times its 2000 size",
+   "body": "China grew from US$1.22 trillion in 2000 to US$19.50 trillion in 2025 in current dollars, and from 6th in the world to 2nd.",
+   "number": "15.9x",
+   "link": "?compare=china,united-states"
+  },
+  {
+   "title": "Per person, a 936-fold gap",
+   "body": "GDP per person ranged from US$218,978 in Liechtenstein to US$234 in Burundi, a gap of 936 times.",
+   "number": "936x",
+   "link": "?compare=liechtenstein,burundi&metric=gdp_pc"
+  }
+ ],
+ "climbers": [
+  {
+   "slug": "ghana",
+   "name": "Ghana",
+   "rank": 71,
+   "prior_rank": 81,
+   "rank_change": 10,
+   "gdp": "US$114.2 billion",
+   "usd_change": "+37.1%",
+   "real_growth": "+6.0%",
+   "reason": "Dollar GDP rose 37.1% against real growth of +6.0% and inflation of 14.2%. Most of the climb came from exchange-rate and price effects, not output."
+  },
+  {
+   "slug": "haiti",
+   "name": "Haiti",
+   "rank": 114,
+   "prior_rank": 122,
+   "rank_change": 8,
+   "gdp": "US$32.1 billion",
+   "usd_change": "+32.2%",
+   "real_growth": "-2.7%",
+   "reason": "Dollar GDP rose 32.2% against real growth of -2.7% and inflation of 28.6%. Real output shrank, so the climb came entirely from exchange-rate and price effects."
+  },
+  {
+   "slug": "zimbabwe",
+   "name": "Zimbabwe",
+   "rank": 97,
+   "prior_rank": 104,
+   "rank_change": 7,
+   "gdp": "US$51.2 billion",
+   "usd_change": "+23.3%",
+   "real_growth": "+8.1%",
+   "reason": "Dollar GDP rose 23.3% against real growth of +8.1% and inflation of 81.4%. Real growth and exchange-rate and price effects both contributed."
+  },
+  {
+   "slug": "kyrgyzstan",
+   "name": "Kyrgyzstan",
+   "rank": 127,
+   "prior_rank": 134,
+   "rank_change": 7,
+   "gdp": "US$22.6 billion",
+   "usd_change": "+24.6%",
+   "real_growth": "+11.1%",
+   "reason": "Dollar GDP rose 24.6% against real growth of +11.1% and inflation of 8.2%. Real growth and exchange-rate and price effects both contributed."
+  },
+  {
+   "slug": "tajikistan",
+   "name": "Tajikistan",
+   "rank": 139,
+   "prior_rank": 145,
+   "rank_change": 6,
+   "gdp": "US$17.7 billion",
+   "usd_change": "+22.4%",
+   "real_growth": "+8.4%",
+   "reason": "Dollar GDP rose 22.4% against real growth of +8.4% and inflation of 3.4%. Real growth and exchange-rate and price effects both contributed."
+  }
+ ],
+ "fallers": [
+  {
+   "slug": "venezuela",
+   "name": "Venezuela",
+   "rank": 79,
+   "prior_rank": 67,
+   "rank_change": -12,
+   "gdp": "US$99.7 billion",
+   "usd_change": "-17.3%",
+   "real_growth": "+1.6%",
+   "reason": "Dollar GDP fell 17.3% against real growth of +1.6% and inflation of 252.0%. A weaker dollar value offset real growth and drove the fall."
+  },
+  {
+   "slug": "iran",
+   "name": "Iran",
+   "rank": 45,
+   "prior_rank": 34,
+   "rank_change": -11,
+   "gdp": "US$362.7 billion",
+   "usd_change": "-23.7%",
+   "real_growth": "-2.8%",
+   "reason": "Dollar GDP fell 23.7% against real growth of -2.8% and inflation of 42.2%. Both output and the dollar value declined."
+  },
+  {
+   "slug": "ethiopia",
+   "name": "Ethiopia",
+   "rank": 68,
+   "prior_rank": 61,
+   "rank_change": -7,
+   "gdp": "US$126.4 billion",
+   "usd_change": "-15.6%",
+   "real_growth": "+9.8%",
+   "reason": "Dollar GDP fell 15.6% against real growth of +9.8% and inflation of 13.2%. A weaker dollar value offset real growth and drove the fall."
+  },
+  {
+   "slug": "trinidad-and-tobago",
+   "name": "Trinidad and Tobago",
+   "rank": 123,
+   "prior_rank": 117,
+   "rank_change": -6,
+   "gdp": "US$25.9 billion",
+   "usd_change": "+1.2%",
+   "real_growth": "-0.8%",
+   "reason": "Dollar GDP rose 1.2% against real growth of -0.8% and inflation of 1.0%. Others grew faster in dollar terms and moved past it."
+  },
+  {
+   "slug": "libya",
+   "name": "Libya",
+   "rank": 102,
+   "prior_rank": 96,
+   "rank_change": -6,
+   "gdp": "US$48.1 billion",
+   "usd_change": "-0.8%",
+   "real_growth": "+13.4%",
+   "reason": "Dollar GDP fell 0.8% against real growth of +13.4% and inflation of 1.8%. A weaker dollar value offset real growth and drove the fall."
+  }
+ ]
+}

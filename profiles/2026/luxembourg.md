@@ -1,0 +1,3 @@
+Luxembourg's 686,970 residents produce GDP per capita of US$147,252, 2nd of 196 economies, and 3rd on a purchasing-power basis. Total output reached US$101.2 billion in 2025, though the country slipped 1 place to 76th, between Costa Rica and Serbia. The 8.4% US$ rise was mostly exchange-rate and price effects; real growth was 0.6%.
+
+Services make up 81.4% of output, industry 8.9% and agriculture 0.2%, with manufacturing at 3.7%. Inflation was 2.3%, unemployment 6.3% and government gross debt 26.5% of GDP. Luxembourg ranked 67th in 2000, when GDP was US$21.2 billion, and output has grown 4.8 times in US$ terms since; the economy is now about the size of Maine. The IMF projects GDP of US$127.0 billion by 2030, up 26%, though it would rank 81st.

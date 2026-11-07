@@ -1,0 +1,3 @@
+Canada slipped 1 place to 10th in 2025, now sitting behind Italy and just ahead of Brazil, even as output grew. US$ GDP rose 2.2% to US$2.32 trillion, with real growth of +1.7%. The 2nd-largest economy in North America is about the size of the New York, NY metro area.
+
+As of 2022, services made up 64.1% of output, industry 27.4% and agriculture 1.9%, with manufacturing at 9.3%. Inflation stood at 2.1%, unemployment at 6.9% and government gross debt at 113.6% of GDP. GDP per capita of US$55,698 ranks 23rd, and 28th on a PPP basis. Over the long run the economy has grown 3.1 times in dollar terms since 2000, when it ranked 8th at US$744.8 billion. The IMF projects GDP of US$3.00 trillion by 2030, a +29% rise that would return Canada to 9th.

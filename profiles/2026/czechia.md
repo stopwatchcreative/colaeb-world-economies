@@ -1,0 +1,3 @@
+Czechia climbed 2 places to 43rd, passing Egypt and now ranking just behind Pakistan, though most of its +12.7% rise in US$ GDP, to US$391.0 billion, was exchange-rate and price effects, not output. Real growth was +2.6%. Industry carries heavy weight at 28.7% of output, with manufacturing at 19.4%; services make up 60.8% and agriculture 1.9%. Inflation ran at 2.5% and unemployment at a low 2.8%, with government gross debt at 44.2% of GDP.
+
+Since 2000, when Czechia ranked 48th with GDP of US$62.2 billion, its US$ GDP has grown 6.3 times, to about the size of Connecticut. GDP per capita reached US$35,917, 40th of 196, and 35th on a PPP basis at $60,487 international dollars. The IMF projects a +29% rise to US$502.7 billion by 2030, which would place Czechia 45th.

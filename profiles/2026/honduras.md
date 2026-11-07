@@ -1,0 +1,3 @@
+Honduras grew 3.8% in real terms in 2025 and lifted US$ GDP 7.1% to US$39.6 billion, holding 106th place between Cyprus and Iceland. Services make up 57.6% of output, industry 25.4% and agriculture 13.3%, with manufacturing at 15.0%. Inflation was 4.6%, unemployment 4.9% and government gross debt 40.3% of GDP.
+
+GDP per capita of US$3,598 ranks 139th of 196, dropping to 147th on a purchasing-power basis, for a population of 11.0 million. Honduras ranked 104th in 2000, when GDP was US$7.2 billion, and output has grown 5.5 times in US$ terms since. The economy is about the size of the Santa Rosa, CA metro area's 2024 GDP and is the 17th-largest of 35 economies in Latin America & Caribbean. The IMF projects GDP of US$51.8 billion by 2030, up 31%, which would keep it 106th.

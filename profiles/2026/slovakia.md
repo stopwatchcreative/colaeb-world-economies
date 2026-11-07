@@ -1,0 +1,3 @@
+Slovakia has climbed from 68th in 2000 to 61st in 2025, with output growing 7.5 times in US$ terms, from US$20.6 billion to US$154.5 billion. It moved up 1 place this year and now sits between Kuwait and Uzbekistan. The 9.6% US$ rise was mostly exchange-rate and price effects; real growth was 0.8%.
+
+Industry makes up 28.1% of output and manufacturing 16.2%, with services at 59.8% and agriculture 1.6%. Inflation was 4.0%, unemployment 5.4% and government gross debt 61.4% of GDP. GDP per capita of US$28,544 ranks 49th of 196, slipping to 53rd on a purchasing-power basis, for a population of 5.4 million. The economy is about the size of New Mexico. The IMF projects GDP of US$201.2 billion by 2030, up 30%, which would hold it at 61st.

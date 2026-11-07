@@ -1,0 +1,3 @@
+South Korea slipped 1 place to 13th as US$ GDP edged down 0.2% to US$1.87 trillion, even as real output grew 1.0%. It now sits behind Spain and just ahead of Mexico, and remains below its 2021 peak of US$1.94 trillion. Industry accounts for 34.3% of output, with manufacturing alone at 27.4%; services make up 57.2% and agriculture 1.5%. Inflation ran at 2.1% and unemployment at 2.7%, with government gross debt at 52.4% of GDP.
+
+The 3rd-largest economy in East Asia & Pacific is about the size of Florida. GDP per capita reached US$36,227, 38th of 196, rising to 33rd on a PPP basis at $63,125 international dollars. Since 2000, when it ranked 12th, US$ GDP has grown 3.1 times. The IMF projects a +57% rise to US$2.93 trillion by 2030, which would lift South Korea to 11th.

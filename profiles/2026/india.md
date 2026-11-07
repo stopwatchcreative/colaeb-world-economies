@@ -1,0 +1,3 @@
+India's economy expanded 7.6% in real terms in 2025, yet it slipped 1 place to 6th, now behind the United Kingdom and ahead of France. US$ GDP rose 5.2% to US$3.96 trillion, about the size of California. Services make up 49.3% of output, industry 25.2% and agriculture 16.2%, with manufacturing at 13.5%. With 1.46 billion people, GDP per capita was US$2,702, 151st of 196; on a purchasing-power basis it ranks 20 places higher, at 131st, as local prices are low. Inflation ran at 2.4% and government gross debt at 84.3% of GDP.
+
+The longer arc is steeper. India ranked 13th in 2000, when GDP was US$468.4 billion, and output has grown 8.4 times in US$ terms since. The IMF projects GDP of US$6.13 trillion by 2030, a 55% rise that would lift it to 4th.

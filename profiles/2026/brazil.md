@@ -1,0 +1,3 @@
+Brazil is the largest economy in Latin America & Caribbean, yet its output of US$2.28 trillion in 2025 remains below its 2011 peak of US$2.62 trillion. It held 11th place, between Canada and Spain, with US$ GDP up 4.3% and real growth at 2.3%.
+
+Services account for 59.7% of output, industry 20.1% and agriculture 6.1%, with manufacturing at 11.8%. GDP per capita was US$10,713, 86th of 196, for a population of 212.8 million. Inflation stood at 5.0%, unemployment at 6.0% and government gross debt at 93.3% of GDP. The economy is about the size of the New York, NY metro area's 2024 GDP. Brazil ranked 10th in 2000, and output has grown 3.5 times in US$ terms since. The IMF projects GDP of US$3.22 trillion by 2030, up 41%, which would put it 8th.

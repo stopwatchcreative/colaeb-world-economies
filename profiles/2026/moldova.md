@@ -1,0 +1,3 @@
+Moldova's US$ GDP has grown 15.8 times since 2000, when it stood at US$1.3 billion and ranked 155th. In 2025 it held 133rd, between Gabon and Botswana, as US$ GDP rose 11.8% to US$20.4 billion. Most of that gain was exchange-rate and price effects, not output; real growth was +2.4%.
+
+Services account for 61.5% of output and industry 16.9%, with manufacturing and agriculture each at 7.4%. Inflation ran at 7.8%, unemployment at a low 1.5% and government gross debt at 39.2% of GDP. With 2.4 million people, GDP per capita is US$8,622, 93rd of 196; on a PPP basis, at $19,996 international dollars, it ranks 101st. The economy is about the size of the College Station, TX metro area. The IMF projects a +48% rise to US$30.2 billion by 2030, which would move Moldova up to 128th.

@@ -1,0 +1,3 @@
+Belgium held 23rd place, wedged between Taiwan and Ireland, as US$ GDP rose 8.1% to US$725.5 billion. Most of that gain was exchange-rate and price effects, not output; real growth was +1.0%. Services generate 71.2% of output and industry 18.6%, with manufacturing at 11.2% and agriculture at 0.7%. Inflation ran at 2.5% and unemployment at 5.9%.
+
+The figure that sets Belgium apart is debt: government gross debt stands at 107.9% of GDP. Its economy is about the size of Michigan, produced by a population of 11.9 million, and GDP per capita of US$60,750 ranks 17th of 196. Belgium ranked 22nd in 2000, with GDP of US$236.8 billion, and has grown 3.1 times in US$ terms since. The IMF projects a +20% rise to US$868.7 billion by 2030, which would place it 25th.

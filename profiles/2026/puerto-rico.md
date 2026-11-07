@@ -1,0 +1,3 @@
+Manufacturing accounts for 44.0% of Puerto Rico's output, part of an industrial share of 47.0% that nearly matches services at 51.9%. Agriculture contributes 0.7%. The economy slipped 3 places to 66th in 2025, between Ecuador and the Dominican Republic, while US$ GDP rose 2.6% to US$129.4 billion and real growth reached 0.3%.
+
+GDP per capita of US$40,620 ranks 33rd of 196, falling to 47th on a purchasing-power basis, for a population of 3.2 million. Inflation was 1.5%, unemployment 6.0% and government gross debt 17.6% of GDP. Puerto Rico ranked 49th in 2000, when GDP was US$61.7 billion, and output has grown 2.1 times in US$ terms since; it is now about the size of New Hampshire. The IMF projects GDP of US$153.2 billion by 2030, up 18%, which would leave it 72nd.

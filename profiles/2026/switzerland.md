@@ -1,0 +1,3 @@
+Switzerland held 20th place with 9.1 million people and GDP per capita of US$114,769, 4th in the world. US$ GDP rose 7.6% to US$1.04 trillion from US$969.9 billion in 2024, but real growth was only +1.3%; the gap was mostly exchange-rate and price effects, not output.
+
+Services make up 71.7% of output and industry 25.0%, with manufacturing alone at 18.9%, while agriculture accounts for 0.6%. Inflation stood at 0.1% and unemployment at 4.9%, and government gross debt is 40.1% of GDP. The economy sits between Saudi Arabia, 19th, and Poland, 21st, and is about the size of Pennsylvania. It has grown 3.7 times in dollar terms since 2000, when it ranked 18th. The IMF projects GDP of US$1.32 trillion by 2030, a +27% rise, though its forecast ranking slips to 21st.

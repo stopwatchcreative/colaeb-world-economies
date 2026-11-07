@@ -1,0 +1,3 @@
+Comoros is smaller than any U.S. metro area, at 72% of the economy of Eagle Pass, TX. GDP reached US$1.8 billion in 2025, holding 181st place between Sint Maarten and the Solomon Islands. Agriculture accounts for 36.6% of output, with services at 48.8%, industry 9.9% and manufacturing 7.2%. Real growth was 3.8%; the 12.7% US$ rise was mostly exchange-rate and price effects.
+
+GDP per capita of US$2,056 ranks 160th of 196, and 169th on a purchasing-power basis, for a population of 882,847. Inflation was 3.2%, unemployment 3.8% and government gross debt 30.5% of GDP. Comoros ranked 183rd in 2000, when GDP was US$340 million, and output has grown 5.3 times in US$ terms since. The IMF projects GDP of US$2.1 billion by 2030, up 16%, which would place it 174th.

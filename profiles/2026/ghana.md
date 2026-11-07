@@ -1,0 +1,3 @@
+Ghana jumped 10 places to 71st in 2025 as US$ GDP rose 37.1% to US$114.2 billion, though most of that was exchange-rate and price effects, with real growth at 6.0%. Services account for 42.9% of output, industry 29.3% and agriculture 21.3%, with manufacturing at 10.1%. Inflation stood at 14.2% and government gross debt at 48.8% of GDP. GDP per capita was US$3,257, 141st of 196, across 35.1 million people.
+
+The longer view is more striking: Ghana's GDP was US$5.0 billion in 2000, when it ranked 119th, and output has grown 22.9 times in US$ terms since. It now sits between Angola and Oman and is about the size of the Providence, RI metro area's 2024 GDP. The IMF projects GDP of US$154.0 billion by 2030, up 35%, which would lift it to 70th.

@@ -1,0 +1,3 @@
+Poland's economy reached US$1.04 trillion in 2025, up from US$917.8 billion, holding 21st place between Switzerland and Taiwan. The 12.8% US$ rise was mostly exchange-rate and price effects; real growth was 3.6%. Services account for 59.7% of output, industry 25.8% and agriculture 2.5%, with manufacturing at 15.0%. Unemployment was 3.0%, inflation 3.8% and government gross debt 59.7% of GDP. GDP per capita of US$28,420 ranks 50th of 196, and 45th on a purchasing-power basis.
+
+The standout is the long climb: Poland ranked 25th in 2000 with GDP of US$173.0 billion, and output has grown 6.0 times in US$ terms since. The economy is now about the size of Pennsylvania. The IMF projects GDP of US$1.42 trillion by 2030, up 37%, which would lift it to 20th.

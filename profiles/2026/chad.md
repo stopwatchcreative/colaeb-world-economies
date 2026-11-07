@@ -1,0 +1,3 @@
+Chad's consumer prices fell 3.9% in 2025, while real GDP grew 5.6%. Agriculture is the largest sector at 36.3% of output, ahead of services at 33.9% and industry at 26.7%; manufacturing stood at 6.3% as of 2024. US$ GDP rose 7.9% to US$21.5 billion, but Chad slipped 2 places to 131st, between Niger and Gabon.
+
+GDP per capita of US$1,022 ranks 181st of 196, for a population of 21.0 million. Government gross debt was 33.3% of GDP. The long-run growth is striking: GDP was US$1.4 billion in 2000, when Chad ranked 153rd, and output has grown 15.5 times in US$ terms since. The economy is about the size of the South Bend, IN metro area's 2024 GDP. The IMF projects GDP of US$32.3 billion by 2030, up 51%, which would lift it to 123rd.

@@ -1,0 +1,3 @@
+Jamaica has fallen from 94th in 2000 to 126th in 2025, even as output grew 2.5 times in US$ terms over that span to US$22.7 billion. Real growth was 0.1% in 2025 and US$ GDP rose 3.1%, leaving it between Benin and Kyrgyzstan.
+
+Services account for 59.8% of output, industry 16.3% and agriculture 8.7%, with manufacturing at 7.7%. GDP per capita of US$8,003 ranks 98th of 196, but drops 25 places to 123rd on a purchasing-power basis, as local prices are high. Inflation was 4.0%, unemployment 3.3% and government gross debt 66.0% of GDP. The economy of 2.8 million people is about the size of the Kennewick, WA metro area's 2024 GDP. The IMF projects GDP of US$27.3 billion by 2030, up 20%, which would place it 131st.

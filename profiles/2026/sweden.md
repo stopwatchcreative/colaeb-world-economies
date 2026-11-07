@@ -1,0 +1,3 @@
+Sweden has slipped down the table over the long run: it ranked 20th in 2000 and stands 26th in 2025, with output up 2.5 times in US$ terms over that span. GDP reached US$669.0 billion, between Argentina and the United Arab Emirates, about the size of the Boston, MA metro area's 2024 GDP.
+
+The 10.6% US$ rise in 2025 was mostly exchange-rate and price effects; real growth was 1.5%. Services make up 67.0% of output, industry 21.0% and agriculture 1.5%, with manufacturing at 12.5%. Inflation was just 0.7%, while unemployment stood at 8.7%. Government gross debt was 34.5% of GDP. GDP per capita of US$63,133 ranks 15th of 196, falling to 24th on a purchasing-power basis. The IMF projects GDP of US$879.7 billion by 2030, up 31%, which would place it 24th.

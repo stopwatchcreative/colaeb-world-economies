@@ -1,0 +1,3 @@
+Jordan slipped 2 places to 91st in 2025 even as real GDP grew 2.8% and US$ output rose 5.1% to US$61.6 billion. Unemployment stood at 16.5% of the labor force, while inflation was 1.8%. Services account for 56.8% of output, industry 27.4% and agriculture 5.6%, with manufacturing at 17.4%. Government gross debt reached 83.6% of GDP.
+
+GDP per capita was US$5,348, 122nd of 196, and 125th on a purchasing-power basis, for a population of 11.5 million. Jordan ranked 97th in 2000, when GDP was US$8.5 billion; output has grown 7.3 times in US$ terms since. It now sits between Uganda and Sudan and is about the size of the Allentown, PA metro area's 2024 GDP. The IMF projects GDP of US$80.4 billion by 2030, up 31%, which would place it 91st.

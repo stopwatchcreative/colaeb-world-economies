@@ -8,7 +8,6 @@
   "next_edition_expected": "November 2027",
   "prior_edition_file": null,
   "expected_count": null,
-
   "imf_additions": {
     "TWN": {
       "name": "Taiwan",
@@ -19,10 +18,13 @@
       "note": "Not included in World Bank WDI. Figures from IMF WEO. Region and income group follow the World Bank classification for 'Taiwan, China'."
     }
   },
-
-  "imf_to_iso3": { "UVK": "XKX", "WBG": "PSE" },
-  "countries_pkg_to_iso3": { "UNK": "XKX" },
-
+  "imf_to_iso3": {
+    "UVK": "XKX",
+    "WBG": "PSE"
+  },
+  "countries_pkg_to_iso3": {
+    "UNK": "XKX"
+  },
   "display_name_overrides": {
     "COD": "DR Congo",
     "COG": "Republic of the Congo",
@@ -42,7 +44,6 @@
     "LCA": "Saint Lucia",
     "VIR": "U.S. Virgin Islands"
   },
-
   "wb_indicators": {
     "gdp": "NY.GDP.MKTP.CD",
     "gdp_pc": "NY.GDP.PCAP.CD",
@@ -56,7 +57,6 @@
     "manuf_pct": "NV.IND.MANF.ZS",
     "services_pct": "NV.SRV.TOTL.ZS"
   },
-
   "imf_indicators": {
     "gdp_bn": "NGDPD",
     "gdp_pc": "NGDPDPC",
@@ -66,5 +66,10 @@
     "unemployment": "LUR",
     "debt": "GGXWDG_NGDP",
     "population_m": "LP"
+  },
+  "capital_overrides": {
+    "UKR": "Kyiv",
+    "HKG": "",
+    "MAC": ""
   }
 }

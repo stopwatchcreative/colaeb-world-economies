@@ -249,6 +249,14 @@ def un_population(m49_codes: dict[str, str], year: int) -> dict:
 FIELD_SOURCES = {}  # iso -> {field: source}
 
 
+def capital_of(cfg, iso, u, p):
+    """config capital_overrides win ("" = no capital shown, e.g. SARs); then World Bank; then mledoze."""
+    ov = cfg.get("capital_overrides", {})
+    if iso in ov:
+        return ov[iso] or None
+    return u.get("capital") or (p.get("capital") or [None])[0]
+
+
 def pick(iso, field, year, wb_series, imf_series=None, imf_scale=1.0, nd=2, allow_prev=False):
     """WB first, IMF second. Records which source was used. allow_prev lets structural shares use latest year <= year."""
     src = FIELD_SOURCES.setdefault(iso, {})
@@ -329,12 +337,23 @@ def build(cfg: dict, args) -> dict:
                 sectors.append({"sector": label, "share": v, "year": yr})
         manuf, manuf_y = pick(iso, "manuf_pct", Y, wb["manuf_pct"], None, nd=1, allow_prev=True)
         sectors.sort(key=lambda s: -s["share"])
+        # Totals above 100% are expected (value added at basic prices over GDP at market prices; large
+        # product subsidies push the sum up). All-zero placeholders, or a full set summing far below 100%,
+        # are withheld with a reason rather than published.
+        sector_withheld = None
+        tot = sum(s["share"] for s in sectors)
+        if sectors and tot == 0:
+            sector_withheld = f"WDI reports 0.0% for every sector ({sectors[0]['year']}), a placeholder rather than a measurement; withheld."
+        elif len(sectors) == 3 and tot < 60:
+            sector_withheld = f"WDI sector shares for {sectors[0]['year']} sum to only {tot:.1f}% of GDP; withheld pending source revision."
+        if sector_withheld:
+            sectors, manuf, manuf_y = [], None, None
 
         row = {
             "iso3": iso, "slug": slugify(name), "name": name, "wb_name": u.get("wb_name"),
             "flag": p.get("flag"), "region": u["region"], "income_group": u["income_group"] or None,
             "currency": ", ".join(f"{c['name']} ({k})" for k, c in (p.get("currencies") or {}).items()) or None,
-            "capital": u.get("capital") or (p.get("capital") or [None])[0],
+            "capital": capital_of(cfg, iso, u, p),
             "gdp": gdp, "gdp_prev": gdp_prev, "share_world": r(gdp / world_gdp * 100, 3),
             "growth": pick(iso, "growth", Y, wb["growth"], imf["growth"], 1, 2)[0],
             "gdp_pc": pick(iso, "gdp_pc", Y, wb["gdp_pc"], imf["gdp_pc"], 1, 0)[0],
@@ -343,7 +362,7 @@ def build(cfg: dict, args) -> dict:
             "inflation": pick(iso, "inflation", Y, wb["inflation"], imf["inflation"], 1, 2)[0],
             "unemployment": pick(iso, "unemployment", Y, wb["unemployment"], imf["unemployment"], 1, 2)[0],
             "debt_pct_gdp": pick(iso, "debt", Y, None, imf["debt"], 1, 1)[0],
-            "sectors": sectors[:3], "manufacturing_pct": manuf, "manufacturing_year": manuf_y,
+            "sectors": sectors[:3], "_sector_withheld": sector_withheld, "manufacturing_pct": manuf, "manufacturing_year": manuf_y,
             "gdp_history": history, "imf_forecast": forecast,
             "note": u.get("note"),
         }
@@ -410,7 +429,8 @@ def build(cfg: dict, args) -> dict:
                 src = "IMF WEO" if k == "debt_pct_gdp" else "the World Bank (WDI) or the IMF (WEO)"
                 notes[k] = f"{lab} for {Y} is not reported by {src} for this economy."
         if not x["sectors"]:
-            notes["sectors"] = "Sector shares are not reported in WDI for this economy."
+            notes["sectors"] = x.pop("_sector_withheld", None) or "Sector shares are not reported in WDI for this economy."
+        x.pop("_sector_withheld", None)
         if x["size_equivalent"] is None and x["iso3"] != "USA":
             notes["size_equivalent"] = "U.S. state/metro comparison unavailable (BEA data not loaded)."
         x["missing"] = notes

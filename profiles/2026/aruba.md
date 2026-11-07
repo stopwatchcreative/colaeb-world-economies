@@ -1,0 +1,3 @@
+Aruba's real economy grew 6.3% in 2025, slightly faster than its 6.1% rise in US$ terms, yet it slipped 2 places to 166th, between Andorra and Bhutan. GDP reached US$4.4 billion.
+
+As of 2023, services accounted for 76.3% of output, industry 10.8% and agriculture 0.0%, with manufacturing at 2.4%. GDP per capita of US$40,534 ranks 34th of 196, and 44th on a purchasing-power basis, for a population of 108,785. Inflation was 0.1%, unemployment 4.0% and government gross debt 64.8% of GDP. Aruba ranked 147th in 2000, when GDP was US$1.9 billion, and output has grown 2.4 times in US$ terms since. The economy is about the size of the Pocatello, ID metro area's 2024 GDP. The IMF projects GDP of US$5.4 billion by 2030, up 23%, which would place it 162nd.

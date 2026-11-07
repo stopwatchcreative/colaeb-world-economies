@@ -1,0 +1,3 @@
+Agriculture accounts for 32.7% of Liberia's output, second only to services at 40.0%, with industry at 24.5%; manufacturing stood at 2.3% as of 2011. Real GDP grew 5.0% in 2025 and US$ GDP rose 9.8% to US$5.2 billion, holding 161st place between South Sudan and Eswatini.
+
+GDP per capita of US$915 ranks 184th of 196, and 187th on a purchasing-power basis, for a population of 5.7 million. Inflation was 8.3%, unemployment 2.9% and government gross debt 55.1% of GDP. GDP was US$874 million in 2000, when Liberia ranked 166th, and output has grown 6.0 times in US$ terms since. The economy is about the size of the Carson City, NV metro area's 2024 GDP. The IMF projects GDP of US$7.5 billion by 2030, up 43%, which would lift it to 156th.

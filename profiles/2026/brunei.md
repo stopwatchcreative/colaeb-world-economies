@@ -1,0 +1,3 @@
+Brunei ranks 46th of 196 on GDP per capita, at US$32,235, but 10th on a purchasing-power basis, 36 places higher, as local prices are low. Government gross debt stood at 1.6% of GDP. Industry accounts for 60.0% of output, with manufacturing at 9.9%; services make up 40.2% and agriculture 1.2%.
+
+US$ GDP fell 2.0% to US$15.0 billion in 2025 despite real growth of 0.7%, and Brunei slipped 4 places to 146th, between Namibia and Malawi. Consumer prices fell 0.3%. Output remains below its 2012 peak of US$19.0 billion; it has grown 2.3 times in US$ terms since 2000, when Brunei ranked 108th. The economy is about the size of the Erie, PA metro area's 2024 GDP. The IMF projects GDP of US$18.8 billion by 2030, up 25%, which would lift it to 142nd.

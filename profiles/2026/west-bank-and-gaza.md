@@ -1,0 +1,3 @@
+West Bank and Gaza's GDP of US$17.2 billion in 2025 remains below its 2022 peak of US$19.2 billion, even after real growth of 4.3% and a 7.2% rise in US$ terms. The economy slipped 2 places to 141st, between the Bahamas and Rwanda.
+
+As of 2024, services accounted for 60.2% of output, industry 16.3% and agriculture 5.5%, with manufacturing at 11.3%. Inflation ran at 9.8% and government gross debt at 55.9% of GDP. GDP per capita of US$3,171 ranks 143rd of 196, but drops 18 places to 161st on a purchasing-power basis, as local prices are high. Home to 5.4 million people, the economy ranked 123rd in 2000, when GDP was US$4.3 billion, and output has grown 4.0 times in US$ terms since. It is about the size of the Champaign, IL metro area's 2024 GDP.

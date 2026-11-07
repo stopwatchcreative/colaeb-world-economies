@@ -1,0 +1,3 @@
+Togo grew 6.3% in real terms in 2025, with inflation at just 0.4%. US$ GDP rose 11.7% to US$11.9 billion, mostly exchange-rate and price effects, lifting the country 1 place to 151st, between Kosovo and Mauritania.
+
+Services account for 61.7% of output, industry 21.0% and agriculture 20.3%; manufacturing stood at 11.4% as of 2024. GDP per capita of US$1,384 ranks 169th of 196, and 171st on a purchasing-power basis, for a population of 8.6 million. Government gross debt was 64.9% of GDP. Togo ranked 144th in 2000, when GDP was US$2.1 billion, and output has grown 5.6 times in US$ terms since. The economy is about the size of the Wausau, WI metro area's 2024 GDP. The IMF projects GDP of US$17.5 billion by 2030, up 47%, which would lift it to 143rd.
