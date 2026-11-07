@@ -1,0 +1,70 @@
+{
+  "edition_year": 2026,
+  "data_year": 2025,
+  "history_start": 2000,
+  "forecast_years": 5,
+  "imf_weo_label": "IMF World Economic Outlook, October 2026",
+  "release_date": null,
+  "next_edition_expected": "November 2027",
+  "prior_edition_file": null,
+  "expected_count": null,
+
+  "imf_additions": {
+    "TWN": {
+      "name": "Taiwan",
+      "wb_name": null,
+      "region": "East Asia & Pacific",
+      "income_group": "High income",
+      "capital": "Taipei",
+      "note": "Not included in World Bank WDI. Figures from IMF WEO. Region and income group follow the World Bank classification for 'Taiwan, China'."
+    }
+  },
+
+  "imf_to_iso3": { "UVK": "XKX", "WBG": "PSE" },
+  "countries_pkg_to_iso3": { "UNK": "XKX" },
+
+  "display_name_overrides": {
+    "COD": "DR Congo",
+    "COG": "Republic of the Congo",
+    "CIV": "Côte d'Ivoire",
+    "PSE": "West Bank and Gaza",
+    "HKG": "Hong Kong SAR, China",
+    "MAC": "Macao SAR, China",
+    "MMR": "Myanmar",
+    "CZE": "Czechia",
+    "TUR": "Türkiye",
+    "SWZ": "Eswatini",
+    "CPV": "Cabo Verde",
+    "TLS": "Timor-Leste",
+    "FSM": "Micronesia",
+    "VCT": "St. Vincent and the Grenadines",
+    "KNA": "St. Kitts and Nevis",
+    "LCA": "Saint Lucia",
+    "VIR": "U.S. Virgin Islands"
+  },
+
+  "wb_indicators": {
+    "gdp": "NY.GDP.MKTP.CD",
+    "gdp_pc": "NY.GDP.PCAP.CD",
+    "gdp_pc_ppp": "NY.GDP.PCAP.PP.CD",
+    "growth": "NY.GDP.MKTP.KD.ZG",
+    "inflation": "FP.CPI.TOTL.ZG",
+    "unemployment": "SL.UEM.TOTL.ZS",
+    "population": "SP.POP.TOTL",
+    "agri_pct": "NV.AGR.TOTL.ZS",
+    "industry_pct": "NV.IND.TOTL.ZS",
+    "manuf_pct": "NV.IND.MANF.ZS",
+    "services_pct": "NV.SRV.TOTL.ZS"
+  },
+
+  "imf_indicators": {
+    "gdp_bn": "NGDPD",
+    "gdp_pc": "NGDPDPC",
+    "gdp_pc_ppp": "PPPPC",
+    "growth": "NGDP_RPCH",
+    "inflation": "PCPIPCH",
+    "unemployment": "LUR",
+    "debt": "GGXWDG_NGDP",
+    "population_m": "LP"
+  }
+}
