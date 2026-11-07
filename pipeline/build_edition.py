@@ -37,7 +37,8 @@ BEA = "https://apps.bea.gov/api/data"
 UN = "https://population.un.org/dataportalapi/api/v1"
 
 SOURCES: list[dict] = []
-UA = {"User-Agent": "colaeb-wer-pipeline/1.0"}
+# IMF's firewall returns 403 for a bare product token; a token plus a contact URL passes.
+UA = {"User-Agent": "colaeb-wer-pipeline/1.0 (+https://colaeb.com/world-economies)"}
 
 
 # ---------------------------------------------------------------- utilities
@@ -129,14 +130,21 @@ def bea_gdp(year: int) -> list[dict]:
         params = {"UserID": key, "method": "GetData", "datasetname": "Regional", "TableName": table,
                   "LineCode": 1, "GeoFips": geo, "Year": "LAST5", "ResultFormat": "json"}
         js = get_json(BEA, params)
-        data = js["BEAAPI"]["Results"]["Data"]
+        res = js.get("BEAAPI", {}).get("Results", {})
+        data = res.get("Data") if isinstance(res, dict) else None
+        if not data:
+            # BEA's API stopped serving GeoFips=MSA for CAGDP2 (2026): only county/state geographies remain.
+            err = (res.get("Error") or {}).get("APIErrorDescription", "no Data in response") if isinstance(res, dict) else "bad response"
+            print(f"WARN BEA {table} ({kind}) unavailable: {err}. {kind.title()} size equivalents skipped.", file=sys.stderr)
+            continue
         years = sorted({int(d["TimePeriod"]) for d in data if int(d["TimePeriod"]) <= year})
         use = years[-1]
         for d in data:
             if int(d["TimePeriod"]) != use or d["GeoFips"] in ("00000", "00998"):
                 continue
             try:
-                v = float(d["DataValue"].replace(",", "")) * 1e6  # millions of current dollars
+                # BEA reports the scale per row (UNIT_MULT: 3 = thousands, 6 = millions)
+                v = float(d["DataValue"].replace(",", "")) * 10 ** int(d.get("UNIT_MULT", 6))
             except ValueError:
                 continue
             name = re.sub(r"\s*\(Metropolitan Statistical Area\)", "", d["GeoName"]).replace(" *", "")

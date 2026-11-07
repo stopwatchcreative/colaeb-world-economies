@@ -17,9 +17,13 @@
 - [x] README and annual runbook (`docs/RUNBOOK.md`)
 - [x] Vendored `world-atlas` TopoJSON (110m and 50m) and `mledoze/countries` reference data
 
+- [x] 2026 dry run (Nov 6): 196 economies, 0 errors, 10/10 spot-checks match source. Sum of economies is 0.23% below the WB world aggregate.
+  - Fixed: IMF firewall 403s a bare User-Agent, so the UA now carries a contact URL. BEA values are now scaled by each row's UNIT_MULT.
+  - BEA no longer serves metro (MSA) GDP through the API (CAGDP2 is county/state only). Size equivalents are states only for 2026.
+  - IMF-filled GDP: ABW, AFG, ARE, BHS, LBN, LIE, SMR, SSD, YEM, plus TWN added. 22 economies excluded for no 2025 GDP (incl. CUB, PRK, SYR, ERI, MCO, BMU, CYM).
+
 ## Next
-1. Run `python pipeline/build_edition.py --edition 2026 --dry-run --spot-check 10 --seed 2026`. This needs network access to api.worldbank.org, www.imf.org and apps.bea.gov, and a `BEA_API_KEY`.
-2. Report the data-gap list and the spot-check results to Manny.
+1. Decide on metro size equivalents (states only, or aggregate counties to metros from the OMB delineation file).
 3. Write the profiles (`profiles/2026/*.md`), the Key Findings and the Climbers & Fallers from the real data.
 4. Build the front-end in `web/`: globe, table, compare, race, neighbors, quiz, archive, country page, edition page.
 5. Create the Webflow objects as drafts, then the release assets, then the handoff.
