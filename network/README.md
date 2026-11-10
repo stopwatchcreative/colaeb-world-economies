@@ -1,5 +1,7 @@
 # The Colaeb Network: Webflow setup
 
+**Status:** live at colaeb.com/network (Beta) since Nov 9, 2026. The Network collection, the /network page and the Network Template are built in Webflow as described below. To add a business: add a Network item, turn on *Permission on file*, publish.
+
 Page: **colaeb.com/network**. Profiles: **colaeb.com/network/<slug>**.
 The globe and directory are drawn by `cn.js` from a hidden CMS list on the page. To add a business, add a CMS item and publish. No code changes are needed.
 
@@ -17,11 +19,11 @@ Collection name **Network**, slug **network**, so the template pages land at `/n
 | Industry | Plain text | Yes | Keep labels consistent (see list below). Drives the industry dropdown |
 | City | Plain text | Yes | e.g. "Columbus, Ohio" or "London" |
 | Country | Plain text | Yes | Full name: "United States", "United Kingdom" |
-| Latitude | Number (decimals allowed) | Yes | 4 decimals is plenty |
-| Longitude | Number (decimals allowed) | Yes | West of Greenwich is negative |
+| Latitude | Plain text | Yes | Decimal degrees, e.g. 39.9612 (plain text avoids Webflow number formatting) |
+| Longitude | Plain text | Yes | West of Greenwich is negative |
 | Second city | Plain text | No | For businesses with two offices |
-| Second latitude | Number | No | |
-| Second longitude | Number | No | |
+| Second latitude | Plain text | No | |
+| Second longitude | Plain text | No | |
 | Summary | Plain text, 280 char max | Yes | One or two sentences on what they do and who they serve |
 | Website | Link | Yes | |
 | Logo | Image | No | Square or wide PNG/SVG on a transparent or white background. Without one, a colored monogram shows |
