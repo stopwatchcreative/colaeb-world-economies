@@ -1,9 +1,10 @@
-/*! Colaeb Network: globe + directory of Colaeb clients and partners. Built on the World Ranking of Economies globe.
+/*! Colaeb Network: globe + directory of Colaeb members (companies, businesses and university partners). Built on the World Ranking of Economies globe.
  *
  * Mounts:  <div data-cn="globe"></div>   <div data-cn="directory"></div>
  * Stats:   <span data-cn-stat="businesses|countries|cities|industries"></span>
  * Data:    a Webflow Collection List inside [data-cn-source]. Each item (.w-dyn-item or [data-cn-item]) holds
- *          elements tagged data-cn-field="name|slug|type|industry|city|country|lat|lng|city2|lat2|lng2|summary|website|logo|quote|quoteBy|featured|url"
+ *          elements tagged data-cn-field="name|slug|type|industry|sector|city|country|lat|lng|city2|lat2|lng2|summary|website|logo|quote|quoteBy|featured|url"
+ *          Members without a website appear on the map only (no directory card, no profile link).
  *          Text elements are read by their text, Link blocks by href, Images by src. Empty Webflow bindings are ignored.
  * Config:  window.CN_CONFIG = { vendor: "<url to /web/vendor>", hq: {name, lat, lng}, profileBase: "/network/" }
  */
@@ -13,11 +14,11 @@
   var VENDOR = (CFG.vendor || "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@2c78576b41876866583230279c136dbed820865b/web/vendor").replace(/\/$/, "");
   var HQ = CFG.hq || { name: "Colaeb HQ", city: "Columbus, Ohio", lat: 39.9612, lng: -82.9988 };
   var REDUCED = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var TYPE_ORDER = ["Client", "Partner", "Affiliate", "Investor"];
+  var MAX_CHIPS = 8; // more groups than this: top ones as chips, the rest in a "More" menu
   var TONES = ["#101828", "#465A69", "#B4520C", "#1F7A5A", "#3E4C8A", "#7A3E6B"];
   var LAND = "#CFC8BA", LAND_HIT = "#F2A46A";
 
-  var state = { items: [], filter: { type: "all", industry: "all" }, active: null, globe: null };
+  var state = { items: [], filter: { group: "all" }, active: null, globe: null };
 
   // ------------------------------------------------------------ helpers
   function h(tag, attrs, kids) {
@@ -41,6 +42,7 @@
   function initials(name) { var w = String(name).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/[^A-Za-z0-9 ]/g, " ").trim().split(/\s+/).filter(function (x) { return !/^(of|the|and|&)$/i.test(x); }); return ((w[0] || "")[0] + ((w[1] || "")[0] || (w[0] || "")[1] || "")).toUpperCase(); }
   function tone(name) { var n = 0; for (var i = 0; i < name.length; i++) n = (n * 31 + name.charCodeAt(i)) >>> 0; return TONES[n % TONES.length]; }
   function host(url) { try { return new URL(url).hostname.replace(/^www\./, ""); } catch (e) { return url; } }
+  function kicker(r) { return [/universit/i.test(r.type) ? "University partner" : "", r.industry].filter(Boolean).join(" · "); }
   function plural(t) { return /y$/.test(t) ? t.slice(0, -1) + "ies" : t + "s"; }
   function num(v) { var n = parseFloat(v); return isFinite(n) ? n : null; }
   function q(k) { try { return new URL(location.href).searchParams.get(k); } catch (e) { return null; } }
@@ -66,7 +68,8 @@
           city: f("city"), country: f("country"), summary: f("summary"), website: f("website"), logo: f("logo"),
           quote: f("quote"), quoteBy: f("quoteBy"), featured: /^(true|yes|1)$/i.test(f("featured")), url: f("url"), points: []
         };
-        if (!r.url && CFG.profileBase) r.url = CFG.profileBase.replace(/\/?$/, "/") + r.slug;
+        r.group = f("sector") || r.industry || "Other";
+        if (!r.url && r.website && CFG.profileBase) r.url = CFG.profileBase.replace(/\/?$/, "/") + r.slug;
         var lat = num(f("lat")), lng = num(f("lng"));
         if (lat != null && lng != null) r.points.push({ r: r, lat: lat, lng: lng, city: r.city });
         var lat2 = num(f("lat2")), lng2 = num(f("lng2"));
@@ -80,7 +83,7 @@
   }
   function visible() {
     var F = state.filter;
-    return state.items.filter(function (r) { return (F.type === "all" || r.type === F.type) && (F.industry === "all" || r.industry === F.industry); });
+    return state.items.filter(function (r) { return F.group === "all" || r.group === F.group; });
   }
   function points(list) { var p = []; (list || visible()).forEach(function (r) { p = p.concat(r.points); }); return p; }
 
@@ -107,10 +110,10 @@
   function renderGlobe(el) {
     el.classList.add("cn-hero"); el.innerHTML = "";
     var controls = h("div", { class: "cn-controls" });
-    var stage = h("div", { class: "cn-globe", role: "application", "aria-label": "Interactive globe of Colaeb clients and partners. The directory below lists every business." }, [h("div", { class: "cn-globe-loading", text: "Loading map…" })]);
+    var stage = h("div", { class: "cn-globe", role: "application", "aria-label": "Interactive globe of Colaeb members. Featured businesses with websites are also listed below." }, [h("div", { class: "cn-globe-loading", text: "Loading map…" })]);
     var panel = h("aside", { class: "cn-panel", "aria-live": "polite", hidden: true });
     stage.appendChild(panel);
-    stage.appendChild(h("div", { class: "cn-key", "aria-hidden": "true" }, [h("span", { class: "cn-key-hq" }), "Colaeb HQ, Columbus", h("span", { class: "cn-key-pin" }), "Client or partner"]));
+    stage.appendChild(h("div", { class: "cn-key", "aria-hidden": "true" }, [h("span", { class: "cn-key-hq" }), "Colaeb HQ, Columbus", h("span", { class: "cn-key-pin" }), "Colaeb member"]));
     el.appendChild(h("div", { class: "cn-wrap" }, [controls, stage]));
     state.controls = controls; state.stage = stage; state.panel = panel;
     paintControls();
@@ -189,7 +192,7 @@
 
   function map2d(stage, geo) {
     var W = 960, H = 500, proj = d3.geoEqualEarth().fitSize([W, H], { type: "Sphere" }), path = d3.geoPath(proj);
-    var root = svg("svg", { class: "cn-map2d", viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "World map of Colaeb clients and partners" });
+    var root = svg("svg", { class: "cn-map2d", viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "World map of Colaeb members" });
     root.appendChild(svg("path", { d: path({ type: "Sphere" }), fill: "#F2EEE6" }));
     var countries = svg("g", {}), arcs = svg("g", { class: "cn-arcs" }), pins = svg("g", {});
     root.appendChild(countries); root.appendChild(arcs); root.appendChild(pins);
@@ -227,21 +230,23 @@
   function paintControls() {
     var box = state.controls; if (!box) return;
     box.innerHTML = "";
-    var counts = {}; state.items.forEach(function (r) { counts[r.type] = (counts[r.type] || 0) + 1; });
-    var types = Object.keys(counts).sort(function (a, b) { var i = TYPE_ORDER.indexOf(a), j = TYPE_ORDER.indexOf(b); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j) || a.localeCompare(b); });
-    var chips = h("div", { class: "cn-chips", role: "group", "aria-label": "Show" });
-    [["all", "All", state.items.length]].concat(types.map(function (t) { return [t, plural(t), counts[t]]; })).forEach(function (c) {
-      chips.appendChild(h("button", { class: "cn-chip", type: "button", "aria-pressed": String(state.filter.type === c[0]), onclick: function () { setFilter("type", c[0]); } }, [c[1], h("span", { class: "cn-chip-n", text: String(c[2]) })]));
-    });
+    var counts = {}; state.items.forEach(function (r) { counts[r.group] = (counts[r.group] || 0) + 1; });
+    var groups = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a] || a.localeCompare(b); });
+    var chipGroups = groups.length > MAX_CHIPS ? groups.slice(0, MAX_CHIPS - 1) : groups, more = groups.slice(chipGroups.length);
+    var chips = h("div", { class: "cn-chips", role: "group", "aria-label": "Filter by industry" });
+    function chip(val, label, n) {
+      chips.appendChild(h("button", { class: "cn-chip", type: "button", "aria-pressed": String(state.filter.group === val), onclick: function () { setFilter("group", val); } }, [label, h("span", { class: "cn-chip-n", text: String(n) })]));
+    }
+    chip("all", "All", state.items.length);
+    chipGroups.forEach(function (g) { chip(g, g, counts[g]); });
     box.appendChild(chips);
-    var inds = state.items.map(function (r) { return r.industry; }).filter(Boolean).filter(function (v, i, a) { return a.indexOf(v) === i; }).sort();
-    if (inds.length > 1) {
-      var sel = h("select", { class: "cn-select", "aria-label": "Industry", onchange: function (e) { setFilter("industry", e.target.value); } }, [h("option", { value: "all", text: "All industries" })]);
-      inds.forEach(function (i) { var o = h("option", { value: i, text: i }); if (state.filter.industry === i) o.selected = true; sel.appendChild(o); });
+    if (more.length) {
+      var sel = h("select", { class: "cn-select", "aria-label": "More industries", onchange: function (e) { setFilter("group", e.target.value || "all"); } }, [h("option", { value: "", text: "More industries" })]);
+      more.forEach(function (g) { var o = h("option", { value: g, text: g + " (" + counts[g] + ")" }); if (state.filter.group === g) o.selected = true; sel.appendChild(o); });
       box.appendChild(sel);
     }
-    var n = visible().length;
-    box.appendChild(h("p", { class: "cn-count", "aria-live": "polite", text: n === state.items.length ? n + " businesses" : n + " of " + state.items.length + " businesses" }));
+    var n = visible().length, word = function (k) { return k === 1 ? " member" : " members"; };
+    box.appendChild(h("p", { class: "cn-count", "aria-live": "polite", text: n === state.items.length ? n + word(n) + " on the map" : n + " of " + state.items.length + " members" }));
   }
   function setFilter(k, v) {
     state.filter[k] = v;
@@ -259,7 +264,7 @@
     if (r.url) actions.appendChild(h("a", { class: "cn-btn", href: r.url }, ["View profile"]));
     panel.appendChild(h("button", { class: "cn-close", type: "button", "aria-label": "Close", onclick: closePanel, html: "&times;" }));
     panel.appendChild(h("div", { class: "cn-panel-head" }, [mark(r, "lg"), h("div", {}, [
-      h("p", { class: "cn-kicker", text: [r.type, r.industry].filter(Boolean).join(" · ") }),
+      h("p", { class: "cn-kicker", text: kicker(r) }),
       h("h3", { class: "cn-panel-name", text: r.name }),
       h("p", { class: "cn-place", text: r.place })
     ])]));
@@ -277,16 +282,16 @@
     var el = state.dir; if (!el) return;
     el.innerHTML = "";
     var grid = h("ul", { class: "cn-grid", role: "list" });
-    visible().forEach(function (r) {
+    visible().filter(function (r) { return r.website; }).forEach(function (r) {
       var show = r.points.length ? h("button", { class: "cn-link", type: "button", onclick: function () { pick(r); var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }); } }, ["Show on globe"]) : null;
       grid.appendChild(h("li", { class: "cn-card" + (r.featured ? " is-featured" : ""), "data-slug": r.slug }, [
-        h("div", { class: "cn-card-head" }, [mark(r), h("div", {}, [h("p", { class: "cn-kicker", text: [r.type, r.industry].filter(Boolean).join(" · ") }), h("h3", { class: "cn-card-name" }, [r.url ? h("a", { href: r.url, text: r.name }) : r.name])])]),
+        h("div", { class: "cn-card-head" }, [mark(r), h("div", {}, [h("p", { class: "cn-kicker", text: kicker(r) }), h("h3", { class: "cn-card-name" }, [r.url ? h("a", { href: r.url, text: r.name }) : r.name])])]),
         h("p", { class: "cn-place", text: r.place }),
         r.summary ? h("p", { class: "cn-card-summary", text: r.summary }) : null,
         h("div", { class: "cn-card-foot" }, [r.website ? h("a", { class: "cn-link", href: r.website, target: "_blank", rel: "noopener", text: host(r.website) + " ↗" }) : null, show])
       ]));
     });
-    if (!grid.children.length) grid.appendChild(h("li", { class: "cn-empty", text: "No businesses match these filters yet." }));
+    if (!grid.children.length) grid.appendChild(h("li", { class: "cn-empty", text: "No featured businesses in this industry yet. Their pins are still on the map." }));
     el.appendChild(h("div", { class: "cn-wrap" }, [grid]));
     syncPins();
   }
