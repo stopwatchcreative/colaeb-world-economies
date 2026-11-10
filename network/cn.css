@@ -24,12 +24,13 @@
 
 /* controls */
 .cn-controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:0 0 14px}
+.cn-chips .cn-chip{white-space:nowrap}
 .cn-chips{display:flex;flex-wrap:wrap;gap:6px}
 .cn-chip{appearance:none;border:1px solid #C9CED6;background:#fff;color:var(--cn-ink);font:600 14px/1 var(--cn-sans);padding:9px 13px;border-radius:999px;cursor:pointer;display:inline-flex;gap:7px;align-items:center}
 .cn-chip:hover{border-color:var(--cn-ink)}
 .cn-chip[aria-pressed=true]{background:var(--cn-ink);border-color:var(--cn-ink);color:#fff}
 .cn-chip-n{font-family:var(--cn-mono);font-size:12px;font-weight:400;opacity:.7}
-.cn-select{font:15px var(--cn-sans);border:1px solid #C9CED6;background:#fff;color:var(--cn-ink);padding:8px 10px;border-radius:2px}
+.cn-select{font:600 14px var(--cn-sans);border:1px solid #C9CED6;background:#fff;color:var(--cn-ink);padding:8px 12px;border-radius:999px;cursor:pointer}
 .cn-count{margin:0 0 0 auto;font-family:var(--cn-mono);font-size:13px;color:var(--cn-slate)}
 
 /* globe */
@@ -100,6 +101,7 @@
 .cn-card-foot .cn-link{white-space:nowrap}
 .cn-card-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:16px;padding-top:12px;border-top:1px solid var(--cn-line)}
 .cn-link{appearance:none;border:0;background:none;padding:0;cursor:pointer;font:600 14px var(--cn-sans);color:var(--cn-accent-ink);text-decoration:underline;text-underline-offset:3px}
+.cn-more{display:flex;justify-content:center;margin-top:24px}
 .cn-empty{grid-column:1/-1;padding:28px;text-align:center;color:var(--cn-slate);border:1px dashed #C9CED6}
 
 /* join CTA (native Webflow section) */

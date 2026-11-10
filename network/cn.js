@@ -14,7 +14,7 @@
   var VENDOR = (CFG.vendor || "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@2c78576b41876866583230279c136dbed820865b/web/vendor").replace(/\/$/, "");
   var HQ = CFG.hq || { name: "Colaeb HQ", city: "Columbus, Ohio", lat: 39.9612, lng: -82.9988 };
   var REDUCED = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var MAX_CHIPS = 8; // more groups than this: top ones as chips, the rest in a "More" menu
+  var MAX_CHIPS = 6; // more groups than this: top ones as chips, the rest in a "More" menu
   var TONES = ["#101828", "#465A69", "#B4520C", "#1F7A5A", "#3E4C8A", "#7A3E6B"];
   var LAND = "#CFC8BA", LAND_HIT = "#F2A46A";
 
@@ -42,7 +42,7 @@
   function initials(name) { var w = String(name).replace(/([a-z])([A-Z])/g, "$1 $2").replace(/[^A-Za-z0-9 ]/g, " ").trim().split(/\s+/).filter(function (x) { return !/^(of|the|and|&)$/i.test(x); }); return ((w[0] || "")[0] + ((w[1] || "")[0] || (w[0] || "")[1] || "")).toUpperCase(); }
   function tone(name) { var n = 0; for (var i = 0; i < name.length; i++) n = (n * 31 + name.charCodeAt(i)) >>> 0; return TONES[n % TONES.length]; }
   function host(url) { try { return new URL(url).hostname.replace(/^www\./, ""); } catch (e) { return url; } }
-  function kicker(r) { return [/universit/i.test(r.type) ? "University partner" : "", r.industry].filter(Boolean).join(" · "); }
+  function kicker(r) { var uni = /universit/i.test(r.type) || (/universit|college/i.test(r.name) && /education/i.test(r.industry)); return uni ? "University partner" : (r.industry || ""); }
   function plural(t) { return /y$/.test(t) ? t.slice(0, -1) + "ies" : t + "s"; }
   function num(v) { var n = parseFloat(v); return isFinite(n) ? n : null; }
   function q(k) { try { return new URL(location.href).searchParams.get(k); } catch (e) { return null; } }
@@ -140,9 +140,15 @@
     var pts = points();
     geo.feats.forEach(function (f) { f.hit = pts.some(function (p) { return d3.geoContains(f, [p.lng, p.lat]); }); });
   }
+  var MAX_ARCS = 24; // past this, draw arcs only to the farthest distinct cities so the globe stays readable
   function arcsFor(pts) {
-    return pts.filter(function (p) { return Math.abs(p.lat - HQ.lat) + Math.abs(p.lng - HQ.lng) > 0.6; })
-      .map(function (p) { return { startLat: HQ.lat, startLng: HQ.lng, endLat: p.lat, endLng: p.lng, p: p }; });
+    var seen = {}, list = pts.filter(function (p) {
+      var k = p.lat.toFixed(1) + "," + p.lng.toFixed(1);
+      if (seen[k] || Math.abs(p.lat - HQ.lat) + Math.abs(p.lng - HQ.lng) < 0.6) return false;
+      return (seen[k] = true);
+    });
+    if (list.length > MAX_ARCS) list = list.sort(function (a, b) { return d3.geoDistance([b.lng, b.lat], [HQ.lng, HQ.lat]) - d3.geoDistance([a.lng, a.lat], [HQ.lng, HQ.lat]); }).slice(0, MAX_ARCS);
+    return list.map(function (p) { return { startLat: HQ.lat, startLng: HQ.lng, endLat: p.lat, endLng: p.lng, p: p }; });
   }
 
   function pinEl(d) {
@@ -243,13 +249,13 @@
     if (more.length) {
       var sel = h("select", { class: "cn-select", "aria-label": "More industries", onchange: function (e) { setFilter("group", e.target.value || "all"); } }, [h("option", { value: "", text: "More industries" })]);
       more.forEach(function (g) { var o = h("option", { value: g, text: g + " (" + counts[g] + ")" }); if (state.filter.group === g) o.selected = true; sel.appendChild(o); });
-      box.appendChild(sel);
+      chips.appendChild(sel);
     }
     var n = visible().length, word = function (k) { return k === 1 ? " member" : " members"; };
     box.appendChild(h("p", { class: "cn-count", "aria-live": "polite", text: n === state.items.length ? n + word(n) + " on the map" : n + " of " + state.items.length + " members" }));
   }
   function setFilter(k, v) {
-    state.filter[k] = v;
+    state.filter[k] = v; state.showAll = false;
     if (state.active && visible().indexOf(state.active) < 0) closePanel();
     paintControls(); if (state.globe) state.globe.refresh(); paintDirectory();
   }
@@ -282,7 +288,10 @@
     var el = state.dir; if (!el) return;
     el.innerHTML = "";
     var grid = h("ul", { class: "cn-grid", role: "list" });
-    visible().filter(function (r) { return r.website; }).forEach(function (r) {
+    var featured = visible().filter(function (r) { return r.website; }), PAGE = 24;
+    var shown = state.showAll ? featured : featured.slice(0, PAGE);
+    if (state.active && shown.indexOf(state.active) < 0 && featured.indexOf(state.active) > -1) shown = featured;
+    shown.forEach(function (r) {
       var show = r.points.length ? h("button", { class: "cn-link", type: "button", onclick: function () { pick(r); var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }); } }, ["Show on globe"]) : null;
       grid.appendChild(h("li", { class: "cn-card" + (r.featured ? " is-featured" : ""), "data-slug": r.slug }, [
         h("div", { class: "cn-card-head" }, [mark(r), h("div", {}, [h("p", { class: "cn-kicker", text: kicker(r) }), h("h3", { class: "cn-card-name" }, [r.url ? h("a", { href: r.url, text: r.name }) : r.name])])]),
@@ -292,7 +301,8 @@
       ]));
     });
     if (!grid.children.length) grid.appendChild(h("li", { class: "cn-empty", text: "No featured businesses in this industry yet. Their pins are still on the map." }));
-    el.appendChild(h("div", { class: "cn-wrap" }, [grid]));
+    var more = shown.length < featured.length ? h("div", { class: "cn-more" }, [h("button", { class: "cn-btn", type: "button", onclick: function () { state.showAll = true; paintDirectory(); } }, ["Show all " + featured.length + " featured businesses"])]) : null;
+    el.appendChild(h("div", { class: "cn-wrap" }, [grid, more]));
     syncPins();
   }
 
