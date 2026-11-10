@@ -66,6 +66,7 @@
           city: f("city"), country: f("country"), summary: f("summary"), website: f("website"), logo: f("logo"),
           quote: f("quote"), quoteBy: f("quoteBy"), featured: /^(true|yes|1)$/i.test(f("featured")), url: f("url"), points: []
         };
+        if (!r.url && CFG.profileBase) r.url = CFG.profileBase.replace(/\/?$/, "/") + r.slug;
         var lat = num(f("lat")), lng = num(f("lng"));
         if (lat != null && lng != null) r.points.push({ r: r, lat: lat, lng: lng, city: r.city });
         var lat2 = num(f("lat2")), lng2 = num(f("lng2"));
