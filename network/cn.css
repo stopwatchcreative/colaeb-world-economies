@@ -13,7 +13,8 @@
 .cn-kicker{font-family:var(--cn-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cn-slate);margin:0 0 8px}
 .cn-title{font-family:var(--cn-serif);font-weight:600;font-size:clamp(40px,5.6vw,76px);line-height:.98;letter-spacing:-.02em;margin:0;max-width:11em}
 .cn-beta{display:inline-block;vertical-align:super;margin-left:.35em;font:600 13px/1 var(--cn-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--cn-accent-ink);border:1.5px solid var(--cn-accent);background:#FFF4EB;padding:6px 8px 5px;border-radius:2px;position:relative;top:-.15em}
-.cn-title em{font-style:normal;color:var(--cn-accent)}
+.cn-title em,.cn-title-accent{font-style:normal;color:var(--cn-accent)}
+.cn-kicker-flush,.cn-actions-flush{margin:0!important}
 .cn-dek{font-family:var(--cn-serif);font-size:clamp(19px,1.6vw,22px);line-height:1.45;color:var(--cn-slate);max-width:760px;margin:16px 0 0}
 .cn-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--cn-line);background:#fff;margin-top:28px}
 .cn-stat{padding:16px 18px;border-left:1px solid var(--cn-line)}
