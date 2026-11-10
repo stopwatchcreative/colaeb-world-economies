@@ -14,7 +14,7 @@
   var VENDOR = (CFG.vendor || "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@2c78576b41876866583230279c136dbed820865b/web/vendor").replace(/\/$/, "");
   var HQ = CFG.hq || { name: "Colaeb HQ", city: "Columbus, Ohio", lat: 39.9612, lng: -82.9988 };
   var REDUCED = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var MAX_CHIPS = 6; // more groups than this: top ones as chips, the rest in a "More" menu
+  var MAX_CHIPS = CFG.maxChips || 6; // more groups than this: top ones as chips, the rest in a "More" menu
   var TONES = ["#101828", "#465A69", "#B4520C", "#1F7A5A", "#3E4C8A", "#7A3E6B"];
   var LAND = "#CFC8BA", LAND_HIT = "#F2A46A";
 
@@ -68,7 +68,8 @@
           city: f("city"), country: f("country"), summary: f("summary"), website: f("website"), logo: f("logo"),
           quote: f("quote"), quoteBy: f("quoteBy"), featured: /^(true|yes|1)$/i.test(f("featured")), url: f("url"), points: []
         };
-        r.group = f("sector") || r.industry || "Other";
+        var G = CFG.groups || {};
+        r.group = f("sector") || G[r.industry] || (CFG.groups ? CFG.groupFallback || "Other" : r.industry) || "Other";
         if (!r.url && r.website && CFG.profileBase) r.url = CFG.profileBase.replace(/\/?$/, "/") + r.slug;
         var lat = num(f("lat")), lng = num(f("lng"));
         if (lat != null && lng != null) r.points.push({ r: r, lat: lat, lng: lng, city: r.city });
