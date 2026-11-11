@@ -122,3 +122,31 @@
   .cn-join{grid-template-columns:1fr;padding:32px 24px}
 }
 @media (prefers-reduced-motion:reduce){.cn-globe-3d{transition:none}.cn-panel{animation:none}}
+
+/* home page teaser (.cnh-) */
+.cnh{--cn-ink:#101828;--cn-slate:#465A69;--cn-mute:#7A8794;--cn-line:#EAECF0;--cn-paper:#FBFAF6;--cn-accent:#F37A23;--cn-accent-ink:#B4520C;--cn-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;--cn-sans:inherit;background:#FBFAF6;color:#101828;padding:88px 0;font-family:inherit;overflow:hidden}
+.cnh *{box-sizing:border-box}
+.cnh-inner{max-width:1240px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px;align-items:center}
+.cnh-kicker{display:inline-flex;align-items:center;gap:10px;font:600 12px/1 "JetBrains Mono",ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:#465A69;margin:0 0 18px}
+.cnh-kicker .cn-beta{margin-left:0;top:0;vertical-align:baseline;font-size:11px;padding:5px 7px 4px}
+.cnh-title{font-size:clamp(34px,4.2vw,56px);line-height:1.02;letter-spacing:-.025em;font-weight:800;margin:0;color:#101828}
+.cnh-title span{color:#F37A23}
+.cnh-text{font-size:18px;line-height:1.55;color:#465A69;margin:18px 0 0;max-width:30em}
+.cnh-stats{display:flex;gap:32px;margin:28px 0 0;padding:20px 0 0;border-top:1px solid #E4E2DC}
+.cnh-stat-value{font:700 30px/1 "JetBrains Mono",ui-monospace,Menlo,monospace;letter-spacing:-.02em;color:#101828}
+.cnh-stat-label{font-size:13px;color:#465A69;margin-top:6px}
+.cnh-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.cnh-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:10px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .15s,background .15s}
+.cnh-btn-primary{background:#22C55E;color:#06210F}
+.cnh-btn-primary:hover{background:#16A34A;color:#fff;transform:translateY(-1px)}
+.cnh-btn-ghost{color:#101828;border:1.5px solid #101828}
+.cnh-btn-ghost:hover{background:#101828;color:#fff}
+.cnh-globe{position:relative}
+.cn-teaser .cn-globe{height:560px;min-height:0;border:0;background:radial-gradient(circle at 50% 50%,#fff 0,rgba(251,250,246,0) 62%)}
+.cn-teaser .cn-key{left:auto;right:8px;bottom:8px}
+@media (max-width:900px){
+  .cnh{padding:56px 0}
+  .cnh-inner{grid-template-columns:1fr;gap:28px}
+  .cn-teaser .cn-globe{height:auto}
+  .cnh-stats{gap:22px}
+}

@@ -56,9 +56,9 @@
     if (el.tagName === "A") { var href = el.getAttribute("href") || ""; return href === "#" ? "" : href; }
     return (el.textContent || "").trim();
   }
-  function readItems() {
+  function readItems(root) {
     var seen = [], out = [];
-    document.querySelectorAll("[data-cn-source]").forEach(function (src) {
+    (root || document).querySelectorAll("[data-cn-source]").forEach(function (src) {
       src.querySelectorAll("[data-cn-item], .w-dyn-item").forEach(function (it) {
         if (seen.indexOf(it) > -1 || !it.querySelector('[data-cn-field="name"]')) return; seen.push(it);
         var f = function (n) { return field(it, n); };
@@ -109,14 +109,15 @@
 
   // ------------------------------------------------------------ globe mount
   function renderGlobe(el) {
-    el.classList.add("cn-hero"); el.innerHTML = "";
+    state.teaser = el.getAttribute("data-cn-mode") === "teaser";
+    el.classList.add("cn-hero"); if (state.teaser) el.classList.add("cn-teaser"); el.innerHTML = "";
     var controls = h("div", { class: "cn-controls" });
     var stage = h("div", { class: "cn-globe", role: "application", "aria-label": "Interactive globe of Colaeb members. Featured businesses with websites are also listed below." }, [h("div", { class: "cn-globe-loading", text: "Loading map…" })]);
     var panel = h("aside", { class: "cn-panel", "aria-live": "polite", hidden: true });
     stage.appendChild(panel);
     stage.appendChild(h("div", { class: "cn-key", "aria-hidden": "true" }, [h("span", { class: "cn-key-hq" }), "Colaeb HQ, Columbus", h("span", { class: "cn-key-pin" }), "Colaeb member"]));
-    el.appendChild(h("div", { class: "cn-wrap" }, [controls, stage]));
-    state.controls = controls; state.stage = stage; state.panel = panel;
+    el.appendChild(state.teaser ? stage : h("div", { class: "cn-wrap" }, [controls, stage]));
+    state.controls = state.teaser ? null : controls; state.stage = stage; state.panel = panel;
     paintControls();
     var small = q("globe") === "2d" || (q("globe") !== "3d" && (innerWidth < 760 || !webgl()));
     loadGeo().then(function (geo) {
@@ -263,6 +264,7 @@
 
   // ------------------------------------------------------------ panel
   function pick(r, p) {
+    if (state.teaser) { location.href = (CFG.networkUrl || "/network") + "?member=" + encodeURIComponent(r.slug); return; }
     state.active = r; setQ("member", r.slug);
     var panel = state.panel; if (!panel) return;
     panel.innerHTML = ""; panel.hidden = false;
@@ -309,7 +311,14 @@
 
   // ------------------------------------------------------------ boot
   function boot() {
-    state.items = readItems();
+    if (!document.querySelector("[data-cn-source]") && CFG.sourceUrl) {
+      fetch(CFG.sourceUrl, { credentials: "same-origin" }).then(function (r) { return r.text(); }).then(function (html) {
+        start(readItems(new DOMParser().parseFromString(html, "text/html")));
+      }).catch(function (e) { console.warn("[cn] could not load members from " + CFG.sourceUrl, e); start([]); });
+    } else start(readItems());
+  }
+  function start(items) {
+    state.items = items;
     paintStats();
     document.querySelectorAll('[data-cn="globe"]').forEach(renderGlobe);
     document.querySelectorAll('[data-cn="directory"]').forEach(renderDirectory);
