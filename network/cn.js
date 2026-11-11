@@ -18,7 +18,7 @@
   var TONES = ["#101828", "#465A69", "#B4520C", "#1F7A5A", "#3E4C8A", "#7A3E6B"];
   var LAND = "#CFC8BA", LAND_HIT = "#F2A46A";
 
-  var state = { items: [], filter: { group: "all" }, active: null, globe: null };
+  var state = { items: [], filter: { group: "all", q: "" }, active: null, globe: null };
 
   // ------------------------------------------------------------ helpers
   function h(tag, attrs, kids) {
@@ -43,6 +43,7 @@
   function tone(name) { var n = 0; for (var i = 0; i < name.length; i++) n = (n * 31 + name.charCodeAt(i)) >>> 0; return TONES[n % TONES.length]; }
   function host(url) { try { return new URL(url).hostname.replace(/^www\./, ""); } catch (e) { return url; } }
   function kicker(r) { var uni = /universit/i.test(r.type) || (/universit|college/i.test(r.name) && /education/i.test(r.industry)); return uni ? "University partner" : (r.industry || ""); }
+  function norm(s) { return String(s || "").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 ]+/g, " ").trim(); }
   function plural(t) { return /y$/.test(t) ? t.slice(0, -1) + "ies" : t + "s"; }
   function num(v) { var n = parseFloat(v); return isFinite(n) ? n : null; }
   function q(k) { try { return new URL(location.href).searchParams.get(k); } catch (e) { return null; } }
@@ -69,6 +70,7 @@
           quote: f("quote"), quoteBy: f("quoteBy"), featured: /^(true|yes|1)$/i.test(f("featured")), url: f("url"), points: []
         };
         var G = CFG.groups || {};
+        r.hay = norm([name, r.industry, r.city, f("city2"), r.country].join(" "));
         r.group = f("sector") || G[r.industry] || (CFG.groups ? CFG.groupFallback || "Other" : r.industry) || "Other";
         if (!r.url && r.website && CFG.profileBase) r.url = CFG.profileBase.replace(/\/?$/, "/") + r.slug;
         var lat = num(f("lat")), lng = num(f("lng"));
@@ -84,7 +86,12 @@
   }
   function visible() {
     var F = state.filter;
-    return state.items.filter(function (r) { return F.group === "all" || r.group === F.group; });
+    var words = norm(F.q).split(/\s+/).filter(Boolean);
+    return state.items.filter(function (r) {
+      if (F.group !== "all" && r.group !== F.group) return false;
+      for (var i = 0; i < words.length; i++) if (r.hay.indexOf(words[i]) < 0) return false;
+      return true;
+    });
   }
   function points(list) { var p = []; (list || visible()).forEach(function (r) { p = p.concat(r.points); }); return p; }
 
@@ -116,7 +123,7 @@
     var panel = h("aside", { class: "cn-panel", "aria-live": "polite", hidden: true });
     stage.appendChild(panel);
     stage.appendChild(h("div", { class: "cn-key", "aria-hidden": "true" }, [h("span", { class: "cn-key-hq" }), "Colaeb HQ, Columbus", h("span", { class: "cn-key-pin" }), "Colaeb member"]));
-    el.appendChild(state.teaser ? stage : h("div", { class: "cn-wrap" }, [controls, stage]));
+    el.appendChild(state.teaser ? stage : h("div", { class: "cn-wrap" }, [searchBox(), controls, stage]));
     state.controls = state.teaser ? null : controls; state.stage = stage; state.panel = panel;
     paintControls();
     var small = q("globe") === "2d" || (q("globe") !== "3d" && (innerWidth < 760 || !webgl()));
@@ -254,12 +261,70 @@
       chips.appendChild(sel);
     }
     var n = visible().length, word = function (k) { return k === 1 ? " member" : " members"; };
-    box.appendChild(h("p", { class: "cn-count", "aria-live": "polite", text: n === state.items.length ? n + word(n) + " on the map" : n + " of " + state.items.length + " members" }));
+    var label = state.filter.q ? n + " of " + state.items.length + " members match \u201c" + state.filter.q.trim() + "\u201d" : (n === state.items.length ? n + word(n) + " on the map" : n + " of " + state.items.length + " members");
+    box.appendChild(h("p", { class: "cn-count", "aria-live": "polite", text: label }));
   }
   function setFilter(k, v) {
     state.filter[k] = v; state.showAll = false;
     if (state.active && visible().indexOf(state.active) < 0) closePanel();
     paintControls(); if (state.globe) state.globe.refresh(); paintDirectory();
+  }
+
+  // ------------------------------------------------------------ search
+  function searchBox() {
+    var input = h("input", { class: "cn-search-input", type: "search", placeholder: "Search businesses by name, city, country or industry", "aria-label": "Search the Colaeb Network", autocomplete: "off", spellcheck: "false" });
+    var list = h("ul", { class: "cn-search-results", role: "listbox", hidden: true });
+    var box = h("div", { class: "cn-search", role: "search" }, [h("span", { class: "cn-search-icon", "aria-hidden": "true", html: '<svg viewBox="0 0 20 20" width="18" height="18"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' }), input, list]);
+    var t, sel = -1, matches = [];
+    function close() { list.hidden = true; sel = -1; }
+    function choose(r) { input.blur(); close(); pick(r); var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }); }
+    function paintList() {
+      list.innerHTML = "";
+      if (!state.filter.q.trim() || document.activeElement !== input) return close();
+      matches = visible().slice(0, 6);
+      if (!matches.length) return close();
+      matches.forEach(function (r, i) {
+        list.appendChild(h("li", { class: "cn-search-item" + (i === sel ? " is-sel" : ""), role: "option", onmousedown: function (e) { e.preventDefault(); choose(r); } }, [mark(r), h("span", {}, [h("strong", { text: r.name }), h("small", { text: [kicker(r), r.place].filter(Boolean).join(" · ") })])]));
+      });
+      list.hidden = false;
+    }
+    input.addEventListener("input", function () {
+      clearTimeout(t); t = setTimeout(function () { sel = -1; setFilter("q", input.value); paintList(); }, 120);
+    });
+    input.addEventListener("focus", paintList);
+    input.addEventListener("blur", function () { setTimeout(close, 120); });
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); if (!matches.length) return; sel = (sel + (e.key === "ArrowDown" ? 1 : -1) + matches.length) % matches.length; paintList(); }
+      else if (e.key === "Enter") { e.preventDefault(); var r = matches[sel < 0 ? 0 : sel]; if (r) choose(r); }
+      else if (e.key === "Escape") { if (input.value) { input.value = ""; setFilter("q", ""); } close(); }
+    });
+    return box;
+  }
+
+  // ------------------------------------------------------------ spotlight
+  function renderSpotlight(el) {
+    var want = CFG.spotlight || [];
+    var list = state.items.filter(function (r) { return r.featured || want.indexOf(r.slug) > -1; });
+    var rank = function (r) { var i = want.indexOf(r.slug); return i < 0 ? 99 : i; };
+    list.sort(function (x, y) { return rank(x) - rank(y) || x.name.localeCompare(y.name); });
+    if (!list.length) { el.hidden = true; return; }
+    el.classList.add("cn-spotlight"); el.innerHTML = "";
+    var grid = h("ul", { class: "cn-spot-grid", role: "list" });
+    list.slice(0, 6).forEach(function (r) {
+      var acts = [];
+      if (r.website) acts.push(h("a", { class: "cn-btn cn-btn-accent", href: r.website, target: "_blank", rel: "noopener" }, ["Visit website \u2197"]));
+      if (r.points.length) acts.push(h("button", { class: "cn-btn", type: "button", onclick: function () { pick(r); var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }); } }, ["See on the map"]));
+      grid.appendChild(h("li", { class: "cn-spot" }, [
+        h("div", { class: "cn-card-head" }, [mark(r, "lg"), h("div", {}, [h("p", { class: "cn-kicker", text: kicker(r) }), h("h3", { class: "cn-spot-name" }, [r.url ? h("a", { href: r.url, text: r.name }) : r.name])])]),
+        h("p", { class: "cn-place", text: r.place }),
+        r.summary ? h("p", { class: "cn-spot-summary", text: r.summary }) : null,
+        h("div", { class: "cn-actions" }, acts)
+      ]));
+    });
+    el.appendChild(h("div", { class: "cn-wrap" }, [
+      h("div", { class: "cn-section-head cn-spot-head" }, [h("h2", { class: "cn-section-title", text: el.getAttribute("data-cn-title") || "Member Spotlight" }), h("p", { class: "cn-kicker cn-kicker-flush", text: el.getAttribute("data-cn-kicker") || "Featured members" })]),
+      grid
+    ]));
   }
 
   // ------------------------------------------------------------ panel
@@ -303,7 +368,7 @@
         h("div", { class: "cn-card-foot" }, [r.website ? h("a", { class: "cn-link", href: r.website, target: "_blank", rel: "noopener", text: host(r.website) + " ↗" }) : null, show])
       ]));
     });
-    if (!grid.children.length) grid.appendChild(h("li", { class: "cn-empty", text: "No featured businesses in this industry yet. Their pins are still on the map." }));
+    if (!grid.children.length) grid.appendChild(h("li", { class: "cn-empty", text: state.filter.q ? "No businesses match \u201c" + state.filter.q.trim() + "\u201d. Try a name, city, country or industry." : "No featured businesses in this industry yet. Their pins are still on the map." }));
     var more = shown.length < featured.length ? h("div", { class: "cn-more" }, [h("button", { class: "cn-btn", type: "button", onclick: function () { state.showAll = true; paintDirectory(); } }, ["Show all " + featured.length + " featured businesses"])]) : null;
     el.appendChild(h("div", { class: "cn-wrap" }, [grid, more]));
     syncPins();
@@ -322,6 +387,7 @@
     paintStats();
     document.querySelectorAll('[data-cn="globe"]').forEach(renderGlobe);
     document.querySelectorAll('[data-cn="directory"]').forEach(renderDirectory);
+    document.querySelectorAll('[data-cn="spotlight"]').forEach(renderSpotlight);
     var m = q("member"); if (m) { var r = state.items.filter(function (x) { return x.slug === m; })[0]; if (r) setTimeout(function () { pick(r); }, 600); }
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && state.active) closePanel(); });
   }

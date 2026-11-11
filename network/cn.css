@@ -150,3 +150,27 @@
   .cn-teaser .cn-globe{height:auto}
   .cnh-stats{gap:22px}
 }
+
+/* search */
+.cn-search{position:relative;max-width:560px;margin:0 0 14px}
+.cn-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--cn-mute);display:flex}
+.cn-search-input{width:100%;font:16px var(--cn-sans);color:var(--cn-ink);background:#fff;border:1.5px solid #C9CED6;border-radius:999px;padding:12px 18px 12px 42px;outline:none;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
+.cn-search-input:focus{border-color:var(--cn-ink);box-shadow:0 0 0 4px rgba(243,122,35,.18)}
+.cn-search-results{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 6px);list-style:none;margin:0;padding:6px;background:#fff;border:1px solid var(--cn-line);border-radius:14px;box-shadow:0 14px 40px rgba(16,24,40,.16);max-height:380px;overflow:auto}
+.cn-search-results[hidden]{display:none}
+.cn-search-item{display:flex;gap:12px;align-items:center;padding:8px 10px;border-radius:10px;cursor:pointer}
+.cn-search-item:hover,.cn-search-item.is-sel{background:#FFF4EB}
+.cn-search-item .cn-mark{width:34px;height:34px;font-size:12px}
+.cn-search-item strong{display:block;font:600 15px/1.2 var(--cn-sans);color:var(--cn-ink)}
+.cn-search-item small{display:block;font-size:12px;color:var(--cn-slate);margin-top:2px}
+/* spotlight */
+.cn-spotlight{margin:8px 0 36px}
+.cn-spot-head{padding-top:8px}
+.cn-spot-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.cn-spot{background:#fff;border:1px solid var(--cn-line);border-top:4px solid var(--cn-accent);padding:24px;display:flex;flex-direction:column;box-shadow:0 10px 30px rgba(16,24,40,.06)}
+.cn-spot .cn-kicker{font-size:11px;margin-bottom:4px}
+.cn-spot-name{font-family:var(--cn-serif);font-weight:600;font-size:26px;line-height:1.08;margin:0}
+.cn-spot-name a{text-decoration:none}
+.cn-spot .cn-place{margin-top:12px}
+.cn-spot-summary{font-size:15px;margin:10px 0 0;flex:1}
+.cn-spot .cn-actions{margin-top:18px}
