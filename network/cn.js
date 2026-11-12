@@ -116,10 +116,12 @@
   }
   function mergeFeed(items, rows) {
     var hosts = {}, slugs = {};
-    items.forEach(function (r) { hosts[host(r.website)] = 1; slugs[r.slug] = 1; });
+    // Social profiles share a host, so key them by full path instead.
+    function key(u) { var h = host(u); return /(^|\.)(linkedin|twitter|x|facebook|crunchbase|angel)\.(com|co)$/.test(h) ? String(u || "").toLowerCase().replace(/^https?:\/\/(www\.|[a-z]{2}\.)?/, "").replace(/\/+$/, "") : h; }
+    items.forEach(function (r) { hosts[key(r.website)] = 1; slugs[r.slug] = 1; });
     rows.forEach(function (o) {
       var r = fromFeed(o); if (!r) return;
-      var hk = host(r.website); if (hosts[hk]) return; hosts[hk] = 1;
+      var hk = key(r.website); if (!hk || hosts[hk]) return; hosts[hk] = 1;
       while (slugs[r.slug]) r.slug += "-x"; slugs[r.slug] = 1;
       items.push(r);
     });
