@@ -144,7 +144,7 @@
         function run() {
           var list = rank(q).slice(0, 60);
           if (window.CN) window.CN.setMatches(list, q.company);
-          summary(document.querySelector("[data-cn-match-out]"), q, list);
+          summary(document.querySelector("[data-cn-match-out]") || (form.parentNode && form.parentNode.querySelector(".w-form-done")), q, list);
           try { localStorage.setItem("cnm-last", JSON.stringify(q)); } catch (e) {}
         }
         if (window.CN) run(); else document.addEventListener("cn:ready", run, { once: true });
