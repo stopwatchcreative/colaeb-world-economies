@@ -173,7 +173,8 @@
     });
     panel.appendChild(ul);
     if (rs.length > 40 && d.label) panel.appendChild(h("div", { class: "cn-actions" }, [h("button", { class: "cn-btn", type: "button", onclick: function () {
-      var v = d.label; (state.searchInputs || []).forEach(function (i) { i.value = v; }); setFilter("q", v);
+      var v = d.label;
+      if (state.teaser) { location.href = (CFG.networkUrl || "/network") + "?q=" + encodeURIComponent(v); return; } (state.searchInputs || []).forEach(function (i) { i.value = v; }); setFilter("q", v);
       var dir = document.querySelector('[data-cn="directory"]'); if (dir) dir.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
     } }, ["See all " + rs.length + " in the list"])]));
     if (state.globe) state.globe.flyTo(d);
@@ -188,7 +189,7 @@
       if (r.country) countries[r.country.toLowerCase()] = 1; if (r.industry) inds[r.industry.toLowerCase()] = 1;
     });
     var v = { businesses: list.length, cities: Object.keys(cities).length, countries: Object.keys(countries).length, industries: Object.keys(inds).length };
-    document.querySelectorAll("[data-cn-stat]").forEach(function (el) { var k = el.getAttribute("data-cn-stat"); if (k in v) el.textContent = v[k]; });
+    document.querySelectorAll("[data-cn-stat]").forEach(function (el) { var k = el.getAttribute("data-cn-stat"); if (k in v) el.textContent = Number(v[k]).toLocaleString("en-US"); });
   }
 
   // ------------------------------------------------------------ logo / monogram
@@ -518,6 +519,7 @@
     document.querySelectorAll('[data-cn="globe"]').forEach(renderGlobe);
     document.querySelectorAll('[data-cn="directory"]').forEach(renderDirectory);
     document.querySelectorAll('[data-cn="spotlight"]').forEach(renderSpotlight);
+    var qq = q("q"); if (qq) setTimeout(function () { (state.searchInputs || []).forEach(function (i) { i.value = qq; }); setFilter("q", qq); var dir = document.querySelector('[data-cn="directory"]'); if (dir) dir.scrollIntoView({ block: "start" }); }, 400);
     var m = q("member"); if (m) { var r = state.items.filter(function (x) { return x.slug === m; })[0]; if (r) setTimeout(function () { pick(r); }, 600); }
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && state.active) closePanel(); });
   }
