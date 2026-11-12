@@ -15,9 +15,11 @@ Removed by request: Rev1 Ventures, JumpStart Ventures (keep excluded from feed).
 - [ ] airtable5: https://airtable.com/apph9tTMHZwV2BwWX/shrpsT1Tj9VtmdY7d/tblQIsXHKoY0EtXO7
 - (folk All companies was sent twice; same list)
 - [ ] airtable6: https://airtable.com/appytsOoxXWmjvQ2R/shrzWIHSoK0gvE82D/tble9siT6RDtZNc39
-- [ ] airtable7: https://airtable.com/app3iFeihxOixsUlf/shruI4jrfruuYyT87/tblVgubAZM7rDibub
-- [ ] airtable8: https://airtable.com/app3iFeihxOixsUlf/shrhhH3j52CyXkIP9/tblpqS8tBdY8kzmxX
+- [x] airtable7 (Apollo people export; only 30 rows were investor firms with matching sites) ->src_at7.txt: https://airtable.com/app3iFeihxOixsUlf/shruI4jrfruuYyT87/tblVgubAZM7rDibub
+- [x] airtable8 (angels' employers, not investors; 4 firms kept) ->src_at8.txt: https://airtable.com/app3iFeihxOixsUlf/shrhhH3j52CyXkIP9/tblpqS8tBdY8kzmxX
 RULE (Manny): only include investors with at least one contact: website, LinkedIn or email.
-- [ ] folk All accelerators: https://app.folk.app/shared/All-accelerators-rw0kuUNqtzl6j6dDQquoZTYF6MFKIQHo
-- [ ] folk All Climate VCs: https://app.folk.app/shared/All-Climate-VC%27s-FO6SqW28YRiyTptlKjKZsP1LQ3bsm9kN
+- [x] folk All accelerators (200 with location; ~1,700 LinkedIn-only rows had no location) ->src_folk_accel.txt: https://app.folk.app/shared/All-accelerators-rw0kuUNqtzl6j6dDQquoZTYF6MFKIQHo
+- [x] folk All Climate VCs (261 with location) ->src_folk_climate.txt: https://app.folk.app/shared/All-Climate-VC%27s-FO6SqW28YRiyTptlKjKZsP1LQ3bsm9kN
 - [x] json.txt upload: Hello Tomorrow sheet stub (header only); points to newer mapping https://airtable.com/appFxN1Q3h3pa9sy9/shrhgtNJtAxcOyr32 (airtable9)
+- [x] airtable9 Hello Tomorrow deep tech: 641 new with country ->src_hellotomorrow.txt (rows whose country didn't scrape were skipped)
+- [-] mapofthemoney.com: Singapore investor map graphic, no structured contacts; skipped
