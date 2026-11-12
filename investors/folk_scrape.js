@@ -19,8 +19,8 @@ window.__folk = async function (knownUrl) {
   }
   let known = new Set(); try { known = new Set(await (await fetch(knownUrl)).json()); } catch (e) {}
   const key = re => Object.values(H).find(n => re.test(n));
-  const K = { co: key(/^compan/i), person: key(/^(person|name)/i), url: key(/^url|website|domain/i), em: key(/e-?mail/i), li: key(/linkedin/i),
-    loc: key(/location|city|address|country/i), type: key(/type/i) };
+  const K = { co: key(/^compan/i), person: key(/^(person|name)/i), url: key(/website|domain/i) || key(/^url/i), em: key(/e-?mail/i), li: key(/linkedin/i),
+    loc: key(/location|city|address|countr|headquart|hq/i), type: key(/type/i) };
   const host = u => (u || '').toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split(/[/?#\s]/)[0];
   const cl = s => (s || '').replace(/\|/g, '/').replace(/[?#].*$/, '').trim();
   const seen = {}, out = []; let dup = 0;
