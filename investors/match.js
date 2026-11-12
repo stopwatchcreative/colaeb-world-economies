@@ -13,7 +13,7 @@
 (function () {
   "use strict";
   var SECTORS = {
-    "Creator economy & media": /creator|media|entertain|music|content|social|community|culture|fan|streaming/,
+    "Creator economy & media": /creator|influencer|media|entertain|music|content|social media|culture|\bfans?\b|streaming|live video/,
     "Fintech & payments": /fintech|payment|financ|bank|insur|crypto|web3|blockchain|lending/,
     "Consumer & e-commerce": /consumer|e-?commerce|dtc|d2c|retail|marketplace|brand|cpg|lifestyle/,
     "SaaS & B2B software": /saas|b2b|enterprise|software|devtool|productivity|future of work/,
@@ -55,7 +55,7 @@
   function score(r, q) {
     var s = 0, why = [];
     var type = r.industry || r.group || "", ex = r.extra || {};
-    var stageTxt = norm(ex.stage), focusTxt = norm(ex.focus), all = norm([r.name, focusTxt, r.summary].join(" "));
+    var stageTxt = norm(ex.stage), focusTxt = norm(ex.focus), all = norm([focusTxt, r.summary].join(" ")) + (focusTxt || r.summary ? "" : " " + norm(r.name));
     // stage
     if (stageTxt) {
       if (stageRe(q.stage).test(stageTxt)) { s += 4; why.push(q.stageLabel); } else s -= 3;
