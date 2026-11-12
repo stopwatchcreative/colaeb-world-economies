@@ -69,6 +69,7 @@
           city: f("city"), country: f("country"), summary: f("summary"), website: f("website"), logo: f("logo"),
           quote: f("quote"), quoteBy: f("quoteBy"), featured: /^(true|yes|1)$/i.test(f("featured")), url: f("url"), points: []
         };
+        if (!r.website) return; // members without a website are not shown
         var G = CFG.groups || {};
         r.hay = norm([name, r.industry, r.city, f("city2"), r.country].join(" "));
         r.group = f("sector") || G[r.industry] || (CFG.groups ? CFG.groupFallback || "Other" : r.industry) || "Other";
