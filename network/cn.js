@@ -272,8 +272,12 @@
   }
 
   // ------------------------------------------------------------ search
-  function searchBox() {
-    var input = h("input", { class: "cn-search-input", type: "search", placeholder: "Search businesses by name, city, country or industry", "aria-label": "Search the Colaeb Network", autocomplete: "off", spellcheck: "false" });
+  // Every search box (globe + directory) shares state.filter.q; keep their text in step.
+  function syncInputs(src) { (state.searchInputs || []).forEach(function (i) { if (i !== src) i.value = src.value; }); }
+  function searchBox(opts) {
+    opts = opts || {};
+    var input = h("input", { class: "cn-search-input", type: "search", placeholder: opts.placeholder || "Search businesses by name, city, country or industry", "aria-label": opts.label || "Search the Colaeb Network", autocomplete: "off", spellcheck: "false", value: state.filter.q || null });
+    (state.searchInputs = state.searchInputs || []).push(input);
     var list = h("ul", { class: "cn-search-results", role: "listbox", hidden: true });
     var box = h("div", { class: "cn-search", role: "search" }, [h("span", { class: "cn-search-icon", "aria-hidden": "true", html: '<svg viewBox="0 0 20 20" width="18" height="18"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' }), input, list]);
     var t, sel = -1, matches = [];
@@ -281,7 +285,7 @@
     function choose(r) { input.blur(); close(); pick(r); var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }); }
     function paintList() {
       list.innerHTML = "";
-      if (!state.filter.q.trim() || document.activeElement !== input) return close();
+      if (opts.suggest === false || !state.filter.q.trim() || document.activeElement !== input) return close();
       matches = visible().slice(0, 6);
       if (!matches.length) return close();
       matches.forEach(function (r, i) {
@@ -290,14 +294,14 @@
       list.hidden = false;
     }
     input.addEventListener("input", function () {
-      clearTimeout(t); t = setTimeout(function () { sel = -1; setFilter("q", input.value); paintList(); }, 120);
+      clearTimeout(t); t = setTimeout(function () { sel = -1; syncInputs(input); setFilter("q", input.value); paintList(); }, 120);
     });
     input.addEventListener("focus", paintList);
     input.addEventListener("blur", function () { setTimeout(close, 120); });
     input.addEventListener("keydown", function (e) {
       if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); if (!matches.length) return; sel = (sel + (e.key === "ArrowDown" ? 1 : -1) + matches.length) % matches.length; paintList(); }
-      else if (e.key === "Enter") { e.preventDefault(); var r = matches[sel < 0 ? 0 : sel]; if (r) choose(r); }
-      else if (e.key === "Escape") { if (input.value) { input.value = ""; setFilter("q", ""); } close(); }
+      else if (e.key === "Enter") { e.preventDefault(); if (opts.suggest === false) { input.blur(); return; } var r = matches[sel < 0 ? 0 : sel]; if (r) choose(r); }
+      else if (e.key === "Escape") { if (input.value) { input.value = ""; syncInputs(input); setFilter("q", ""); } close(); }
     });
     return box;
   }
@@ -352,7 +356,19 @@
   function closePanel() { state.active = null; setQ("member", null); if (state.panel) { state.panel.hidden = true; state.panel.innerHTML = ""; } syncPins(); }
 
   // ------------------------------------------------------------ directory
-  function renderDirectory(el) { el.classList.add("cn-directory"); state.dir = el; paintDirectory(); }
+  function renderDirectory(el) {
+    el.classList.add("cn-directory"); el.innerHTML = "";
+    // Optional search above the cards (data-cn-search="off" to hide; data-cn-placeholder to reword).
+    if (el.getAttribute("data-cn-search") !== "off") {
+      el.appendChild(h("div", { class: "cn-wrap cn-dir-search" }, [searchBox({
+        placeholder: el.getAttribute("data-cn-placeholder") || "Who do you want to do business with? Search by name, city or industry",
+        label: "Search the featured businesses",
+        suggest: false // the cards below filter live, so no dropdown here
+      })]));
+    }
+    state.dir = el.appendChild(h("div", { class: "cn-dir-body" }));
+    paintDirectory();
+  }
   function paintDirectory() {
     var el = state.dir; if (!el) return;
     el.innerHTML = "";

@@ -174,3 +174,7 @@
 .cn-spot .cn-place{margin-top:12px}
 .cn-spot-summary{font-size:15px;margin:10px 0 0;flex:1}
 .cn-spot .cn-actions{margin-top:18px}
+
+/* directory search: sits under the "Featured on the Map" heading */
+.cn-dir-search{margin-bottom:6px}
+.cn-dir-search .cn-search{max-width:640px}
