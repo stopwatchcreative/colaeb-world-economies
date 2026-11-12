@@ -199,3 +199,10 @@
 .cn-cluster-item:hover{background:rgba(16,24,40,.06)}
 .cn-cluster-item strong{display:block;font-size:14px}
 .cn-cluster-item small{display:block;font-size:12px;opacity:.7}
+
+/* investor matches */
+.cn-count-match{color:#B4520C}
+.cn-clear-match{margin-left:6px}
+.cn-why{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 0}
+.cn-why-k{font:600 10px/1 "JetBrains Mono",ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#7A8794;margin-right:2px}
+.cn-why-tag{font-size:12px;line-height:1;padding:5px 8px;border-radius:999px;background:#FFF1E6;color:#B4520C}

@@ -132,11 +132,14 @@
   function visible() {
     var F = state.filter;
     var words = norm(F.q).split(/\s+/).filter(Boolean);
-    return state.items.filter(function (r) {
+    var out = state.items.filter(function (r) {
+      if (F.ids && !(r.slug in F.ids)) return false;
       if (F.group !== "all" && r.group !== F.group) return false;
       for (var i = 0; i < words.length; i++) if (r.hay.indexOf(words[i]) < 0) return false;
       return true;
     });
+    if (F.ids) out.sort(function (a, b) { return F.ids[a.slug] - F.ids[b.slug]; });
+    return out;
   }
   function points(list) { var p = []; (list || visible()).forEach(function (r) { p = p.concat(r.points); }); return p; }
   // Large lists: group nearby pins into numbered clusters so the globe stays fast and readable.
@@ -367,8 +370,19 @@
     var ONE = T("one", "member"), MANY = T("many", "members");
     var n = visible().length, word = function (k) { return " " + (k === 1 ? ONE : MANY); };
     var label = state.filter.q ? n + " of " + state.items.length + " " + MANY + " match \u201c" + state.filter.q.trim() + "\u201d" : (n === state.items.length ? n + word(n) + " on the map" : n + " of " + state.items.length + " " + MANY);
-    box.appendChild(h("p", { class: "cn-count", "aria-live": "polite", text: label }));
+    if (state.filter.ids) {
+      label = n + " matched " + (n === 1 ? ONE : MANY) + (state.filter.idsLabel ? " for " + state.filter.idsLabel : "") + ", best match first";
+      box.appendChild(h("p", { class: "cn-count cn-count-match", "aria-live": "polite" }, [label, " ", h("button", { class: "cn-link cn-clear-match", type: "button", onclick: function () { clearMatches(); } }, ["Show all " + state.items.length])]));
+    } else box.appendChild(h("p", { class: "cn-count", "aria-live": "polite", text: label }));
   }
+  // Investor matching (used by investors/match.js): show only a ranked set of slugs.
+  function setMatches(list, label) {
+    var ids = {}; list.forEach(function (m, i) { ids[m.r.slug] = i; m.r.why = m.why || []; m.r.score = m.score; });
+    state.filter.ids = ids; state.filter.idsLabel = label || ""; state.filter.q = ""; state.filter.group = "all";
+    (state.searchInputs || []).forEach(function (i) { i.value = ""; });
+    setFilter("ids", ids);
+  }
+  function clearMatches() { state.filter.idsLabel = ""; state.items.forEach(function (r) { r.why = null; }); setFilter("ids", null); }
   function setFilter(k, v) {
     state.filter[k] = v; state.limit = 0;
     if (state.active && visible().indexOf(state.active) < 0) closePanel();
@@ -488,6 +502,7 @@
         h("div", { class: "cn-card-head" }, [mark(r), h("div", {}, [h("p", { class: "cn-kicker", text: kicker(r) }), h("h3", { class: "cn-card-name" }, [r.url ? h("a", { href: r.url, text: r.name }) : r.name])])]),
         h("p", { class: "cn-place", text: r.place }),
         r.summary ? h("p", { class: "cn-card-summary", text: r.summary }) : null,
+        state.filter.ids && r.why && r.why.length ? h("p", { class: "cn-why" }, [h("span", { class: "cn-why-k", text: "Why it matches" })].concat(r.why.map(function (w) { return h("span", { class: "cn-why-tag", text: w }); }))) : null,
         facts(r),
         h("div", { class: "cn-card-foot" }, [r.website ? h("a", { class: "cn-link", href: r.website, target: "_blank", rel: "noopener", text: host(r.website) + " ↗" }) : null, show])
       ]));
@@ -515,6 +530,8 @@
   }
   function start(items) {
     state.items = items;
+    window.CN = { items: function () { return state.items; }, setMatches: setMatches, clearMatches: clearMatches, facts: FACTS };
+    setTimeout(function () { try { document.dispatchEvent(new CustomEvent("cn:ready")); } catch (e) {} }, 0);
     paintStats();
     document.querySelectorAll('[data-cn="globe"]').forEach(renderGlobe);
     document.querySelectorAll('[data-cn="directory"]').forEach(renderDirectory);
