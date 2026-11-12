@@ -178,3 +178,9 @@
 /* directory search: sits under the "Featured on the Map" heading */
 .cn-dir-search{margin-bottom:6px}
 .cn-dir-search .cn-search{max-width:640px}
+
+/* optional fact list (investors: stage, focus, check size) */
+.cn-facts{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:10px 0 0;font-size:13px;line-height:1.45}
+.cn-facts dt{color:#6B7280;font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:11px;padding-top:2px}
+.cn-facts dd{margin:0;color:#1F2A3C}
+.cn-facts-panel{margin:12px 0 14px}
