@@ -5,7 +5,7 @@ window.__atScrape = async function () {
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   const rows = {}, cols = {};
   const grab = () => {
-    document.querySelectorAll('[data-columnid]').forEach(h => {
+    document.querySelectorAll('.cell.header[data-columnid]').forEach(h => {
       const id = h.getAttribute('data-columnid'); const nm = (h.querySelector('.name, .truncate') || h).textContent.trim();
       if (id && nm && !h.closest('[data-rowid]')) cols[id] = cols[id] || nm;
     });
@@ -31,7 +31,7 @@ window.__atScrape = async function () {
     name: pick(/^(name|fund|firm|investor|company|vc|organi[sz]ation|fund name|firm name|investor name)/i) || first,
     web: pick(/web|url|site|homepage/i), li: pick(/linkedin/i), em: pick(/e-?mail/i),
     city: pick(/city|location|hq|headquarter|based|office/i), country: pick(/country|region|geograph/i),
-    type: pick(/type|category|kind/i), stage: pick(/stage|round/i)
+    type: pick(/type|category|kind/i), stage: pick(/stage|round/i), focus: pick(/focus|sector|industr|vertical|thesis/i), contact: pick(/contact/i)
   };
   const known = new Set(JSON.parse(localStorage.getItem('__known') || '[]'));
   const clean = s => (s || '').replace(/\s+/g, ' ').replace(/\|/g, '/').trim();
@@ -41,9 +41,9 @@ window.__atScrape = async function () {
     const nm = clean(r[C.name]); if (!nm) return;
     const w = clean(r[C.web]).split(/[\s,]+/)[0];
     if (w && known.has(host(w))) { dup++; return; }
-    out.push([nm, w, clean(r[C.li]), clean(r[C.em]).replace(/^mailto:/, ''), clean(r[C.city]), clean(r[C.country]), clean(r[C.type]), clean(r[C.stage])].join('|'));
+    out.push([nm, w, clean(r[C.li]), (clean(r[C.em]) || (/@/.test(r[C.contact] || '') ? clean(r[C.contact]) : '')).replace(/^mailto:/, ''), clean(r[C.city]), clean(r[C.country]), clean(r[C.type]), clean(r[C.stage]), clean(r[C.focus]).slice(0, 80)].join('|').split('|').map(f => f.replace(/[?#].*$/, '')).join('|'));
   });
   const pre = document.createElement('pre'); pre.id = '__out'; pre.textContent = out.join('\n');
   document.body.prepend(pre);
-  return JSON.stringify({ rows: Object.keys(rows).length, kept: out.length, dup, cols: Object.fromEntries(Object.entries(C).map(([k, id]) => [k, cols[id]])) });
+  return JSON.stringify({ rows: Object.keys(rows).length, kept: out.length, dup, cols: Object.fromEntries(Object.entries(C).map(([k, id]) => [k, (cols[id] || '').slice(0, 30)])) }).replace(/[?=&]/g, ' ');
 };

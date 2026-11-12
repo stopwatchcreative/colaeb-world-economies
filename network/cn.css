@@ -184,3 +184,18 @@
 .cn-facts dt{color:#6B7280;font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:11px;padding-top:2px}
 .cn-facts dd{margin:0;color:#1F2A3C}
 .cn-facts-panel{margin:12px 0 14px}
+/* clusters (large lists) */
+.cn-pin-cluster{border-radius:50%;background:var(--cn-accent);border:2px solid #fff;box-shadow:0 1px 6px rgba(16,24,40,.35);display:flex;align-items:center;justify-content:center}
+.cn-pin-cluster .cn-pin-count{color:#fff;font:700 11px/1 var(--cn-sans)}
+.cn-pin-cluster:hover{background:var(--cn-ink)}
+.cn-pin-cluster .cn-pin-label{left:calc(100% + 4px)}
+.cn-pin-cluster:hover .cn-pin-label,.cn-pin-cluster:focus-visible .cn-pin-label{opacity:1}
+.cn-cluster2d{cursor:pointer}
+.cn-cluster2d circle{fill:var(--cn-accent);stroke:#fff;stroke-width:2}
+.cn-cluster2d text{fill:#fff;font:700 10px var(--cn-sans);pointer-events:none}
+.cn-cluster2d:hover circle,.cn-cluster2d:focus circle{fill:var(--cn-ink)}
+.cn-cluster-list{list-style:none;margin:12px 0 0;padding:0;max-height:320px;overflow:auto;display:grid;gap:2px}
+.cn-cluster-item{appearance:none;border:0;background:none;width:100%;display:flex;gap:10px;align-items:center;text-align:left;padding:6px 4px;border-radius:2px;cursor:pointer;font:inherit;color:inherit}
+.cn-cluster-item:hover{background:rgba(16,24,40,.06)}
+.cn-cluster-item strong{display:block;font-size:14px}
+.cn-cluster-item small{display:block;font-size:12px;opacity:.7}
