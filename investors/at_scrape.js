@@ -1,6 +1,7 @@
 // Airtable shared-view scraper: scrolls the grid (both axes), collects every cell by row/column id,
 // maps columns by header name, drops rows already known (localStorage __known), and writes
 // "name|website|linkedin|email|city|country|type|stage" lines into a <pre> for get_page_text.
+window.__atRun = function () { window.__sr = null; window.__atScrape().then(r => window.__sr = r, e => window.__sr = 'error ' + e.message); return 'started'; };
 window.__atScrape = async function () {
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   const rows = {}, cols = {};
@@ -44,6 +45,7 @@ window.__atScrape = async function () {
     out.push([nm, w, clean(r[C.li]), (clean(r[C.em]) || (/@/.test(r[C.contact] || '') ? clean(r[C.contact]) : '')).replace(/^mailto:/, ''), clean(r[C.city]), clean(r[C.country]), clean(r[C.type]), clean(r[C.stage]), clean(r[C.focus]).slice(0, 80)].join('|').split('|').map(f => f.replace(/[?#].*$/, '')).join('|'));
   });
   const pre = document.createElement('pre'); pre.id = '__out'; pre.textContent = out.join('\n');
-  document.body.prepend(pre);
+  while (document.body.firstChild) document.body.removeChild(document.body.firstChild);
+  document.body.appendChild(pre);
   return JSON.stringify({ rows: Object.keys(rows).length, kept: out.length, dup, cols: Object.fromEntries(Object.entries(C).map(([k, id]) => [k, (cols[id] || '').slice(0, 30)])) }).replace(/[?=&]/g, ' ');
 };
