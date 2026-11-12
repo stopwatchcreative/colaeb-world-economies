@@ -37,6 +37,7 @@
     Midwest: "OH MI IN IL WI MN IA MO KS NE ND SD KY PA", Northeast: "NY NJ PA CT MA RI VT NH ME DE MD DC",
     South: "TX FL GA NC SC TN AL MS LA AR OK VA KY WV", West: "CA WA OR NV AZ UT CO ID MT WY NM AK HI"
   };
+  var TOP = 60;
   function norm(s) { return String(s || "").toLowerCase(); }
   function stateOf(text) {
     var t = " " + String(text || "") + " ";
@@ -108,32 +109,71 @@
     var loc = v("location"), st = stateOf(loc), stName = "";
     STATES.forEach(function (x) { if (x[0] === st) stName = x[1]; });
     return {
-      company: v("company"), stage: stage, stageLabel: stage === "pre-seed" ? "Pre-seed" : stage === "seed" ? "Seed" : "Series A",
+      company: v("company"), email: v("email"), stage: stage, stageLabel: stage === "pre-seed" ? "Pre-seed" : stage === "seed" ? "Seed" : "Series A",
       sector: v("sector"), country: v("country") || "United States", city: loc.split(",")[0].trim(), state: st, stateName: stName,
       raise: money(v("raise")), revenue: money(v("revenue"))
     };
   }
 
-  function summary(out, q, list) {
+  function csv(list) {
+    var rows = [["Rank", "Investor", "Type", "Location", "Website", "Why it matches"]];
+    list.forEach(function (m, i) { rows.push([i + 1, m.r.name, m.r.industry || "", m.r.place || [m.r.city, m.r.country].filter(Boolean).join(", "), m.r.website, (m.why || []).join("; ")]); });
+    return rows.map(function (r) { return r.map(function (c) { c = String(c == null ? "" : c); return /[",\n]/.test(c) ? '"' + c.replace(/"/g, '""') + '"' : c; }).join(","); }).join("\n");
+  }
+  function download(list, q) {
+    var blob = new Blob([csv(list)], { type: "text/csv" }), a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = ((q.company || "my") + "-investor-matches.csv").replace(/[^\w.-]+/g, "-").toLowerCase();
+    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function summary(out, q, all) {
     if (!out) return;
     out.innerHTML = "";
-    var top = list.slice(0, 3).map(function (m) { return m.r.name; });
-    var p = document.createElement("div"); p.className = "cnm-result";
-    var h = document.createElement("p"); h.className = "cnm-result-title";
-    h.textContent = list.length ? list.length + " investors match " + (q.company || "your company") : "No strong matches yet";
-    var t = document.createElement("p"); t.className = "cnm-result-text";
-    t.textContent = list.length ? "Top matches: " + top.join(", ") + ". They are now highlighted on the globe and listed below, best match first."
-      : "Try a broader sector, or leave location as just your country.";
-    p.appendChild(h); p.appendChild(t);
-    if (list.length) {
-      var b = document.createElement("button"); b.type = "button"; b.className = "cnm-btn"; b.textContent = "See my matches";
+    var shown = all.slice(0, TOP), p = el("div", "cnm-result");
+    var top = shown.slice(0, 3).map(function (m) { return m.r.name; });
+    p.appendChild(el("p", "cnm-result-title", all.length ? all.length + " investors match " + (q.company || "your company") : "No strong matches yet"));
+    p.appendChild(el("p", "cnm-result-text", all.length
+      ? "Top matches: " + top.join(", ") + ". Your best " + shown.length + " are highlighted on the globe and listed below, best match first." + (q.email ? " We'll also email your matches to " + q.email + "." : "")
+      : "Try a broader sector, or leave location as just your country."));
+    if (all.length) {
+      var row = el("div", "cnm-actions");
+      var b = el("button", "cnm-btn", "See my matches"); b.type = "button";
       b.onclick = function () { var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: "smooth", block: "start" }); };
-      p.appendChild(b);
+      row.appendChild(b);
+      if (all.length > TOP) {
+        var more = el("button", "cnm-btn cnm-btn-ghost", "Show all " + all.length); more.type = "button";
+        more.onclick = function () { if (window.CN) window.CN.setMatches(all, q.company); more.remove(); var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: "smooth", block: "start" }); };
+        row.appendChild(more);
+      }
+      var dl = el("button", "cnm-btn cnm-btn-ghost", "Download list (CSV)"); dl.type = "button";
+      dl.onclick = function () { download(all, q); };
+      row.appendChild(dl);
+      p.appendChild(row);
     }
-    var again = document.createElement("button"); again.type = "button"; again.className = "cnm-link"; again.textContent = "Edit details";
+    var again = el("button", "cnm-link", "Edit details"); again.type = "button";
     again.onclick = function () { var f = document.querySelector("form[data-cn-match]"); if (f) { f.style.display = ""; var w = f.parentNode, d = w && w.querySelector(".w-form-done"); if (d) d.style.display = "none"; f.scrollIntoView({ behavior: "smooth", block: "center" }); } };
     p.appendChild(again);
     out.appendChild(p);
+  }
+  // Hidden fields so the Webflow submission (and the follow-up email automation) carries the matches.
+  var EMAIL_TOP = 25;
+  function hidden(form, name, label) {
+    var f = form.querySelector('[name="' + name + '"]');
+    if (!f) { f = document.createElement("textarea"); f.name = name; f.setAttribute("data-name", label); f.style.display = "none"; f.setAttribute("aria-hidden", "true"); f.tabIndex = -1; form.appendChild(f); }
+    return f;
+  }
+  function fill(form) {
+    if (!window.CN) return null;
+    var q = read(form), all = rank(q);
+    hidden(form, "match_count", "Match Count").value = String(all.length);
+    hidden(form, "matches", "Matches").value = all.slice(0, EMAIL_TOP).map(function (m, i) {
+      return (i + 1) + ". " + m.r.name + " (" + [m.r.industry, m.r.place || m.r.country].filter(Boolean).join(", ") + ") " + m.r.website + (m.why && m.why.length ? " | " + m.why.join(", ") : "");
+    }).join("\n");
+    hidden(form, "matches_html", "Matches HTML").value = "<ol>" + all.slice(0, EMAIL_TOP).map(function (m) {
+      var esc = function (t) { return String(t || "").replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+      return '<li><a href="' + esc(m.r.website) + '">' + esc(m.r.name) + "</a> &middot; " + esc([m.r.industry, m.r.place || m.r.country].filter(Boolean).join(", ")) + (m.why && m.why.length ? "<br><small>" + esc(m.why.join(" · ")) + "</small>" : "") + "</li>";
+    }).join("") + "</ol>";
+    return { q: q, all: all };
   }
 
   function bind() {
@@ -146,18 +186,19 @@
       });
       var st = form.querySelector('[name="stage"]'); if (st) st.value = "Seed";
       var loc = form.querySelector("#cnm-location"); if (loc) { loc.name = "location"; loc.setAttribute("data-name", "Location"); }
+      var t; function live() { clearTimeout(t); t = setTimeout(function () { fill(form); }, 250); }
+      form.addEventListener("input", live); form.addEventListener("change", live);
+      if (window.CN) fill(form); else document.addEventListener("cn:ready", function () { fill(form); }, { once: true });
       form.addEventListener("submit", function () {
-        var q = read(form);
         function run() {
-          var list = rank(q).slice(0, 60);
-          if (window.CN) window.CN.setMatches(list, q.company);
-          summary(document.querySelector("[data-cn-match-out]") || (form.parentNode && form.parentNode.querySelector(".w-form-done")), q, list);
-          try { localStorage.setItem("cnm-last", JSON.stringify(q)); } catch (e) {}
+          var res = fill(form) || { q: read(form), all: [] };
+          window.CN && window.CN.setMatches(res.all.slice(0, TOP), res.q.company);
+          summary(document.querySelector("[data-cn-match-out]") || (form.parentNode && form.parentNode.querySelector(".w-form-done")), res.q, res.all);
         }
         if (window.CN) run(); else document.addEventListener("cn:ready", run, { once: true });
       });
     });
   }
-  window.CNMatch = { rank: rank, score: score, read: read };
+  window.CNMatch = { rank: rank, score: score, read: read, csv: csv };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bind); else bind();
 })();
