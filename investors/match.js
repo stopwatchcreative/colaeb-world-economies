@@ -139,6 +139,13 @@
   function bind() {
     document.querySelectorAll("form[data-cn-match]").forEach(function (form) {
       if (form.__cnm) return; form.__cnm = 1;
+      // Repair what the Webflow importer changed: option labels cut at "&", the empty Seed value, the location field name.
+      [].forEach.call(form.querySelectorAll("select option"), function (o) {
+        if (!o.value && o.textContent.trim()) o.value = o.textContent.trim();
+        if (o.value && o.textContent.trim() !== o.value) o.textContent = o.value;
+      });
+      var st = form.querySelector('[name="stage"]'); if (st) st.value = "Seed";
+      var loc = form.querySelector("#cnm-location"); if (loc) { loc.name = "location"; loc.setAttribute("data-name", "Location"); }
       form.addEventListener("submit", function () {
         var q = read(form);
         function run() {
