@@ -31,7 +31,7 @@ window.__folk = async function (knownUrl) {
     if (/linkedin\.com|gmail|yahoo|hotmail|outlook/.test(w)) w = '';
     const k = (w || name).toLowerCase(); if (seen[k]) return; seen[k] = 1;
     if (w && known.has(w)) { dup++; return; }
-    const li = co ? '' : cl(r[K.li]).replace(/^https?:\/\/(www\.)?linkedin\.com\//, '');
+    const li = (co && w) ? '' : cl(r[K.li]).replace(/^https?:\/\/(www\.)?linkedin\.com\//, '');
     if (!w && !li) return;
     const loc = (r[K.loc] || '').split('\n');
     out.push([name, w, li, '', cl(loc[0]), cl(loc[1]), cl(r[K.type]).split('\n')[0]].join('|'));
