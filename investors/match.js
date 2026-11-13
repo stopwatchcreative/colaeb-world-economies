@@ -144,7 +144,7 @@
     if (q.city || q.state) p.set("location", [q.city, q.state].filter(Boolean).join(", "));
     if (q.country) p.set("country", q.country);
     if (q.raise) p.set("raise", String(q.raise));
-    return location.origin + location.pathname + "?" + p.toString() + "#investor-match";
+    return location.origin + location.pathname + "?" + p.toString() + "#match";
   }
   function share(q, n, btn) {
     var url = shareUrl(q), title = n + " investors that match " + (q.company || "my startup") + " | Colaeb";
