@@ -142,12 +142,13 @@
     var top = all.slice(0, 3).map(function (m) { return m.r.name; });
     p.appendChild(el("p", "cnm-result-title", all.length ? all.length + " investors match " + (q.company || "your company") : "No strong matches yet"));
     p.appendChild(el("p", "cnm-result-text", all.length
-      ? "Top matches: " + top.join(", ") + ". All " + all.length + " are on the globe and listed below, best match first." + (q.email ? " We'll also email your matches to " + q.email + "." : "")
+      ? "Top matches: " + top.join(", ") + ". All " + all.length + " are highlighted on the globe." + (q.email ? " We'll also email your matches to " + q.email + "." : "")
       : "Try a broader sector, or leave location as just your country."));
+    if (all.length) { var hint = el("p", "cnm-result-text cnm-result-hint", "\u2193 Your full list of " + all.length + " matches is below the map, ranked best match first."); hint.style.fontWeight = "700"; p.appendChild(hint); }
     if (all.length) {
       var row = el("div", "cnm-actions");
       var b = el("button", "cnm-btn", "See my matches"); b.type = "button";
-      b.onclick = function () { var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: "smooth", block: "start" }); };
+      b.onclick = function () { var g = document.querySelector('[data-cn="directory"]') || document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: "smooth", block: "start" }); };
       row.appendChild(b);
       var dl = el("button", "cnm-btn cnm-btn-ghost", "Download list (CSV)"); dl.type = "button";
       dl.onclick = function () { download(all, q); };
