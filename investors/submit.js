@@ -46,11 +46,21 @@
     p.textContent = text || ""; p.style.display = text ? "" : "none";
   }
 
-  // Names already on the page (CMS list), so the same firm isn't listed twice.
-  function existing() {
-    var out = {};
-    document.querySelectorAll('[data-cn-source] [data-cn-field="name"]').forEach(function (n) { out[slugify(n.textContent)] = 1; });
-    return out;
+  function host(u) { try { return new URL(url(u)).hostname.replace(/^www\./, "").toLowerCase(); } catch (e) { return ""; } }
+  function liKey(u) { return String(u || "").toLowerCase().replace(/^https?:\/\/(www\.|[a-z]{2}\.)?/, "").replace(/[?#].*$/, "").replace(/\/+$/, ""); }
+  // Find this firm among everything on the page: the CMS list plus the bulk feed (window.CN).
+  function findExisting(firm, website, linkedin) {
+    var s = slugify(firm), h = website ? host(website) : "", li = linkedin ? liKey(linkedin) : "";
+    var items = (window.CN && window.CN.items && window.CN.items()) || [];
+    for (var i = 0; i < items.length; i++) {
+      var r = items[i], w = r.website || "";
+      if (slugify(r.name) === s) return r;
+      if (h && /linkedin\.com$/.test(h) === false && host(w) === h) return r;
+      if (li && liKey(w) === li) return r;
+    }
+    var hit = null;
+    document.querySelectorAll('[data-cn-source] [data-cn-field="name"]').forEach(function (n) { if (!hit && slugify(n.textContent) === s) hit = { name: n.textContent.trim(), website: "" }; });
+    return hit;
   }
 
   var cache = {};
@@ -83,22 +93,32 @@
   }
   var US = { al: "alabama", ak: "alaska", az: "arizona", ar: "arkansas", ca: "california", co: "colorado", ct: "connecticut", de: "delaware", dc: "district of columbia", fl: "florida", ga: "georgia", hi: "hawaii", id: "idaho", il: "illinois", "in": "indiana", ia: "iowa", ks: "kansas", ky: "kentucky", la: "louisiana", me: "maine", md: "maryland", ma: "massachusetts", mi: "michigan", mn: "minnesota", ms: "mississippi", mo: "missouri", mt: "montana", ne: "nebraska", nv: "nevada", nh: "new hampshire", nj: "new jersey", nm: "new mexico", ny: "new york", nc: "north carolina", nd: "north dakota", oh: "ohio", ok: "oklahoma", or: "oregon", pa: "pennsylvania", ri: "rhode island", sc: "south carolina", sd: "south dakota", tn: "tennessee", tx: "texas", ut: "utah", vt: "vermont", va: "virginia", wa: "washington", wv: "west virginia", wi: "wisconsin", wy: "wyoming" };
 
+  function mode(form) { return /update/i.test(val(form, "listing_status")) ? "update" : "add"; }
+
   function prepare(form) {
+    var m = mode(form);
     var website = url(val(form, "website")), linkedin = url(val(form, "linkedin"));
     if (linkedin && !/linkedin\.com$/i.test(new URL(linkedin).hostname.replace(/^www\./, ""))) linkedin = "";
     if (!website && !linkedin) return Promise.resolve("Please add your website or LinkedIn page so founders can reach you.");
     var firm = val(form, "firm");
-    if (existing()[slugify(firm)]) return Promise.resolve(firm + " is already on the list. Email hi@collaborateandelevate.com if your details need an update.");
+    var match = findExisting(firm, website, linkedin);
+    if (m === "add" && match) return Promise.resolve((match.name || firm) + " is already on the list. Choose \u201cYes, update my listing\u201d above to send us your changes.");
+    hidden(form, "request_type").value = m;
+    hidden(form, "existing_match").value = match ? [match.name, match.website].filter(Boolean).join(" | ") : (m === "update" ? "Not found on the page" : "");
+    hidden(form, "website_clean").value = website;
+    hidden(form, "linkedin_clean").value = linkedin;
+    hidden(form, "listing_url").value = website || linkedin;
+    hidden(form, "slug").value = slugify(firm) + "-" + Math.random().toString(36).slice(2, 6);
     return geocode(val(form, "city"), val(form, "country")).then(function (g) {
-      if (!g) return "We couldn't find that city on the map. Check the spelling of the city and country.";
-      hidden(form, "latitude").value = g.lat;
-      hidden(form, "longitude").value = g.lng;
-      hidden(form, "geo_place").value = g.place;
-      hidden(form, "country_clean").value = g.country;
-      hidden(form, "website_clean").value = website;
-      hidden(form, "linkedin_clean").value = linkedin;
-      hidden(form, "listing_url").value = website || linkedin;
-      hidden(form, "slug").value = slugify(firm) + "-" + Math.random().toString(36).slice(2, 6);
+      if (!g && m === "add") return "We couldn't find that city on the map. Check the spelling of the city and country.";
+      hidden(form, "latitude").value = g ? g.lat : "";
+      hidden(form, "longitude").value = g ? g.lng : "";
+      hidden(form, "geo_place").value = g ? g.place : "";
+      hidden(form, "country_clean").value = g ? g.country : val(form, "country");
+      var done = form.parentNode && form.parentNode.querySelector(".w-form-done");
+      if (done) done.innerHTML = "<div>" + (m === "update"
+        ? "Thanks! We received your update for " + firm.replace(/[<>&]/g, "") + ". The Colaeb team will apply it to your listing shortly, without creating a duplicate."
+        : "Thanks! " + firm.replace(/[<>&]/g, "") + " is being added to the map. It usually appears within a minute or two.") + "</div>";
       return "";
     });
   }
@@ -113,6 +133,15 @@
       });
       // The importer renames some inputs to "field"; put the real names back.
       var fx = form.querySelector("#cnl-focus"); if (fx) { fx.name = "focus"; fx.setAttribute("data-name", "focus"); }
+      // Already-on-the-list question: fixed option values, and the button label follows the choice.
+      var st = form.querySelector('[name="listing_status"]'), btn0 = form.querySelector('[type="submit"]');
+      if (st) {
+        var opts = [["New listing", "No, add my firm"], ["Update existing listing", "Yes, update my listing"]];
+        st.innerHTML = opts.map(function (o) { return '<option value="' + o[0] + '">' + o[1] + "</option>"; }).join("");
+        if (/[?&]update=1/.test(location.search)) st.value = "Update existing listing";
+        var lab = function () { if (btn0) btn0.value = mode(form) === "update" ? "Update my listing" : "Add my firm"; say(form, ""); };
+        st.addEventListener("change", lab); lab();
+      }
       var ready = false;
       // Warm the geocoder while they type.
       var t; function warm() { clearTimeout(t); t = setTimeout(function () { if (val(form, "city") && val(form, "country")) geocode(val(form, "city"), val(form, "country")); }, 400); }
