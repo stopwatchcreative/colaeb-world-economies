@@ -115,7 +115,9 @@ def build_patterns():
             lv = v.lower()
             if single and (lv in STOP and lv not in SAFE_SHORT): continue
             if single and len(v) < 5 and lv not in SAFE_SHORT and not re.search(r"\d", v): continue
-            strict = single and lv in SAFE_SHORT
+            # One-word names ("Amplify", "Conviction") are also ordinary words, so they only count in an investor list
+            # ("led by Amplify", "from Conviction, ...").
+            strict = single
             rx = re.compile(r"(?<![\w&])" + re.escape(v) + r"(?![\w&])")  # case-sensitive: firm names are capitalised
             pats.append((rx, key, n, strict))
     return pats
@@ -150,7 +152,8 @@ def roles_in(text, pats):
 
 
 # Investors whose name is also an everyday funding word ("Backed VC" vs "backed by") are never tagged from articles.
-NEVER = {"h:backed.vc"}
+# Generic names ("Global Investors", "Healthcare Ventures") match ordinary article wording, so their tags are not trusted.
+NEVER = {"h:backed.vc", "h:enterpriseequity.ie", "h:expansion-vc.eu", "h:ifinancialventures.com", "h:founderequity.com", "h:frontiergrowth.com", "h:draperfrontier.com", "h:future.ventures", "h:generationvc.com", "h:globalinvestors.com.au", "h:growthpartners.capital", "h:healthcareventures.vc", "h:innovation-capital.com", "n:seedroundcapital"}
 
 
 def write_deals(cache):
@@ -173,7 +176,7 @@ def main():
     pats = build_patterns()
     print("patterns", len(pats), flush=True)
     for u, title in arts:
-        if u in cache and cache[u].get("v") == 4: continue
+        if u in cache and cache[u].get("v") == 5: continue
         try:
             html = S.get(u, timeout=20).text
         except Exception as e:
@@ -181,9 +184,9 @@ def main():
         body = text_of(html)
         t0 = meta(html, "og:title") or title
         if not FUNDING_TITLE.search(t0):
-            cache[u] = {"t": t0, "d": article_date(html), "m": {}, "v": 4}; continue
+            cache[u] = {"t": t0, "d": article_date(html), "m": {}, "v": 5}; continue
         t = meta(html, "og:title") or title
-        cache[u] = {"t": t.replace("&amp;", "&"), "d": article_date(html), "m": roles_in(body, pats), "v": 4}
+        cache[u] = {"t": t.replace("&amp;", "&"), "d": article_date(html), "m": roles_in(body, pats), "v": 5}
         print("read", cache[u]["d"], t[:70], "->", len(cache[u]["m"]), flush=True)
         time.sleep(0.3)
     json.dump(cache, open(CACHE, "w"), indent=0, sort_keys=True, ensure_ascii=False)
