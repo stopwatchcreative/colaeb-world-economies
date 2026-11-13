@@ -53,7 +53,7 @@
 "h:ycombinator.com": "in"
 },
 "t": "Atomarine Raises $19M Seed for Floating Nuclear-Powered AI Data Centers",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/autentic-ai-raises-17m-pre-seed-to-cut-market-research-from-months-to-days": {
 "d": "2026-10-09",
@@ -232,19 +232,19 @@
 "d": "2026-11-12",
 "m": {},
 "t": "Colaeb Growth Plan: Curated Leads and Custom Landing Pages for $95 a Month",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/colaeb-launch-plan": {
 "d": "2026-11-10",
 "m": {},
 "t": "Colaeb Launch Plan: Done-for-You Lead Matching and Outreach for $300 a Month",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/colaeb-starter-plan": {
 "d": "2026-11-13",
 "m": {},
 "t": "Colaeb Starter Plan: What Founders Get for $4.95 a Month",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/collective-raises-40m-series-b-60m-facility-for-solopreneur-finance": {
 "d": "2026-11-02",
@@ -506,7 +506,7 @@
 "h:theclimatepledge.com": "led"
 },
 "t": "Greenjoules Raises $16M Series B Led by Amazon Funds for Renewable Diesel",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/group14-raises-169m-series-d-extension-for-spain-battery-plant": {
 "d": "2026-11-03",
@@ -655,12 +655,11 @@
 "https://www.yourinfodaily.com/p/kardi-ai-raises-59m-series-a-to-expand-ai-heart-monitoring": {
 "d": "2026-11-11",
 "m": {
-"h:brightcap.vc": "in",
 "h:depoventures.com": "in",
 "h:purple-ventures.com": "in"
 },
 "t": "Kardi Ai Raises $5.9M Series A to Expand AI Heart Monitoring",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/klarent-raises-81m-seed-led-by-mosaic-ventures-for-ai-software-testing": {
 "d": "2026-10-29",
@@ -714,7 +713,7 @@
 "h:htgf.de": "led"
 },
 "t": "Marble Imaging Raises ~$6.7M Seed Extension Led by Cherry Ventures",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/matter-machine-raises-53m-for-ai-materials-discovery-can-liverpool-take-on-cuspai": {
 "d": "2026-10-12",
@@ -781,16 +780,13 @@
 "h:luminous.vc": "led"
 },
 "t": "Mistlabs Raises $26M to Launch Ambi: Is Proactive AI the Next Big Shift for Apple Users?",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/mistt-raises-66m-pre-seed-to-build-a-4d-data-layer-for-defence-ai": {
 "d": "2026-11-11",
-"m": {
-"h:expeditionsfund.com": "led",
-"h:seedcamp.com": "in"
-},
+"m": {},
 "t": "Mistt Raises ~$6.6M Pre-Seed to Build a 4D Data Layer for Defence AI",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/modal-raises-750-million-at-a-1575-billion-valuation-after-its-revenue-exploded-15x-in-a-year": {
 "d": "2026-10-16",
@@ -851,11 +847,10 @@
 "https://www.yourinfodaily.com/p/natureselectai-tops-100m-in-funding-with-5y-capital-backed-series-a": {
 "d": "2026-11-11",
 "m": {
-"h:backed.vc": "in",
 "h:matrixpartners.com": "in"
 },
 "t": "NatureSelect.ai Tops $100M in Funding With 5Y Capital-Backed Series A+",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/nexbank-capital-raises-150m-in-common-equity-to-fund-texas-bank-growth": {
 "d": "2026-10-04",
@@ -906,7 +901,7 @@
 "h:luxcapital.com": "led"
 },
 "t": "Onodrim Raises $300M Series A Led by Lux to Buy European Defense Firms",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/openai-nears-30b-funding-round-at-125-trillion-valuation-ahead-of-ipo": {
 "d": "2026-10-26",
@@ -1073,13 +1068,12 @@
 "https://www.yourinfodaily.com/p/scarlet-raises-50m-series-b-can-ai-speed-up-medical-device-certification": {
 "d": "2026-11-12",
 "m": {
-"h:atomico.com": "in",
 "h:creandum.com": "in",
 "h:eventures.vc": "led",
 "h:kindredcapital.vc": "in"
 },
 "t": "Scarlet Raises $50M Series B: Can AI Speed Up Medical Device Certification?",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/scimplify-raises-25-million-to-break-chinas-grip-on-the-critical-materials-inside-your-phone": {
 "d": "2026-10-15",
@@ -1114,7 +1108,7 @@
 "h:lakestar.com": "in"
 },
 "t": "Sennder Lands $255M From Scania, Poste Italiane as It Turns Profitable",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/serval-raises-150m-series-c-at-3b-valuation-to-take-on-servicenow": {
 "d": "2026-10-31",
@@ -1132,11 +1126,10 @@
 "d": "2026-11-09",
 "m": {
 "h:adaventures.com": "in",
-"h:revent.vc": "led",
-"h:seedcamp.com": "in"
+"h:revent.vc": "led"
 },
 "t": "Seva Money Raises $5M Seed Led by Blockwall and Revent for Remittances",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/singapores-ailytics-raises-74m-series-a-to-expand-vision-ai-for-industrial-safety": {
 "d": "2026-10-26",
@@ -1308,13 +1301,13 @@
 "d": "2026-11-11",
 "m": {},
 "t": "Switchpoint Bio Raises $5.3M Pre-Seed to Track Drug Response From Blood",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/synctera-raises-245m-as-banks-return-to-banking-as-a-service": {
 "d": "2026-11-09",
 "m": {},
 "t": "Synctera Raises $24.5M as Banks Return to Banking-as-a-Service",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/tase-global-raises-32-million-from-valuequests-tristar-fund-to-scale-precision-manufacturing": {
 "d": "2026-11-06",
@@ -1328,7 +1321,7 @@
 "h:benchmark.com": "led"
 },
 "t": "Tendrils Compute Raises $30M Led by Benchmark to Rebuild the CPU",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/the-man-who-brought-the-world-pokemon-and-yu-gi-oh-is-back-with-his-next-global-phenomenon-sumomon": {
 "d": "2026-10-19",
@@ -1467,7 +1460,7 @@
 "h:lifelineventures.com": "led"
 },
 "t": "Vensum Power Raises ~$10M Series A to Cut Power Conversion Losses",
-"v": 4
+"v": 5
 },
 "https://www.yourinfodaily.com/p/vessla-raises-33m-pre-seed-to-bring-ai-agents-to-property-management": {
 "d": "2026-10-19",
