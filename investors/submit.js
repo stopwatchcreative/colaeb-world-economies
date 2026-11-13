@@ -111,6 +111,8 @@
       [].forEach.call(form.querySelectorAll("select option"), function (o) {
         if (!o.value && o.textContent.trim()) o.value = o.textContent.trim();
       });
+      // The importer renames some inputs to "field"; put the real names back.
+      var fx = form.querySelector("#cnl-focus"); if (fx) { fx.name = "focus"; fx.setAttribute("data-name", "focus"); }
       var ready = false;
       // Warm the geocoder while they type.
       var t; function warm() { clearTimeout(t); t = setTimeout(function () { if (val(form, "city") && val(form, "country")) geocode(val(form, "city"), val(form, "country")); }, 400); }
