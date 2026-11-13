@@ -159,6 +159,7 @@
           if (err) { say(form, err); return; }
           ready = true;
           if (form.requestSubmit) form.requestSubmit(); else form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+          ready = false; // one pass only: if the browser blocked the send, the next click is checked again
         });
       }, true);
     });
