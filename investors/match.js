@@ -115,16 +115,6 @@
     };
   }
 
-  function csv(list) {
-    var rows = [["Rank", "Investor", "Type", "Location", "Website", "Why it matches"]];
-    list.forEach(function (m, i) { rows.push([i + 1, m.r.name, m.r.industry || "", m.r.place || [m.r.city, m.r.country].filter(Boolean).join(", "), m.r.website, (m.why || []).join("; ")]); });
-    return rows.map(function (r) { return r.map(function (c) { c = String(c == null ? "" : c); return /[",\n]/.test(c) ? '"' + c.replace(/"/g, '""') + '"' : c; }).join(","); }).join("\n");
-  }
-  function download(list, q) {
-    var blob = new Blob([csv(list)], { type: "text/csv" }), a = document.createElement("a");
-    a.href = URL.createObjectURL(blob); a.download = ((q.company || "my") + "-investor-matches.csv").replace(/[^\w.-]+/g, "-").toLowerCase();
-    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
-  }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function summary(out, q, all) {
     if (!out) return;
@@ -140,9 +130,6 @@
       var b = el("button", "cnm-btn", "See my matches"); b.type = "button";
       b.onclick = function () { var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: "smooth", block: "start" }); };
       row.appendChild(b);
-      var dl = el("button", "cnm-btn cnm-btn-ghost", "Download list (CSV)"); dl.type = "button";
-      dl.onclick = function () { download(all, q); };
-      row.appendChild(dl);
       p.appendChild(row);
     }
     var again = el("button", "cnm-link", "Edit details"); again.type = "button";
@@ -194,6 +181,6 @@
       });
     });
   }
-  window.CNMatch = { rank: rank, score: score, read: read, csv: csv };
+  window.CNMatch = { rank: rank, score: score, read: read };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bind); else bind();
 })();
