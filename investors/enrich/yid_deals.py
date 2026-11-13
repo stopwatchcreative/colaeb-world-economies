@@ -103,10 +103,11 @@ def build_patterns():
         base = re.sub(r"\s*\([^)]*\)", "", n).strip()
         variants.add(base); variants.update(a.strip() for a in alias)
         short = re.sub(SUFFIX, "", base, flags=re.I).strip()
-        # A shortened name is only used when it is still distinctive: several words, a known short firm name,
-        # or an unusual token (digits / inner capitals like "a16z" or "LocalGlobe"). Avoids "Growth", "Launch", "Founders".
-        if short and short != base and (len(short.split()) > 1 or short.lower() in SAFE_SHORT or re.search(r"\d|[a-z][A-Z]", short)):
+        # A shortened name ("Lux" for "Lux Capital") is only used for well-known short names or unusual tokens
+        # like "a16z"; otherwise "New York Venture Partners" would match "New York" and "Founders Fund" "Founders".
+        if short and short != base and (short.lower() in SAFE_SHORT or re.search(r"\d[a-z]|[a-z][A-Z]", short)):
             variants.add(short)
+        if re.fullmatch(r"[$\d.,]+\s*[KMB]?", n.strip(), re.I): continue  # junk names like "200M"
         for v in variants:
             if len(v) < 3: continue
             words = v.split()
@@ -125,13 +126,20 @@ def roles_in(text, pats):
     sentences = re.split(r"(?<=[.!?])\s+", text)
     for s in sentences:
         if not FUNDING.search(s): continue
+        hits = []
         for rx, key, name, strict in pats:
-            m = rx.search(s)
-            if not m: continue
-            before = s[max(0, m.start() - 160):m.start()]
-            after = s[m.end():m.end() + 40]
-            if strict and not re.search(r"(led by|co-led by|from|including|and|,)\s*$", before.strip() + " ", re.I) and not re.search(r"^\s*(led|co-led)", after, re.I):
+            for m in rx.finditer(s):
+                hits.append((m.start(), m.end(), key, strict))
+        # longest names win: "Female Founders Fund" hides the "Founders Fund" inside it
+        hits.sort(key=lambda h: (-(h[1] - h[0]), h[0]))
+        taken = []
+        for st, en, key, strict in hits:
+            if any(st < e and en > b for b, e in taken): continue
+            before = s[max(0, st - 160):st]
+            after = s[en:en + 40]
+            if strict and not re.search(r"(led by|co-led by|from|including|includ\w+|and|,)\s*$", before.strip() + " ", re.I) and not re.search(r"^\s*(led|co-led)", after, re.I):
                 continue
+            taken.append((st, en))
             cues = [(c.end(), "led") for c in re.finditer(r"\b(?:co-)?led by\b|\bleads?\b(?= the)", before, re.I)] + \
                    [(c.end(), "in") for c in re.finditer(r"participation|participated|joined by|joined|alongside|along with|\binvestors\b|\bbackers\b|\bincluding\b|backed by|with support from|also from|\bwith\b|\bplus\b", before, re.I)]
             last = max(cues)[1] if cues else ""
@@ -146,7 +154,7 @@ def main():
     pats = build_patterns()
     print("patterns", len(pats), flush=True)
     for u, title in arts:
-        if u in cache and cache[u].get("v") == 3: continue
+        if u in cache and cache[u].get("v") == 4: continue
         try:
             html = S.get(u, timeout=20).text
         except Exception as e:
@@ -154,9 +162,9 @@ def main():
         body = text_of(html)
         t0 = meta(html, "og:title") or title
         if not FUNDING_TITLE.search(t0):
-            cache[u] = {"t": t0, "d": article_date(html), "m": {}, "v": 3}; continue
+            cache[u] = {"t": t0, "d": article_date(html), "m": {}, "v": 4}; continue
         t = meta(html, "og:title") or title
-        cache[u] = {"t": t.replace("&amp;", "&"), "d": article_date(html), "m": roles_in(body, pats), "v": 3}
+        cache[u] = {"t": t.replace("&amp;", "&"), "d": article_date(html), "m": roles_in(body, pats), "v": 4}
         print("read", cache[u]["d"], t[:70], "->", len(cache[u]["m"]), flush=True)
         time.sleep(0.3)
     json.dump(cache, open(CACHE, "w"), indent=0, sort_keys=True, ensure_ascii=False)
