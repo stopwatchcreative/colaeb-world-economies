@@ -126,13 +126,6 @@
   "why": "unlikely stage for an accelerator (Pre-seed, Seed, Series A, Series B)"
  },
  {
-  "n": "Futuristic.VC",
-  "w": "https://thehub.io/funding/futuristicvc",
-  "t": "Venture capital",
-  "k": "Denmark",
-  "why": "website is a third-party page (thehub.io)"
- },
- {
   "n": "Garuda Ventures",
   "w": "https://garudaventures.com",
   "t": "Angel network",
@@ -180,13 +173,6 @@
   "t": "Venture capital",
   "k": "France",
   "why": "website is a program page, not an investor"
- },
- {
-  "n": "MetaProp",
-  "w": "https://metaprop.vc",
-  "t": "Accelerator",
-  "k": "United States",
-  "why": "unlikely stage for an accelerator (Seed, Growth)"
  },
  {
   "n": "Midlands Engine Investment Fund (MEIF)",

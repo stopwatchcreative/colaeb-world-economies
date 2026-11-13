@@ -134,6 +134,13 @@ for f in sorted(os.listdir(HERE)):
             upsert(x["name"].strip(), x.get("website", ""), (x.get("linkedin") or "").strip(), (x.get("email") or "").strip(),
                    city=x.get("city", ""), state=x.get("state", ""), cc=cc, type=x.get("type", ""), stage=x.get("stage", ""), focus=x.get("focus", ""))
 
+# Website fixes by investor name (listing pointed at an aggregator page)
+WEB_FIX = {"futuristic.vc": "futuristic.vc"}
+if os.path.exists(P("web_fixes.tsv")):
+    for x in csv.DictReader(open(P("web_fixes.tsv")), delimiter="\t"):
+        k = name_idx.get(norm(x["name"]))
+        if k in recs: recs[k]["web"] = dom(x["website"])
+
 # Location overrides by domain (HQs confirmed by hand)
 for x in csv.DictReader(open(P("loc_overrides.tsv")), delimiter="\t"):
     r = recs.get("h:" + x["domain"])
