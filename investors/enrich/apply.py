@@ -21,6 +21,16 @@ def host(u):
     return re.sub(r"^https?://", "", u).split("/")[0].replace("www.", "")
 
 
+def tidy_stage(s):
+    parts = [p.strip() for p in re.split(r",+", s or "") if p.strip()]
+    out = []
+    for p in parts:
+        p = re.sub(r"(?i)^pre-?seed$", "Pre-seed", p); p = re.sub(r"(?i)^seed$", "Seed", p)
+        p = re.sub(r"(?i)^series ([a-f])$", lambda m: "Series " + m.group(1).upper(), p)
+        if p.lower() not in [o.lower() for o in out]: out.append(p)
+    return ", ".join(out)
+
+
 def main():
     feed = json.load(open(FEED))
     sites = json.load(open(SITES)) if os.path.exists(SITES) else {}
@@ -35,6 +45,8 @@ def main():
                 if s.get(k) and not x.get(k):
                     x[k] = s[k]; st[k + "_added"] += 1
             if x: r = {**r, "x": x}
+        if (r.get("x") or {}).get("stage"):
+            r = {**r, "x": {**r["x"], "stage": tidy_stage(r["x"]["stage"])}}
         out.append(r); st["kept"] += 1
     json.dump(out, open(OUT, "w"), separators=(",", ":"), ensure_ascii=False)
     tot = len(out)

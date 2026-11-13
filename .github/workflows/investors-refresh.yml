@@ -23,6 +23,8 @@ jobs:
       - name: Re-read investor websites
         if: github.event.schedule == '41 7 3 * *' || (github.event_name == 'push' && contains(github.event.head_commit.message, 'crawl'))
         run: python investors/enrich/crawl.py
+        env:
+          MAX_AGE_DAYS: ${{ contains(github.event.head_commit.message, 'recrawl') && '0' || '25' }}
       - name: YourInfoDaily deals
         run: python investors/enrich/yid_deals.py
       - name: Build enriched feed
