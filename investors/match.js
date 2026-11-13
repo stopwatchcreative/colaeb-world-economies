@@ -165,11 +165,11 @@
   function fill(form) {
     if (!window.CN) return null;
     var q = read(form), all = rank(q);
-    hidden(form, "match_count", "Match Count").value = String(all.length);
-    hidden(form, "matches", "Matches").value = all.slice(0, EMAIL_TOP).map(function (m, i) {
+    hidden(form, "match_count", "match_count").value = String(all.length);
+    hidden(form, "matches", "matches").value = all.slice(0, EMAIL_TOP).map(function (m, i) {
       return (i + 1) + ". " + m.r.name + " (" + [m.r.industry, m.r.place || m.r.country].filter(Boolean).join(", ") + ") " + m.r.website + (m.why && m.why.length ? " | " + m.why.join(", ") : "");
     }).join("\n");
-    hidden(form, "matches_html", "Matches HTML").value = "<ol>" + all.slice(0, EMAIL_TOP).map(function (m) {
+    hidden(form, "matches_html", "matches_html").value = "<ol>" + all.slice(0, EMAIL_TOP).map(function (m) {
       var esc = function (t) { return String(t || "").replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
       return '<li><a href="' + esc(m.r.website) + '">' + esc(m.r.name) + "</a> &middot; " + esc([m.r.industry, m.r.place || m.r.country].filter(Boolean).join(", ")) + (m.why && m.why.length ? "<br><small>" + esc(m.why.join(" · ")) + "</small>" : "") + "</li>";
     }).join("") + "</ol>";
