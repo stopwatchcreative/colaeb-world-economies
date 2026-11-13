@@ -27,6 +27,7 @@ STOP = set("""first general global human village next social future true new fou
 insight greenoaks lux point general catalyst valor felicis initialized""".split())  # single words too risky to match alone
 # ...except these well-known single-word firms, which are matched only right after "led by" / "from" / "including"
 SAFE_SHORT = set("accel benchmark insight lux felicis initialized greenoaks index upfront valor".split())
+FUNDING_TITLE = re.compile(r"\b(raises?|raised|lands?|secures?|closes?|bags?|nabs?|gets|snags?|funding|round|series [a-f]|seed|pre-seed|investment|backs?|backed|led by|valuation)\b", re.I)
 FUNDING = re.compile(r"\b(led|co-led|leads|leading|participation|participated|backed|backers|joined|investors? includ|round|raise[sd]?|funding|seed|series)\b", re.I)
 
 
@@ -102,7 +103,10 @@ def build_patterns():
         base = re.sub(r"\s*\([^)]*\)", "", n).strip()
         variants.add(base); variants.update(a.strip() for a in alias)
         short = re.sub(SUFFIX, "", base, flags=re.I).strip()
-        if short and short != base: variants.add(short)
+        # A shortened name is only used when it is still distinctive: several words, a known short firm name,
+        # or an unusual token (digits / inner capitals like "a16z" or "LocalGlobe"). Avoids "Growth", "Launch", "Founders".
+        if short and short != base and (len(short.split()) > 1 or short.lower() in SAFE_SHORT or re.search(r"\d|[a-z][A-Z]", short)):
+            variants.add(short)
         for v in variants:
             if len(v) < 3: continue
             words = v.split()
@@ -129,7 +133,7 @@ def roles_in(text, pats):
             if strict and not re.search(r"(led by|co-led by|from|including|and|,)\s*$", before.strip() + " ", re.I) and not re.search(r"^\s*(led|co-led)", after, re.I):
                 continue
             cues = [(c.end(), "led") for c in re.finditer(r"\b(?:co-)?led by\b|\bleads?\b(?= the)", before, re.I)] + \
-                   [(c.end(), "in") for c in re.finditer(r"participation|participated|joined by|joined|alongside|along with|existing investors|investors includ\w*|backed by|with support from|also from|\bwith\b|\bplus\b", before, re.I)]
+                   [(c.end(), "in") for c in re.finditer(r"participation|participated|joined by|joined|alongside|along with|\binvestors\b|\bbackers\b|\bincluding\b|backed by|with support from|also from|\bwith\b|\bplus\b", before, re.I)]
             last = max(cues)[1] if cues else ""
             led = last == "led" or bool(re.search(r"^\s*(?:,\s*which\s+)?(?:led|co-led|leads)\b", after, re.I))
             prev = found.get(key)
@@ -142,14 +146,17 @@ def main():
     pats = build_patterns()
     print("patterns", len(pats), flush=True)
     for u, title in arts:
-        if u in cache and cache[u].get("v") == 2: continue
+        if u in cache and cache[u].get("v") == 3: continue
         try:
             html = S.get(u, timeout=20).text
         except Exception as e:
             print("article error", u, e); continue
         body = text_of(html)
+        t0 = meta(html, "og:title") or title
+        if not FUNDING_TITLE.search(t0):
+            cache[u] = {"t": t0, "d": article_date(html), "m": {}, "v": 3}; continue
         t = meta(html, "og:title") or title
-        cache[u] = {"t": t.replace("&amp;", "&"), "d": article_date(html), "m": roles_in(body, pats), "v": 2}
+        cache[u] = {"t": t.replace("&amp;", "&"), "d": article_date(html), "m": roles_in(body, pats), "v": 3}
         print("read", cache[u]["d"], t[:70], "->", len(cache[u]["m"]), flush=True)
         time.sleep(0.3)
     json.dump(cache, open(CACHE, "w"), indent=0, sort_keys=True, ensure_ascii=False)
