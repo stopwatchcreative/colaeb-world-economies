@@ -175,6 +175,9 @@ def main():
     arts, cache = list_articles()
     pats = build_patterns()
     print("patterns", len(pats), flush=True)
+    # Articles read under older matching rules are read again, so a rules change applies to the whole year.
+    seen = {u for u, _ in arts}
+    arts = list(arts) + [(u, a.get("t", "")) for u, a in cache.items() if a.get("v") != 5 and u not in seen]
     for u, title in arts:
         if u in cache and cache[u].get("v") == 5: continue
         try:
