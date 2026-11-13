@@ -1,5 +1,5 @@
 /* Colaeb investor profile pages (colaeb.com/investors/<slug>, the Investors CMS template).
-   Hides empty facts, adds the investor's name to the warm intro link and shows recent deals from YourInfoDaily. */
+   Hides empty facts and shows recent deals from YourInfoDaily. */
 (function () {
   "use strict";
   var DEALS = "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/investors/enrich/yid-deals.json";
@@ -23,11 +23,6 @@
       if (!href || href === "#") web.style.display = "none";
       else if (/linkedin\.com/i.test(href)) web.textContent = "View on LinkedIn ↗";
       web.addEventListener("click", function () { track("investor_website_click", { investor: name }); });
-    }
-    var intro = root.querySelector(".cni-intro");
-    if (intro) {
-      intro.href = "/?intro=" + encodeURIComponent(name) + "#plans";
-      intro.addEventListener("click", function () { track("warm_intro_click", { investor: name, from: "profile" }); });
     }
     var box = root.querySelector('[data-cni="deals"]');
     if (box) fetch(DEALS).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }).then(function (j) {

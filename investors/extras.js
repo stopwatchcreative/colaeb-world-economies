@@ -1,13 +1,11 @@
 /* Colaeb /investors extras, layered on top of the shared globe/directory (network/cn.js):
    1. "Recent deal" tags from YourInfoDaily Business coverage (enrich/yid-deals.json, refreshed daily by GitHub Actions).
-   2. "Request a warm intro" on every investor card and panel, linking to member plans (tracked in Google Analytics).
-   3. Profile links to colaeb.com/investors/<slug> pages when CN_CONFIG.profiles is set.
+   2. Profile links to colaeb.com/investors/<slug> pages when CN_CONFIG.profiles is set.
    Investor Match (match.js) reads r.deals to rank recently active investors higher. */
 (function () {
   "use strict";
   var CFG = window.CN_CONFIG || {};
   var DEALS = CFG.deals || "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/investors/enrich/yid-deals.json";
-  var PLANS = CFG.introUrl || "https://colaeb.com/#plans";
   var MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
   var bySlug = {}, byName = {}, ready = false;
 
@@ -22,8 +20,6 @@
     s.textContent =
       ".cnx-deal{display:flex;gap:8px;align-items:flex-start;margin:10px 0 0;padding:8px 10px;border-radius:10px;background:#F0FDF4;border:1px solid #BBF7D0;font-size:13px;line-height:1.4;color:#14532D}" +
       ".cnx-deal b{font-weight:700;white-space:nowrap}.cnx-deal a{color:#14532D;text-decoration:underline}.cnx-deal small{color:#3F6212;white-space:nowrap}" +
-      ".cnx-intro{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:8px 12px;border-radius:8px;background:#101828;color:#fff !important;font-size:13px;font-weight:700;text-decoration:none !important}" +
-      ".cnx-intro:hover{background:#F37A23}" +
       ".cnx-active{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:4px;background:#16A34A;color:#fff;font:700 10px/1.4 Arial,sans-serif;letter-spacing:.04em;vertical-align:middle}";
     document.head.appendChild(s);
   }
@@ -31,15 +27,6 @@
   function dealHtml(d) {
     return '<span aria-hidden="true">●</span><span><b>' + (d.r === "led" ? "Led a round" : "Backed a round") + ":</b> " +
       '<a href="' + esc(d.u) + '" target="_blank" rel="noopener">' + esc(d.t) + "</a> <small>" + month(d.d) + " · YourInfoDaily</small></span>";
-  }
-
-  function introLink(r) {
-    var a = document.createElement("a");
-    a.className = "cnx-intro";
-    a.href = PLANS.replace("#", "?intro=" + encodeURIComponent(r.name) + "#");
-    a.textContent = "Request a warm intro →";
-    a.addEventListener("click", function () { track("warm_intro_click", { investor: r.name, investor_type: r.industry || "" }); });
-    return a;
   }
 
   function decorateCard(li) {
@@ -55,7 +42,6 @@
       var name = li.querySelector(".cn-card-name");
       if (name && !name.querySelector("a")) { var t = name.firstChild; var a = document.createElement("a"); a.href = CFG.profiles.replace(/\/?$/, "/") + r.slug; a.textContent = r.name; if (t) name.replaceChild(a, t); }
     }
-    foot.parentNode.insertBefore(introLink(r), foot.nextSibling);
   }
 
   function decoratePanel(panel) {
@@ -68,7 +54,6 @@
       panel.insertBefore(p, acts);
     });
     if (acts) {
-      var a = introLink(r); a.className = "cn-btn cnx-intro"; a.style.marginTop = "0"; acts.appendChild(a);
       if (CFG.profiles && r.slug && !acts.querySelector('a[href*="/investors/"]')) {
         var pr = document.createElement("a"); pr.className = "cn-btn"; pr.href = CFG.profiles.replace(/\/?$/, "/") + r.slug; pr.textContent = "Investor profile"; acts.appendChild(pr);
       }
