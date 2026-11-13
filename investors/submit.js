@@ -157,6 +157,7 @@
         prepare(form).then(function (err) {
           if (btn) { btn.disabled = false; btn.value = label; }
           if (err) { say(form, err); return; }
+          try { if (window.gtag) window.gtag("event", "investor_listing_submit", { request_type: mode(form), firm: val(form, "firm") }); } catch (e) {}
           ready = true;
           if (form.requestSubmit) form.requestSubmit(); else form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
           ready = false; // one pass only: if the browser blocked the send, the next click is checked again

@@ -120,7 +120,10 @@
     list.forEach(function (m, i) { rows.push([i + 1, m.r.name, m.r.industry || "", m.r.place || [m.r.city, m.r.country].filter(Boolean).join(", "), m.r.website, (m.why || []).join("; ")]); });
     return rows.map(function (r) { return r.map(function (c) { c = String(c == null ? "" : c); return /[",\n]/.test(c) ? '"' + c.replace(/"/g, '""') + '"' : c; }).join(","); }).join("\n");
   }
+  // Google Analytics (gtag is on every colaeb.com page). Company names only, never emails.
+  function track(name, params) { try { if (window.gtag) window.gtag("event", name, params); } catch (e) {} }
   function download(list, q) {
+    track("csv_download", { company: q.company || "", website: ((document.querySelector("#cnm-website") || {}).value || ""), match_count: list.length, stage: q.stageLabel || "", sector: q.sector || "" });
     var blob = new Blob([csv(list)], { type: "text/csv" }), a = document.createElement("a");
     a.href = URL.createObjectURL(blob); a.download = ((q.company || "my") + "-investor-matches.csv").replace(/[^\w.-]+/g, "-").toLowerCase();
     document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
@@ -185,11 +188,13 @@
       form.addEventListener("input", live); form.addEventListener("change", live);
       if (window.CN) fill(form); else document.addEventListener("cn:ready", function () { fill(form); }, { once: true });
       form.addEventListener("submit", function () {
+        function val(n) { var e = form.querySelector('[name="' + n + '"]'); return e ? e.value : ""; }
         function run() {
           var res = fill(form) || { q: read(form), all: [] };
           window.CN && window.CN.setMatches(res.all, res.q.company);
           summary(document.querySelector("[data-cn-match-out]") || (form.parentNode && form.parentNode.querySelector(".w-form-done")), res.q, res.all);
         }
+        track("investor_match_submit", { company: val("company"), website: val("website"), stage: val("stage"), sector: val("sector") });
         if (window.CN) run(); else document.addEventListener("cn:ready", run, { once: true });
       });
     });
