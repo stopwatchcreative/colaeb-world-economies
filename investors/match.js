@@ -129,22 +129,17 @@
   function summary(out, q, all) {
     if (!out) return;
     out.innerHTML = "";
-    var shown = all.slice(0, TOP), p = el("div", "cnm-result");
-    var top = shown.slice(0, 3).map(function (m) { return m.r.name; });
+    var p = el("div", "cnm-result");
+    var top = all.slice(0, 3).map(function (m) { return m.r.name; });
     p.appendChild(el("p", "cnm-result-title", all.length ? all.length + " investors match " + (q.company || "your company") : "No strong matches yet"));
     p.appendChild(el("p", "cnm-result-text", all.length
-      ? "Top matches: " + top.join(", ") + ". Your best " + shown.length + " are highlighted on the globe and listed below, best match first." + (q.email ? " We'll also email your matches to " + q.email + "." : "")
+      ? "Top matches: " + top.join(", ") + ". All " + all.length + " are on the globe and listed below, best match first." + (q.email ? " We'll also email your matches to " + q.email + "." : "")
       : "Try a broader sector, or leave location as just your country."));
     if (all.length) {
       var row = el("div", "cnm-actions");
       var b = el("button", "cnm-btn", "See my matches"); b.type = "button";
       b.onclick = function () { var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: "smooth", block: "start" }); };
       row.appendChild(b);
-      if (all.length > TOP) {
-        var more = el("button", "cnm-btn cnm-btn-ghost", "Show all " + all.length); more.type = "button";
-        more.onclick = function () { if (window.CN) window.CN.setMatches(all, q.company); more.remove(); var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: "smooth", block: "start" }); };
-        row.appendChild(more);
-      }
       var dl = el("button", "cnm-btn cnm-btn-ghost", "Download list (CSV)"); dl.type = "button";
       dl.onclick = function () { download(all, q); };
       row.appendChild(dl);
@@ -192,7 +187,7 @@
       form.addEventListener("submit", function () {
         function run() {
           var res = fill(form) || { q: read(form), all: [] };
-          window.CN && window.CN.setMatches(res.all.slice(0, TOP), res.q.company);
+          window.CN && window.CN.setMatches(res.all, res.q.company);
           summary(document.querySelector("[data-cn-match-out]") || (form.parentNode && form.parentNode.querySelector(".w-form-done")), res.q, res.all);
         }
         if (window.CN) run(); else document.addEventListener("cn:ready", run, { once: true });
