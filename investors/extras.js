@@ -82,6 +82,10 @@
 
   function start() {
     css();
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("[data-cn-promo]");
+      if (a) track("promo_click", { promo: a.getAttribute("data-cn-promo") });
+    });
     fetch(DEALS).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
       .then(function (j) { attach((j && j.deals) || {}); });
     new MutationObserver(function (muts) { if (!ready) return; muts.forEach(function (m) { m.addedNodes.forEach(function (n) { if (n.nodeType === 1) scan(n); }); }); })
