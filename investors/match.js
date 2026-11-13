@@ -88,6 +88,12 @@
     // freshness and trust
     var yr = String(ex.raised || "").match(/(20\d\d)/); if (yr && +yr[1] >= 2022) { s += 1; why.push("Raised a fund in " + yr[1]); }
     if (r.featured) { s += 1; why.push("Colaeb verified"); }
+    // recently active: led or backed a round covered by YourInfoDaily (extras.js attaches r.deals)
+    if (r.deals && r.deals.length) {
+      var d = r.deals[0], age = (Date.now() - Date.parse(d.d)) / 864e5, mo = new Date(d.d).toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+      if (age <= 180) { s += d.r === "led" ? 3 : 2; why.push((d.r === "led" ? "Led a round " : "Backed a round ") + mo); }
+      else if (age <= 365) { s += 1; why.push("Active in the last year"); }
+    }
     // check size vs raise
     var chk = String(ex.check || ""); if (chk && q.raise) {
       var parts = chk.split(/[-–to]+/).map(money).filter(Boolean), lo = Math.min.apply(null, parts), hi = Math.max.apply(null, parts);
@@ -183,10 +189,14 @@
         if (o.value && o.textContent.trim() !== o.value) o.textContent = o.value;
       });
       var st = form.querySelector('[name="stage"]'); if (st) st.value = "Seed";
+      // Reject emails without a real domain (e.g. "name@company"), so the matches email can be delivered.
+      var em = form.querySelector('[name="email"]');
+      if (em) { em.setAttribute("pattern", "[^@\\s]+@[^@\\s]+\\.[A-Za-z]{2,}"); em.setAttribute("title", "Enter a full email address, like you@company.com"); }
       var loc = form.querySelector("#cnm-location"); if (loc) { loc.name = "location"; loc.setAttribute("data-name", "Location"); }
       var t; function live() { clearTimeout(t); t = setTimeout(function () { fill(form); }, 250); }
       form.addEventListener("input", live); form.addEventListener("change", live);
       if (window.CN) fill(form); else document.addEventListener("cn:ready", function () { fill(form); }, { once: true });
+      document.addEventListener("cn:deals", function () { fill(form); });
       form.addEventListener("submit", function () {
         function val(n) { var e = form.querySelector('[name="' + n + '"]'); return e ? e.value : ""; }
         function run() {
