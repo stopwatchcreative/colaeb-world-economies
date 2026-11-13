@@ -19,12 +19,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - run: pip install requests
+      - run: pip install requests && sudo apt-get install -y age >/dev/null
       - name: Re-read investor websites
         if: github.event.schedule == '41 7 3 * *' || (github.event_name == 'push' && contains(github.event.head_commit.message, 'crawl'))
         run: python investors/enrich/crawl.py
         env:
           MAX_AGE_DAYS: ${{ contains(github.event.head_commit.message, 'recrawl') && '0' || '25' }}
+          # Public age key: firm emails are encrypted with it before commit. Only Colaeb holds the private key.
+          EMAIL_KEY: age137278w9uy606hcecyvy5j65n46hugcq2jutkcp4xu7ghzj3mppusaly9jc
       - name: YourInfoDaily deals
         run: python investors/enrich/yid_deals.py
       - name: Build enriched feed
@@ -33,6 +35,7 @@ jobs:
         run: |
           git config user.name "colaeb-bot"
           git config user.email "colaeb-bot@users.noreply.github.com"
+          git add investors/enrich/emails-*.json.age 2>/dev/null || true
           git add investors/enrich/sites.json investors/enrich/yid-articles.json investors/enrich/yid-deals.json investors/investors-feed-enriched.json || true
           if git diff --cached --quiet; then echo "no changes"; exit 0; fi
           git commit -m "Investors refresh $(date -u +%F)"

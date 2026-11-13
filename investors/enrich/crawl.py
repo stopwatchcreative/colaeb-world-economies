@@ -4,6 +4,9 @@
 Runs on GitHub Actions (monthly, or on demand). Output: investors/enrich/sites.json, keyed by host:
   {"status": "ok"|"dead"|"blocked", "dead_runs": n, "stage": "...", "focus": "...", "check": "...",
    "latest_year": 2026, "checked": "2026-11-13"}
+Also collects the email addresses each firm publishes on its own site (same domain only). Emails are NOT written to
+sites.json: they go to emails-<date>.json.age, encrypted with the public key in EMAIL_KEY (age), so the public repo and
+CDN never expose them. Only the private key holder can read them (see the master CSV builder).
 A host is only treated as gone after two dead checks in a row, so a site that is briefly down is kept.
 """
 import json, os, re, sys, time, datetime, concurrent.futures as cf
@@ -16,6 +19,7 @@ OUT = os.path.join(HERE, "sites.json")
 TODAY = datetime.date.today().isoformat()
 MAX_AGE_DAYS = int(os.environ.get("MAX_AGE_DAYS", "25"))  # skip hosts checked more recently than this
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36 ColaebInvestorList/1.0 (+https://colaeb.com/investors)"
+EMAILS = {}  # host -> [emails]; kept out of sites.json, written encrypted
 S = requests.Session(); S.headers.update({"User-Agent": UA, "Accept-Language": "en-US,en;q=0.8"})
 
 STAGES = [("Pre-seed", r"pre[\s-]?seed"), ("Seed", r"(?<!pre-)(?<!pre )\bseed\b"), ("Series A", r"series\s*a\b"),
@@ -41,6 +45,9 @@ SECTORS = [  # label, pattern. Labels use words match.js already understands.
     ("Deep tech and hardware", r"deep ?tech|hardware|robotics|semiconductor|quantum|space ?tech|aerospace|defen[cs]e tech|frontier tech"),
 ]
 PARKED = re.compile(r"domain (?:is )?for sale|buy this domain|this domain may be for sale|parked free|domain parking|hugedomains|sedo\.com|dan\.com", re.I)
+CONTACT = re.compile(r"contact|team|people|pitch|submit|apply|reach|connect", re.I)
+EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
+EMAIL_SKIP = re.compile(r"\.(?:png|jpe?g|gif|svg|webp|css|js)$|example\.|sentry|wixpress|domain\.com|email\.com|yourdomain|@2x", re.I)
 ABOUT = re.compile(r"about|thesis|invest|focus|approach|what-we|strategy|who-we|criteria|founders|apply", re.I)
 MONEY = r"\$\s?(\d{1,4}(?:\.\d+)?)\s?(k|m|mm|million|thousand|b)?\b"
 CHECK = re.compile(MONEY + r"\s?(?:-|–|—|to|and)\s?" + MONEY, re.I)
@@ -92,6 +99,24 @@ def classify(texts, head):
             "latest_year": max(years) if years else None}
 
 
+def emails_in(html, host):
+    """Emails on the firm's own domain, from mailto links, page text and Cloudflare-protected addresses."""
+    found = set(re.findall(r"""(?i)mailto:([^"'?>\s]+)""", html)) | set(EMAIL.findall(re.sub(r"(?s)<[^>]+>", " ", html)))
+    for enc in re.findall(r'data-cfemail="([0-9a-fA-F]+)"', html):
+        try:
+            k = int(enc[:2], 16); found.add("".join(chr(int(enc[i:i + 2], 16) ^ k) for i in range(2, len(enc), 2)))
+        except Exception:
+            pass
+    base = ".".join(host.split(".")[-2:])
+    out = set()
+    for e in found:
+        e = e.strip().strip(".").lower()
+        if not EMAIL.fullmatch(e) or EMAIL_SKIP.search(e): continue
+        d = e.split("@")[1]
+        if d == base or d.endswith("." + base) or base.endswith(d): out.add(e)
+    return out
+
+
 def get(url):
     r = S.get(url, timeout=12, allow_redirects=True)
     ctype = r.headers.get("content-type", "")
@@ -116,17 +141,24 @@ def crawl(host, prev):
     texts, heads = [], []
     t, head = text_of(html); texts.append(t); heads.append(head)
     base = r.url
-    links = []
+    site = urlparse(base).netloc.replace("www.", "") or host
+    mails = emails_in(html, site)
+    links, contacts = [], []
     for href in re.findall(r'(?i)href="([^"#]+)"', html):
         u = urljoin(base, href)
-        if urlparse(u).netloc.replace("www.", "") == urlparse(base).netloc.replace("www.", "") and ABOUT.search(urlparse(u).path):
-            if u not in links: links.append(u)
-    for u in links[:3]:
+        if urlparse(u).netloc.replace("www.", "") != urlparse(base).netloc.replace("www.", ""): continue
+        path = urlparse(u).path
+        if ABOUT.search(path) and u not in links: links.append(u)
+        if CONTACT.search(path) and u not in contacts and u not in links[:3]: contacts.append(u)
+    for u in links[:3] + contacts[:1]:
         try:
             _, h2 = get(u)
-            if h2: t2, hd2 = text_of(h2); texts.append(t2[:60000]); heads.append(hd2)
+            if h2:
+                mails |= emails_in(h2, site)
+                if u in links[:3]: t2, hd2 = text_of(h2); texts.append(t2[:60000]); heads.append(hd2)
         except Exception:
             pass
+    if mails: EMAILS[host] = sorted(mails)[:8]
     rec.update(classify(texts, " ".join(heads)))
     rec["status"] = "ok"; rec["dead_runs"] = 0
     if urlparse(base).netloc.replace("www.", "") != host:
@@ -165,11 +197,24 @@ def main():
                 print(done, "done", round(time.time() - t0), "s", flush=True)
                 json.dump(old, open(OUT, "w"), indent=0, sort_keys=True)
     json.dump(old, open(OUT, "w"), indent=0, sort_keys=True)
+    save_emails()
     st = {}
     for v in old.values(): st[v.get("status")] = st.get(v.get("status"), 0) + 1
     print("status counts", st)
     print("with stage", sum(1 for v in old.values() if v.get("stage")), "with focus", sum(1 for v in old.values() if v.get("focus")),
           "with check", sum(1 for v in old.values() if v.get("check")))
+
+
+def save_emails():
+    """Encrypt this run's emails with age. Never print them: Actions logs are public."""
+    key = os.environ.get("EMAIL_KEY", "").strip()
+    print("hosts with emails", len(EMAILS), flush=True)
+    if not EMAILS or not key:
+        return
+    import subprocess
+    out = os.path.join(HERE, "emails-%s.json.age" % TODAY)
+    data = json.dumps({"checked": TODAY, "emails": EMAILS}, sort_keys=True).encode()
+    subprocess.run(["age", "-r", key, "-o", out], input=data, check=True)
 
 
 if __name__ == "__main__":

@@ -1,2 +1,5 @@
 build/
 __pycache__/
+emails.json
+investors/enrich/emails.json
+*.key
