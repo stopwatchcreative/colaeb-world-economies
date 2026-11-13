@@ -36,7 +36,7 @@ jobs:
           git config user.name "colaeb-bot"
           git config user.email "colaeb-bot@users.noreply.github.com"
           git add investors/enrich/emails-*.json.age 2>/dev/null || true
-          git add investors/enrich/sites.json investors/enrich/yid-articles.json investors/enrich/yid-deals.json investors/investors-feed-enriched.json || true
+          git add investors/enrich/sites.json investors/enrich/yid-articles.json investors/enrich/yid-deals.json investors/enrich/held.json investors/investors-feed-enriched.json || true
           if git diff --cached --quiet; then echo "no changes"; exit 0; fi
           git commit -m "Investors refresh $(date -u +%F)"
           git pull --rebase origin main && git push
