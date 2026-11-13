@@ -38,9 +38,9 @@
       foot.parentNode.insertBefore(p, foot);
       var nm = li.querySelector(".cn-card-name"); if (nm && !nm.querySelector(".cnx-active")) nm.insertAdjacentHTML("beforeend", '<span class="cnx-active">ACTIVE</span>');
     }
-    if (CFG.profiles && r.slug) {
+    if (r.profile) {
       var name = li.querySelector(".cn-card-name");
-      if (name && !name.querySelector("a")) { var t = name.firstChild; var a = document.createElement("a"); a.href = CFG.profiles.replace(/\/?$/, "/") + r.slug; a.textContent = r.name; if (t) name.replaceChild(a, t); }
+      if (name && !name.querySelector("a")) { var t = name.firstChild; var a = document.createElement("a"); a.href = r.profile; a.textContent = r.name; if (t) name.replaceChild(a, t); }
     }
   }
 
@@ -54,8 +54,8 @@
       panel.insertBefore(p, acts);
     });
     if (acts) {
-      if (CFG.profiles && r.slug && !acts.querySelector('a[href*="/investors/"]')) {
-        var pr = document.createElement("a"); pr.className = "cn-btn"; pr.href = CFG.profiles.replace(/\/?$/, "/") + r.slug; pr.textContent = "Investor profile"; acts.appendChild(pr);
+      if (r.profile && !acts.querySelector('a[href*="/investors/"]')) {
+        var pr = document.createElement("a"); pr.className = "cn-btn"; pr.href = r.profile; pr.textContent = "Investor profile"; acts.appendChild(pr);
       }
     }
   }
@@ -67,13 +67,16 @@
     document.querySelectorAll(".cn-panel-name").forEach(function (n) { var p = n.closest(".cn-panel-head"); if (p && p.parentNode) decoratePanel(p.parentNode); });
   }
 
-  function attach(deals) {
+  var PROFILES = CFG.profileMap || "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/investors/enrich/profiles.json";
+  function attach(deals, profiles) {
     var items = (window.CN && window.CN.items && window.CN.items()) || [];
     items.forEach(function (r) {
       bySlug[r.slug] = r; byName[keyName(r.name)] = r;
       var h = host(r.website);
       var d = (h && deals["h:" + h]) || deals["n:" + keyName(r.name)];
       if (d && d.length) r.deals = d;
+      var sl = (h && profiles["h:" + h]) || profiles["n:" + keyName(r.name)];
+      if (sl) r.profile = "/investors/" + sl;
     });
     ready = true;
     scan(document);
@@ -86,8 +89,8 @@
       var a = e.target.closest && e.target.closest("[data-cn-promo]");
       if (a) track("promo_click", { promo: a.getAttribute("data-cn-promo") });
     });
-    fetch(DEALS).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
-      .then(function (j) { attach((j && j.deals) || {}); });
+    var get = function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }); };
+    Promise.all([get(DEALS), get(PROFILES)]).then(function (a) { attach((a[0] && a[0].deals) || {}, a[1] || {}); });
     new MutationObserver(function (muts) { if (!ready) return; muts.forEach(function (m) { m.addedNodes.forEach(function (n) { if (n.nodeType === 1) scan(n); }); }); })
       .observe(document.body, { childList: true, subtree: true });
   }
