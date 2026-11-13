@@ -136,7 +136,7 @@
 },
 "1776.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "1855capital.com": {
@@ -218,9 +218,13 @@
 "status": "ok"
 },
 "201.vc": {
+"check": "",
 "checked": "2026-11-13",
-"dead_runs": 2,
-"status": "dead"
+"dead_runs": 0,
+"focus": "",
+"latest_year": 2023,
+"stage": "Pre-seed, Seed",
+"status": "ok"
 },
 "2048.vc": {
 "check": "$500K\u2013$3M",
@@ -257,11 +261,11 @@
 "2150.vc": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 1,
-"focus": "Climate and energy, AI, Mobility, Deep tech and hardware, SaaS and enterprise software, E-commerce and marketplaces",
+"dead_runs": 0,
+"focus": "Climate and energy, AI, Mobility and logistics, Deep tech and hardware, SaaS and enterprise software, E-commerce and marketplaces",
 "latest_year": 2026,
 "stage": "",
-"status": "dead"
+"status": "ok"
 },
 "25madison.com": {
 "check": "",
@@ -346,7 +350,7 @@
 },
 "3ebiovc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "3kvc.com": {
@@ -415,7 +419,7 @@
 },
 "40northventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "415capital.com": {
@@ -610,7 +614,7 @@
 },
 "7seasvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "7wireventures.com": {
@@ -696,7 +700,7 @@
 },
 "9rvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "a-tcapital.com": {
@@ -710,7 +714,7 @@
 },
 "aagaard.ventures": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "ab-alpha.de": {
@@ -770,7 +774,7 @@
 },
 "abnamro.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "about.me": {
@@ -811,7 +815,7 @@
 },
 "accelerated.ventures": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "accelerategreen.ie": {
@@ -1101,7 +1105,7 @@
 "check": "",
 "checked": "2026-11-13",
 "dead_runs": 0,
-"focus": "Health, AI, Consumer, Fintech, Mobility and logistics, Climate and energy",
+"focus": "Fintech, Health, Consumer, AI, Biotech and life sciences, Mobility and logistics",
 "latest_year": 2026,
 "stage": "Series B, Growth",
 "status": "ok"
@@ -1137,8 +1141,9 @@
 "check": "",
 "checked": "2026-11-13",
 "dead_runs": 0,
-"focus": "",
+"focus": "Health, AI",
 "latest_year": 2026,
+"moved_to": "aescuvest.vc",
 "stage": "",
 "status": "ok"
 },
@@ -1225,7 +1230,7 @@
 },
 "agritechhub.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "agrizero.nz": {
@@ -1303,7 +1308,7 @@
 },
 "ai8ventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "aicapital.ai": {
@@ -1519,7 +1524,7 @@
 },
 "alisonrosenthal.me": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "aliyah-ventures.com": {
@@ -1953,7 +1958,7 @@
 },
 "amityventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "ampappas.com": {
@@ -1995,7 +2000,7 @@
 },
 "amplovc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "amventures.com": {
@@ -2082,7 +2087,7 @@
 },
 "angelicoventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "angeliniventures.com": {
@@ -2134,11 +2139,11 @@
 "angularventures.com": {
 "check": "$500K\u2013$5M",
 "checked": "2026-11-13",
-"dead_runs": 0,
+"dead_runs": 1,
 "focus": "",
 "latest_year": null,
 "stage": "",
-"status": "ok"
+"status": "dead"
 },
 "animo.vc": {
 "check": "$500K\u2013$2.5M",
@@ -2152,7 +2157,7 @@
 "anityaventures.com": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 1,
+"dead_runs": 2,
 "focus": "",
 "latest_year": null,
 "stage": "",
@@ -2205,7 +2210,7 @@
 },
 "antecedent.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "anterracapital.com": {
@@ -2282,7 +2287,7 @@
 },
 "aolventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "aoproptech.com": {
@@ -2355,7 +2360,7 @@
 },
 "aprilunderwood.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "apventures.com": {
@@ -2450,7 +2455,7 @@
 },
 "arax.at": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "araya.ventures": {
@@ -2537,7 +2542,7 @@
 },
 "archimed-group.eu": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "archventure.com": {
@@ -2551,7 +2556,7 @@
 },
 "arcternventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "arcviewgroup.com": {
@@ -2601,7 +2606,7 @@
 },
 "argonapartners.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "ariafund.com": {
@@ -2615,7 +2620,7 @@
 },
 "arielicapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "aristagoravc.com": {
@@ -2638,8 +2643,8 @@
 },
 "arixbioscience.com": {
 "checked": "2026-11-13",
-"dead_runs": 1,
-"status": "dead"
+"dead_runs": 0,
+"status": "blocked"
 },
 "arka.vc": {
 "check": "",
@@ -3092,7 +3097,7 @@
 },
 "atxseedventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "atxventurepartners.com": {
@@ -3106,7 +3111,7 @@
 },
 "atypical.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "au21.capital": {
@@ -3120,7 +3125,7 @@
 },
 "aube-management.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "audacious.co": {
@@ -3331,7 +3336,7 @@
 "focus": "Climate and energy, Education, Real estate and proptech, Crypto and web3",
 "latest_year": 2026,
 "stage": "",
-"status": "ok"
+"status": "blocked"
 },
 "avorocapital.com": {
 "check": "",
@@ -3499,7 +3504,7 @@
 },
 "backfuture.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "backingminds.com": {
@@ -3513,7 +3518,7 @@
 },
 "backit.ventures": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "backstagecapital.com": {
@@ -3581,7 +3586,7 @@
 },
 "balticsandbox.ventures": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "bam.vc": {
@@ -3622,7 +3627,7 @@
 },
 "bankabl.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "baobabventures.vc": {
@@ -3683,11 +3688,11 @@
 "basf.com": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 0,
+"dead_runs": 1,
 "focus": "Climate and energy, Food and agriculture, AI",
 "latest_year": 2028,
 "stage": "",
-"status": "ok"
+"status": "dead"
 },
 "basinghallpartners.com": {
 "check": "",
@@ -3710,7 +3715,7 @@
 },
 "bassinventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "batshitcrazy.is": {
@@ -3807,7 +3812,7 @@
 },
 "bcgdv.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "bci-ti.com": {
@@ -3820,9 +3825,13 @@
 "status": "ok"
 },
 "bcvp.com": {
+"check": "",
 "checked": "2026-11-13",
-"dead_runs": 2,
-"status": "dead"
+"dead_runs": 0,
+"focus": "AI, Cybersecurity",
+"latest_year": 2026,
+"stage": "Seed, Series A, Growth",
+"status": "ok"
 },
 "bdc.ca": {
 "check": "",
@@ -3853,7 +3862,7 @@
 },
 "be8.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "beablecapital.com": {
@@ -3939,7 +3948,7 @@
 },
 "begreat.co": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "behindgeniusventures.com": {
@@ -4016,7 +4025,7 @@
 },
 "bennuvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "bensonoakventures.com": {
@@ -4168,7 +4177,7 @@
 },
 "bharat.fund": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "bhp.com": {
@@ -4251,16 +4260,16 @@
 },
 "bioeconomycapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "biogenerationventures.com": {
 "check": "",
 "checked": "2026-11-13",
 "dead_runs": 0,
-"focus": "Biotech and life sciences, Climate and energy, Health, AI",
+"focus": "Biotech and life sciences, Climate and energy, AI, Health",
 "latest_year": 2026,
-"stage": "Seed, Series A, Series B",
+"stage": "Pre-seed, Seed, Series A, Series B",
 "status": "ok"
 },
 "biomedvc.com": {
@@ -4302,7 +4311,7 @@
 },
 "bioverge.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "birchmerevc.com": {
@@ -4371,7 +4380,7 @@
 },
 "blackfincp.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "blackhornvc.com": {
@@ -4540,7 +4549,7 @@
 },
 "blue.xyz": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "blue9capital.com": {
@@ -4636,7 +4645,7 @@
 },
 "bluetauruspartnership.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "bluetechaccelerator.com": {
@@ -4650,7 +4659,7 @@
 },
 "bluetitanventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "bluewaterangels.com": {
@@ -4997,7 +5006,7 @@
 },
 "brainrobotcap.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "bramble.partners": {
@@ -5040,7 +5049,7 @@
 },
 "brandoncapital.com.au": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "breadandbutterventures.com": {
@@ -5230,7 +5239,7 @@
 },
 "brilliant.ventures": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "britbots.com": {
@@ -5653,7 +5662,7 @@
 },
 "canopysd.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "cantos.vc": {
@@ -5676,7 +5685,7 @@
 },
 "canvasimpact.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "canyoncreekcapital.com": {
@@ -5981,7 +5990,7 @@
 },
 "caterpillar.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "cathayinnovation.com": {
@@ -6139,7 +6148,7 @@
 },
 "cf.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "chaacventures.com": {
@@ -6262,7 +6271,7 @@
 },
 "chinagrowthcapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "chingona.ventures": {
@@ -6294,7 +6303,7 @@
 },
 "chordcapital.co.uk": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "christinetsai.co": {
@@ -6340,7 +6349,7 @@
 },
 "ciech.ventures": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "circadiaventures.com": {
@@ -6354,7 +6363,7 @@
 },
 "circklo.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "circleco.vc": {
@@ -6449,12 +6458,12 @@
 },
 "claritashealthventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "clavecapital.com.br": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "claycapital.vc": {
@@ -6549,7 +6558,7 @@
 },
 "clim8invest.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "climactic.vc": {
@@ -6689,7 +6698,7 @@
 },
 "cmbcapital.com.au": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "cmfgventures.com": {
@@ -6859,7 +6868,7 @@
 },
 "comeup.capital": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "commercevc.com": {
@@ -7077,7 +7086,7 @@
 },
 "consensys.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "constellar.vc": {
@@ -7169,7 +7178,7 @@
 },
 "convrtx.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "coparion.vc": {
@@ -7183,7 +7192,7 @@
 },
 "copiagrowth.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "corazoncap.com": {
@@ -7226,7 +7235,7 @@
 },
 "coriolisventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "cornerstonevc.co": {
@@ -7240,7 +7249,7 @@
 },
 "coronismedical.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "corporate.proveg.com": {
@@ -7255,7 +7264,7 @@
 },
 "corpscappartners.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "correlationvc.com": {
@@ -7388,7 +7397,7 @@
 },
 "cowinvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "cp.ventures": {
@@ -7519,7 +7528,7 @@
 },
 "crescententerprises.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "crestlight.com": {
@@ -7922,7 +7931,7 @@
 },
 "dbicventures.ie": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "dblpartners.vc": {
@@ -8110,7 +8119,7 @@
 },
 "deepworkcapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "deerfield.com": {
@@ -8413,8 +8422,8 @@
 },
 "divergentvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 1,
-"status": "dead"
+"dead_runs": 0,
+"status": "blocked"
 },
 "dmgventures.co.uk": {
 "check": "$15M\u2013$200M",
@@ -8526,7 +8535,7 @@
 },
 "downingventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "dradscapital.com": {
@@ -8960,7 +8969,7 @@
 },
 "ecosia-regenerative-agriculture.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "edenblock.com": {
@@ -9183,12 +9192,12 @@
 "elementalexcelerator.com": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 0,
+"dead_runs": 1,
 "focus": "Climate and energy, Mobility and logistics, Food and agriculture, Real estate and proptech",
 "latest_year": 2026,
 "moved_to": "elementalimpact.com",
 "stage": "Pre-seed, Series B",
-"status": "ok"
+"status": "dead"
 },
 "elementum.vc": {
 "check": "",
@@ -9201,7 +9210,7 @@
 },
 "elementzventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "elephantvc.com": {
@@ -9278,7 +9287,7 @@
 },
 "elysiacapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "elysiancapital.com": {
@@ -9492,7 +9501,7 @@
 },
 "eneos-innovation.co.jp": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "energie360.ch": {
@@ -9516,7 +9525,7 @@
 },
 "energy-ventures.baywa-re.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "energyfoundry.com": {
@@ -9612,7 +9621,7 @@
 },
 "ensoventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "enterpriseequity.ie": {
@@ -9783,7 +9792,7 @@
 },
 "escoventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "esportsglobal.com": {
@@ -9806,7 +9815,7 @@
 },
 "etcapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "etfpartners.capital": {
@@ -9893,7 +9902,7 @@
 },
 "evergyventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "eversourcecapital.com": {
@@ -9990,7 +9999,7 @@
 },
 "excalibur-group.co.uk": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "exceleratehealth.com": {
@@ -10081,7 +10090,7 @@
 },
 "exponential.io": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "extantia.com": {
@@ -10385,7 +10394,7 @@
 },
 "finclusive.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "finestructure.vc": {
@@ -10404,7 +10413,7 @@
 },
 "finistere.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "finleap.com": {
@@ -10510,7 +10519,7 @@
 },
 "firstcheckventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "firstimagine.com": {
@@ -10534,7 +10543,7 @@
 },
 "firstlaunchcapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "firstmarkcap.com": {
@@ -10616,7 +10625,7 @@
 },
 "fiveseasons.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "fjlabs.com": {
@@ -10630,7 +10639,7 @@
 },
 "fl4sh.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "flagshippioneering.com": {
@@ -10659,7 +10668,7 @@
 },
 "flight.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "floating.vc": {
@@ -10890,7 +10899,7 @@
 },
 "forsterchase.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "forteventures.com": {
@@ -11407,7 +11416,7 @@
 },
 "fungcap.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "furthr.ie": {
@@ -11611,7 +11620,7 @@
 },
 "gamerforce.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "gandyr.com": {
@@ -11680,7 +11689,7 @@
 },
 "ge.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "gecad.com": {
@@ -11935,7 +11944,7 @@
 },
 "ginkopartners.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "gitv.vc": {
@@ -12032,15 +12041,15 @@
 "globalspaceventures.com": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 1,
+"dead_runs": 0,
 "focus": "",
 "latest_year": null,
 "stage": "",
-"status": "dead"
+"status": "ok"
 },
 "glory-ventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "gmo-vp.com": {
@@ -12063,7 +12072,7 @@
 },
 "gocapital.fr": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "gohub.vc": {
@@ -12136,8 +12145,8 @@
 },
 "goventurelab.com": {
 "checked": "2026-11-13",
-"dead_runs": 1,
-"status": "dead"
+"dead_runs": 0,
+"status": "blocked"
 },
 "govtechfund.com": {
 "check": "",
@@ -12447,7 +12456,7 @@
 },
 "groundfloor.ventures": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "groundswell-ventures.com": {
@@ -12525,7 +12534,7 @@
 "growxventures.com": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 1,
+"dead_runs": 2,
 "focus": "Deep tech and hardware, AI, SaaS and enterprise software, Fintech, Mobility, Media and creator economy",
 "latest_year": 2026,
 "moved_to": "growx.vc",
@@ -12666,12 +12675,12 @@
 },
 "halleyvp.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "hallvp.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "halogenvc.com": {
@@ -12694,7 +12703,7 @@
 },
 "hanhaibiolabs.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "haniel.de": {
@@ -12759,7 +12768,7 @@
 },
 "harvey-partners.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "hashtagangels.com": {
@@ -12914,7 +12923,7 @@
 },
 "healthventure.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "healthwildcatters.com": {
@@ -13301,7 +13310,7 @@
 },
 "hiventures.hu": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "hkstp.org": {
@@ -13353,7 +13362,7 @@
 },
 "honecap.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "horseshoe.vc": {
@@ -13406,7 +13415,7 @@
 "check": "",
 "checked": "2026-11-13",
 "dead_runs": 0,
-"focus": "Biotech and life sciences, Deep tech and hardware, Climate and energy, AI, Health, Gaming and sports",
+"focus": "Biotech and life sciences, Deep tech and hardware, Climate and energy, Health, Gaming and sports, Education",
 "latest_year": 2027,
 "stage": "Pre-seed, Seed, Series A",
 "status": "ok"
@@ -13996,7 +14005,7 @@
 },
 "impactstartup.se": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "impactvc.com": {
@@ -14020,7 +14029,7 @@
 },
 "imprimaturcapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "in-venture.com": {
@@ -14218,7 +14227,7 @@
 },
 "ingwb.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "inhouseventures.com.au": {
@@ -14277,7 +14286,7 @@
 },
 "inno-hub.co": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "innoenergy.com": {
@@ -14338,7 +14347,7 @@
 },
 "innospring.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "innovahealthpartners.com": {
@@ -14480,7 +14489,7 @@
 },
 "inspace.gov.in": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "inspirationventures.com": {
@@ -14595,7 +14604,7 @@
 },
 "interstellar.ventures": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "interwest.com": {
@@ -14724,7 +14733,7 @@
 },
 "investomonk.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "investovc.com": {
@@ -14756,7 +14765,7 @@
 },
 "iowastartupaccelerator.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "ipgroupanz.com": {
@@ -14950,7 +14959,7 @@
 },
 "itrventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "j12ventures.com": {
@@ -14973,7 +14982,7 @@
 },
 "jae.ventures": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "jalventures.com": {
@@ -14996,7 +15005,7 @@
 },
 "janevc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "jansecapital.com": {
@@ -15213,7 +15222,7 @@
 },
 "joyful.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "joyventures.com": {
@@ -15237,8 +15246,8 @@
 },
 "jpin.co": {
 "checked": "2026-11-13",
-"dead_runs": 0,
-"status": "blocked"
+"dead_runs": 1,
+"status": "dead"
 },
 "jsf.co": {
 "check": "",
@@ -15332,8 +15341,8 @@
 },
 "k2globalvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 1,
-"status": "dead"
+"dead_runs": 0,
+"status": "blocked"
 },
 "k5ventures.com": {
 "check": "",
@@ -15355,7 +15364,7 @@
 },
 "kadimagroup.com.au": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "kairoshq.com": {
@@ -15493,7 +15502,7 @@
 },
 "kbic.co.kr": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "kbpartners.com": {
@@ -15561,7 +15570,7 @@
 },
 "kering-ventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "kernventuregroup.com": {
@@ -15584,12 +15593,12 @@
 },
 "kginvest.net": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "khoob.group": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "ki.uk": {
@@ -15803,7 +15812,7 @@
 },
 "konzortia.capital": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "korelyacapital.com": {
@@ -15954,7 +15963,7 @@
 },
 "lakelandventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "lakestar.com": {
@@ -15968,7 +15977,7 @@
 },
 "lamppostgroup.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "lanchiventures.com": {
@@ -16091,7 +16100,7 @@
 },
 "launchpdh.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "launchub.com": {
@@ -16284,7 +16293,7 @@
 },
 "legendcapital.com.cn": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "lemnos.vc": {
@@ -16298,7 +16307,7 @@
 },
 "lemnoslabs.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "lemonadecapital.com": {
@@ -16367,7 +16376,7 @@
 },
 "levitatecap.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "lewisandclarkventures.com": {
@@ -16441,7 +16450,7 @@
 },
 "lifeventures.tech": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "lightbank.com": {
@@ -16601,7 +16610,7 @@
 },
 "littlefishgroup.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "liveoakvp.com": {
@@ -16625,7 +16634,7 @@
 },
 "lodestarvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "lolitataub.co": {
@@ -16667,7 +16676,7 @@
 },
 "longbow.co.uk": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "longevc.com": {
@@ -17108,7 +17117,7 @@
 },
 "mahindrapartners.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "maia.vc": {
@@ -17131,7 +17140,7 @@
 },
 "maidenlane.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "mainlineco.com": {
@@ -17218,7 +17227,7 @@
 },
 "mandiventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "mangrove.vc": {
@@ -17415,7 +17424,7 @@
 },
 "matador-ventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "materialimpact.com": {
@@ -17512,7 +17521,7 @@
 },
 "maxfieldcapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "maxventures.vc": {
@@ -17681,7 +17690,7 @@
 "merakventures.com": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 1,
+"dead_runs": 2,
 "focus": "SaaS and enterprise software, Deep tech and hardware, AI, Media and creator economy, Mobility, Food and agriculture",
 "latest_year": 2026,
 "stage": "Pre-seed, Seed",
@@ -17722,7 +17731,7 @@
 "focus": "AI, Media and creator economy, Gaming and sports, Deep tech and hardware, SaaS and enterprise software",
 "latest_year": 2024,
 "stage": "Pre-seed, Seed, Series A",
-"status": "ok"
+"status": "blocked"
 },
 "mercuryfund.com": {
 "check": "$1M\u2013$5M",
@@ -17967,12 +17976,12 @@
 },
 "mila.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "milanoinvestment.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "militellocapital.com": {
@@ -18004,7 +18013,7 @@
 },
 "minds2capital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "mindset.ventures": {
@@ -18018,7 +18027,7 @@
 },
 "miracleventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "miraisozo.co.jp": {
@@ -18105,7 +18114,7 @@
 },
 "mitaventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "mithril.com": {
@@ -18164,7 +18173,7 @@
 },
 "moai.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "mobilityventures.com": {
@@ -18224,7 +18233,7 @@
 },
 "momentum6.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "momentventures.com": {
@@ -18319,7 +18328,7 @@
 },
 "montvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "moonfire.com": {
@@ -18543,7 +18552,7 @@
 },
 "mustardseed.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "muus.com": {
@@ -18575,12 +18584,12 @@
 },
 "narrative.fund": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "nation1.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "nationalgrid.com": {
@@ -18664,7 +18673,7 @@
 },
 "ncltv.co.uk": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "nctventures.com": {
@@ -18768,12 +18777,12 @@
 },
 "networkventures.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "neuhelium.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "neulogy.vc": {
@@ -18805,7 +18814,7 @@
 },
 "newarkventurepartners.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "newchip.com": {
@@ -18828,8 +18837,8 @@
 },
 "newcropcapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 1,
-"status": "dead"
+"dead_runs": 0,
+"status": "blocked"
 },
 "newdominionangels.com": {
 "check": "",
@@ -18842,7 +18851,7 @@
 },
 "newdoventure.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "neweracp.com": {
@@ -18910,7 +18919,7 @@
 },
 "newstack.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "newtopia.vc": {
@@ -19025,7 +19034,7 @@
 },
 "nextwave.ventures": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "nextworldcap.com": {
@@ -19400,7 +19409,7 @@
 },
 "nvm.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "nvp.com": {
@@ -19613,17 +19622,17 @@
 },
 "ombugroup.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "omersventures.com": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 1,
-"focus": "AI, Fintech, Media and creator economy, Mobility, E-commerce and marketplaces",
+"dead_runs": 0,
+"focus": "AI, Fintech, Mobility and logistics, E-commerce and marketplaces",
 "latest_year": 2026,
 "stage": "Pre-seed",
-"status": "dead"
+"status": "ok"
 },
 "omnescapital.com": {
 "check": "",
@@ -19816,7 +19825,7 @@
 },
 "otgventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "otherwisefund.com": {
@@ -20207,7 +20216,7 @@
 "check": "",
 "checked": "2026-11-13",
 "dead_runs": 0,
-"focus": "AI, SaaS and enterprise software, E-commerce and marketplaces, Crypto and web3, Climate and energy, Health",
+"focus": "AI, SaaS and enterprise software, E-commerce and marketplaces, Deep tech and hardware, Crypto and web3, Climate and energy",
 "latest_year": 2026,
 "stage": "Pre-seed, Seed, Series B",
 "status": "ok"
@@ -20250,7 +20259,7 @@
 },
 "pentech.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "people.ventures": {
@@ -20327,7 +20336,7 @@
 },
 "pgeventures.pl": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "phasealpha.vc": {
@@ -20436,7 +20445,7 @@
 },
 "pitchvc.co": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "pitoncap.com": {
@@ -20649,9 +20658,13 @@
 "status": "ok"
 },
 "polymathcp.com": {
+"check": "",
 "checked": "2026-11-13",
-"dead_runs": 2,
-"status": "dead"
+"dead_runs": 0,
+"focus": "",
+"latest_year": 2026,
+"stage": "",
+"status": "ok"
 },
 "polytechnique-ventures.fr": {
 "check": "",
@@ -20792,7 +20805,7 @@
 },
 "presencecap.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "presight.vc": {
@@ -20936,7 +20949,7 @@
 },
 "project11.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "projecteurope.co": {
@@ -20975,12 +20988,12 @@
 "proptech1.ventures": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 0,
+"dead_runs": 1,
 "focus": "Climate and energy, Mobility and logistics, AI, Deep tech and hardware, Real estate and proptech",
 "latest_year": 2026,
 "moved_to": "pt1.vc",
 "stage": "Seed, Growth",
-"status": "ok"
+"status": "dead"
 },
 "prosegur.com": {
 "check": "",
@@ -21365,7 +21378,7 @@
 },
 "rapoport.net": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "rarebreed.vc": {
@@ -21379,7 +21392,7 @@
 },
 "rashmisinha.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "raufer.de": {
@@ -21393,7 +21406,7 @@
 },
 "ravenventures.com.au": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "rblventures.com": {
@@ -21749,7 +21762,7 @@
 },
 "resonantvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "ret.vc": {
@@ -21808,7 +21821,7 @@
 },
 "revtechaccelerator.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "rewired.com": {
@@ -21922,7 +21935,7 @@
 },
 "riverscap.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "riverside.ac": {
@@ -21936,7 +21949,7 @@
 },
 "rivetventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "robincap.com": {
@@ -22013,7 +22026,7 @@
 },
 "romuluscap.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "rooksnestventures.com": {
@@ -22072,12 +22085,12 @@
 },
 "routerventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "rpvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "rs.ventures": {
@@ -22100,7 +22113,7 @@
 },
 "rubicon.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "rubio.vc": {
@@ -22289,7 +22302,7 @@
 },
 "samyakthcapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "sandalphoncapital.com": {
@@ -22556,10 +22569,10 @@
 "status": "ok"
 },
 "seafund.in": {
-"check": "",
+"check": "$300K\u2013$750K",
 "checked": "2026-11-13",
 "dead_runs": 0,
-"focus": "Deep tech and hardware, Mobility and logistics, AI, SaaS and enterprise software, Education, Health",
+"focus": "Deep tech and hardware, Mobility and logistics, AI, Education, SaaS and enterprise software, Health",
 "latest_year": 2026,
 "stage": "Pre-seed, Seed, Series A",
 "status": "ok"
@@ -22689,7 +22702,7 @@
 },
 "senseii-ventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "sente.link": {
@@ -22847,7 +22860,7 @@
 },
 "sg-vc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "sghcapital.com": {
@@ -22897,7 +22910,7 @@
 },
 "sheeshafinance.io": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "sheingroup.com": {
@@ -23010,7 +23023,7 @@
 },
 "sidarglobal.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "siddhicapital.co": {
@@ -23042,7 +23055,7 @@
 },
 "sierrawasatch.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "signal.vc": {
@@ -23065,7 +23078,7 @@
 },
 "significantevc.com.au": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "silicomventures.com": {
@@ -23151,7 +23164,7 @@
 },
 "sinaivc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "sinewave.vc": {
@@ -23219,7 +23232,7 @@
 },
 "sixthirtycyber.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "sjfventures.com": {
@@ -23327,7 +23340,7 @@
 "check": "",
 "checked": "2026-11-13",
 "dead_runs": 0,
-"focus": "Biotech and life sciences, Climate and energy, Health, Data and analytics, AI",
+"focus": "Biotech and life sciences, Climate and energy, Health, Data and analytics",
 "latest_year": 2026,
 "stage": "Seed",
 "status": "ok"
@@ -23425,11 +23438,11 @@
 "socialstarts.com": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 0,
+"dead_runs": 1,
 "focus": "Health, Education, E-commerce and marketplaces, Data and analytics, Biotech and life sciences",
 "latest_year": 2020,
 "stage": "Series A",
-"status": "ok"
+"status": "dead"
 },
 "sodexo.com": {
 "check": "",
@@ -23568,8 +23581,8 @@
 },
 "sovacapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 1,
-"status": "dead"
+"dead_runs": 0,
+"status": "blocked"
 },
 "sovereignai.gov.uk": {
 "check": "",
@@ -23619,7 +23632,7 @@
 },
 "sparrow-ventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "spectrum-impact.com": {
@@ -23776,7 +23789,7 @@
 },
 "srijancapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "stacked.capital": {
@@ -23881,7 +23894,7 @@
 },
 "startacapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "startfastventures.com": {
@@ -23913,7 +23926,7 @@
 },
 "startup-o.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "startup.network": {
@@ -23973,7 +23986,7 @@
 },
 "steamworks.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "steelskyventures.com": {
@@ -23987,7 +24000,7 @@
 },
 "steephill.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "stellantis.ventures": {
@@ -24060,7 +24073,7 @@
 },
 "streamlinedventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "strideventures.global": {
@@ -24083,7 +24096,7 @@
 },
 "struckcapitalcrypto.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "structure.vc": {
@@ -24307,11 +24320,11 @@
 "svlatamfund.co": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 0,
+"dead_runs": 1,
 "focus": "Health",
 "latest_year": null,
 "stage": "",
-"status": "ok"
+"status": "dead"
 },
 "swanandlegend.com": {
 "check": "",
@@ -24379,7 +24392,7 @@
 },
 "syd.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "symbol.vc": {
@@ -24410,9 +24423,13 @@
 "status": "ok"
 },
 "syndicate.one": {
+"check": "",
 "checked": "2026-11-13",
-"dead_runs": 2,
-"status": "dead"
+"dead_runs": 0,
+"focus": "Deep tech and hardware, AI, Fintech, Crypto and web3, Climate and energy",
+"latest_year": 2026,
+"stage": "Seed, Series A",
+"status": "ok"
 },
 "synetro.com": {
 "check": "",
@@ -24471,7 +24488,7 @@
 },
 "tackvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "taf.ca": {
@@ -24503,7 +24520,7 @@
 },
 "tallwavecapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "tandemcap.com": {
@@ -24613,8 +24630,8 @@
 },
 "tcap.com": {
 "checked": "2026-11-13",
-"dead_runs": 1,
-"status": "dead"
+"dead_runs": 0,
+"status": "blocked"
 },
 "tcg.co": {
 "check": "",
@@ -24654,7 +24671,7 @@
 },
 "teamspacepirates.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "teamworthy.com": {
@@ -24700,7 +24717,7 @@
 "dead_runs": 0,
 "focus": "Health, SaaS and enterprise software, Education, E-commerce and marketplaces, AI",
 "latest_year": 2020,
-"stage": "",
+"stage": "Seed",
 "status": "ok"
 },
 "technexus.com": {
@@ -24732,7 +24749,7 @@
 },
 "techsquare.co": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "techsquareventures.com": {
@@ -24911,7 +24928,7 @@
 },
 "th-vp.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "thcap.com": {
@@ -24925,7 +24942,7 @@
 },
 "theatlascapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "thecleanfight.com": {
@@ -24984,7 +25001,7 @@
 },
 "thefund.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "thegraduatesyndicate.com": {
@@ -25034,12 +25051,12 @@
 },
 "theincwell.net": {
 "checked": "2026-11-13",
-"dead_runs": 1,
-"status": "dead"
+"dead_runs": 0,
+"status": "blocked"
 },
 "thejiangmen.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "thelabventures.com": {
@@ -25053,7 +25070,7 @@
 },
 "thenacapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "thenordicweb.com": {
@@ -25510,7 +25527,7 @@
 },
 "trellisroad.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "tribecap.co": {
@@ -25767,7 +25784,7 @@
 },
 "twosigmaventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "twynam.com": {
@@ -26057,7 +26074,7 @@
 },
 "upramp.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "upsidevc.com": {
@@ -26080,7 +26097,7 @@
 },
 "upswellvc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "upventures.com": {
@@ -26103,12 +26120,12 @@
 },
 "upwestlabs.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "urban.us": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "urbaninnovationfund.com": {
@@ -26404,10 +26421,10 @@
 "check": "",
 "checked": "2026-11-13",
 "dead_runs": 0,
-"focus": "Media and creator economy, Biotech and life sciences",
+"focus": "Biotech and life sciences",
 "latest_year": null,
 "stage": "Pre-seed, Seed, Series A",
-"status": "blocked"
+"status": "ok"
 },
 "velocitytx.org": {
 "check": "",
@@ -26484,7 +26501,7 @@
 },
 "ventureast.net": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "venturechoice.com": {
@@ -26521,7 +26538,7 @@
 },
 "venturehighway.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "ventureisrael.com": {
@@ -26554,7 +26571,7 @@
 },
 "ventures.hsbc.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "ventures.mckesson.com": {
@@ -26604,7 +26621,7 @@
 },
 "venturing.evonik.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "verb.ventures": {
@@ -26623,7 +26640,7 @@
 },
 "vergecm.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "vergefund.com": {
@@ -26647,11 +26664,11 @@
 "vernecapital.vc": {
 "check": "",
 "checked": "2026-11-13",
-"dead_runs": 0,
+"dead_runs": 1,
 "focus": "Cybersecurity",
 "latest_year": null,
 "stage": "Seed, Series A",
-"status": "ok"
+"status": "dead"
 },
 "versionone.vc": {
 "check": "",
@@ -26737,7 +26754,7 @@
 },
 "vestor.in": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "vestventures.vc": {
@@ -26826,7 +26843,7 @@
 },
 "villageventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "vincivc.com": {
@@ -26849,7 +26866,7 @@
 },
 "vinestventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "vineventures.com": {
@@ -27065,7 +27082,7 @@
 },
 "voltacircle.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "volution.vc": {
@@ -27093,7 +27110,7 @@
 },
 "voyager.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "voyagers.io": {
@@ -27171,12 +27188,12 @@
 },
 "vwcm.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "waed.net": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "waldencatalyst.com": {
@@ -27213,7 +27230,7 @@
 },
 "warmupventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "warsawequity.com": {
@@ -27262,9 +27279,13 @@
 "status": "ok"
 },
 "wavelaunch.org": {
+"check": "",
 "checked": "2026-11-13",
-"dead_runs": 2,
-"status": "dead"
+"dead_runs": 0,
+"focus": "",
+"latest_year": null,
+"stage": "Pre-seed, Seed, Series A",
+"status": "ok"
 },
 "wavemaker.vc": {
 "check": "",
@@ -27381,7 +27402,7 @@
 },
 "westonpresidio.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "whalerockcapital.com": {
@@ -27467,7 +27488,7 @@
 },
 "windforceventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "windhamvp.com": {
@@ -27701,7 +27722,7 @@
 },
 "x.wayra.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "xange.vc": {
@@ -27717,10 +27738,10 @@
 "check": "",
 "checked": "2026-11-13",
 "dead_runs": 0,
-"focus": "Deep tech and hardware, Mobility, Climate and energy, AI, Consumer",
+"focus": "Deep tech and hardware, Mobility and logistics, Climate and energy, AI, Consumer",
 "latest_year": 2026,
 "stage": "Series B",
-"status": "blocked"
+"status": "ok"
 },
 "xerys.com": {
 "check": "",
@@ -27879,7 +27900,7 @@
 },
 "yellowrockets.vc": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "yellowventures.com": {
@@ -28074,7 +28095,7 @@
 },
 "zgccapital.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "zgi.lv": {
@@ -28152,7 +28173,7 @@
 },
 "zx-ventures.com": {
 "checked": "2026-11-13",
-"dead_runs": 2,
+"dead_runs": 3,
 "status": "dead"
 },
 "zygoteventures.com": {
