@@ -1,6 +1,9 @@
 /* Colaeb /investors extras, layered on top of the shared globe/directory (network/cn.js):
    1. "Recent deal" tags from YourInfoDaily Business coverage (enrich/yid-deals.json, refreshed daily by GitHub Actions).
    2. Profile links to colaeb.com/investors/<slug> pages when CN_CONFIG.profiles is set.
+   3. Active-first order: Colaeb verified, then investors with the most recent YourInfoDaily-confirmed round.
+   4. Live counts: any "3,500+"-style investor count in the page copy shows the real number, plus a
+      "last updated" line above the directory ([data-cnx-updated] if present, otherwise inserted).
    Investor Match (match.js) reads r.deals to rank recently active investors higher. */
 (function () {
   "use strict";
@@ -20,13 +23,44 @@
     s.textContent =
       ".cnx-deal{display:flex;gap:8px;align-items:flex-start;margin:10px 0 0;padding:8px 10px;border-radius:10px;background:#F0FDF4;border:1px solid #BBF7D0;font-size:13px;line-height:1.4;color:#14532D}" +
       ".cnx-deal b{font-weight:700;white-space:nowrap}.cnx-deal a{color:#14532D;text-decoration:underline}.cnx-deal small{color:#3F6212;white-space:nowrap}" +
+      ".cnx-updated{max-width:1200px;margin:0 auto 14px;padding:0;font-size:14px;line-height:1.5;color:#475467}.cnx-updated b{color:#101828}.cnx-updated a{color:inherit;text-decoration:underline}" +
       ".cnx-active{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:4px;background:#16A34A;color:#fff;font:700 10px/1.4 Arial,sans-serif;letter-spacing:.04em;vertical-align:middle}";
     document.head.appendChild(s);
   }
 
   function dealHtml(d) {
-    return '<span aria-hidden="true">●</span><span><b>' + (d.r === "led" ? "Led a round" : "Backed a round") + ":</b> " +
-      '<a href="' + esc(d.u) + '" target="_blank" rel="noopener">' + esc(d.t) + "</a> <small>" + month(d.d) + " · YourInfoDaily</small></span>";
+    return '<span aria-hidden="true">●</span><span><b>' + (d.r === "led" ? "Led" : "Participated") + ":</b> " +
+      '<a href="' + esc(d.u) + '" target="_blank" rel="noopener">' + esc(d.t) + "</a></span>";
+  }
+  var ACTIVE_DAYS = 90, UPDATED = "";
+  function lastDeal(r) { return (r.deals && r.deals[0] && r.deals[0].d) || ""; }
+  function activeFirst(items) {
+    items.sort(function (a, b) {
+      return (b.featured - a.featured) || (lastDeal(b) > lastDeal(a) ? 1 : lastDeal(b) < lastDeal(a) ? -1 : 0) || a.name.localeCompare(b.name);
+    });
+  }
+  function fmtDate(iso) { var p = String(iso || "").split("-"); return p.length === 3 ? MONTHS[+p[1] - 1] + " " + (+p[2]) + ", " + p[0] : ""; }
+  // Page copy like "a free database of 3,500+ venture capital firms" shows the live count instead.
+  function liveCounts(n) {
+    var label = Number(n).toLocaleString("en-US");
+    var walker = document.createTreeWalker(document.querySelector("main") || document.body, NodeFilter.SHOW_TEXT, null);
+    var rx = /\b\d{1,2},\d00\+(?=\s+(?:venture|investors|VC|startup investors))/g, nodes = [];
+    while (walker.nextNode()) if (rx.test(walker.currentNode.nodeValue)) nodes.push(walker.currentNode);
+    nodes.forEach(function (t) { rx.lastIndex = 0; t.nodeValue = t.nodeValue.replace(rx, label); });
+  }
+  function updatedLine(items) {
+    var since = new Date(Date.now() - ACTIVE_DAYS * 864e5).toISOString().slice(0, 10);
+    var active = items.filter(function (r) { return lastDeal(r) >= since; }).length;
+    var el = document.querySelector("[data-cnx-updated]");
+    if (!el) {
+      var dir = document.querySelector('[data-cn="directory"]'); if (!dir) return;
+      el = document.createElement("p"); el.setAttribute("data-cnx-updated", ""); el.className = "cnx-updated";
+      var wrap = dir.querySelector(".cn-dir-search") || dir.firstChild;
+      if (wrap) wrap.insertBefore(el, wrap.firstChild); else dir.insertBefore(el, dir.firstChild);
+    }
+    el.innerHTML = "<b>Updated " + esc(fmtDate(UPDATED) || fmtDate(new Date().toISOString().slice(0, 10))) + "</b> · " +
+      active.toLocaleString("en-US") + " investors active in the last " + ACTIVE_DAYS + " days, listed first. " +
+      'Activity is verified against <a href="https://www.yourinfodaily.com/p/t/business" target="_blank" rel="noopener">YourInfoDaily\u2019s startup funding coverage</a>.';
   }
 
   function decorateCard(li) {
@@ -79,6 +113,10 @@
       if (sl) r.profile = "/investors/" + sl;
     });
     ready = true;
+    activeFirst(items);
+    if (window.CN.refresh) window.CN.refresh();
+    liveCounts(items.length);
+    updatedLine(items);
     scan(document);
     try { document.dispatchEvent(new CustomEvent("cn:deals")); } catch (e) {}
   }
@@ -90,7 +128,7 @@
       if (a) track("promo_click", { promo: a.getAttribute("data-cn-promo") });
     });
     var get = function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }); };
-    Promise.all([get(DEALS), get(PROFILES)]).then(function (a) { attach((a[0] && a[0].deals) || {}, a[1] || {}); });
+    Promise.all([get(DEALS), get(PROFILES)]).then(function (a) { UPDATED = (a[0] && a[0].updated) || ""; attach((a[0] && a[0].deals) || {}, a[1] || {}); });
     new MutationObserver(function (muts) { if (!ready) return; muts.forEach(function (m) { m.addedNodes.forEach(function (n) { if (n.nodeType === 1) scan(n); }); }); })
       .observe(document.body, { childList: true, subtree: true });
   }

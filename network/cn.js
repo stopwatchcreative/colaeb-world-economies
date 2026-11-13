@@ -530,7 +530,9 @@
   }
   function start(items) {
     state.items = items;
-    window.CN = { items: function () { return state.items; }, setMatches: setMatches, clearMatches: clearMatches, facts: FACTS };
+    window.CN = { items: function () { return state.items; }, setMatches: setMatches, clearMatches: clearMatches, facts: FACTS,
+      // Repaint the directory after another script re-orders or tags state.items (e.g. investors/extras.js).
+      refresh: function () { state.limit = 0; paintStats(); paintDirectory(); } };
     setTimeout(function () { try { document.dispatchEvent(new CustomEvent("cn:ready")); } catch (e) {} }, 0);
     paintStats();
     document.querySelectorAll('[data-cn="globe"]').forEach(renderGlobe);

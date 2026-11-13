@@ -110,7 +110,7 @@
   }
 
   function read(form) {
-    function v(n) { var el = form.querySelector('[name="' + n + '"]'); return el ? String(el.value || "").trim() : ""; }
+    var v = typeof form === "function" ? form : function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? String(el.value || "").trim() : ""; };
     var stage = norm(v("stage")).replace(/\s+/g, "-"); if (!/pre-seed|seed|series-a/.test(stage)) stage = "seed";
     var loc = v("location"), st = stateOf(loc), stName = "";
     STATES.forEach(function (x) { if (x[0] === st) stName = x[1]; });
@@ -134,6 +134,30 @@
     a.href = URL.createObjectURL(blob); a.download = ((q.company || "my") + "-investor-matches.csv").replace(/[^\w.-]+/g, "-").toLowerCase();
     document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
   }
+  // Shareable link: the match inputs only (never the email, website or deck), so anyone opening it sees the same ranked list.
+  var SHARE_KEYS = ["company", "stage", "sector", "location", "country", "raise"];
+  function shareUrl(q) {
+    var p = new URLSearchParams();
+    p.set("match", "1");
+    if (q.company) p.set("company", q.company);
+    p.set("stage", q.stageLabel); if (q.sector) p.set("sector", q.sector);
+    if (q.city || q.state) p.set("location", [q.city, q.state].filter(Boolean).join(", "));
+    if (q.country) p.set("country", q.country);
+    if (q.raise) p.set("raise", String(q.raise));
+    return location.origin + location.pathname + "?" + p.toString() + "#investor-match";
+  }
+  function share(q, n, btn) {
+    var url = shareUrl(q), title = n + " investors that match " + (q.company || "my startup") + " | Colaeb";
+    track("share_matches", { match_count: n, stage: q.stageLabel || "", sector: q.sector || "" });
+    function done(t) { var old = btn.textContent; btn.textContent = t; setTimeout(function () { btn.textContent = old; }, 2500); }
+    if (navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) { navigator.share({ title: title, url: url }).catch(function () {}); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { done("Link copied"); }, function () { done("Copy failed"); });
+    else { var i = document.createElement("input"); i.value = url; document.body.appendChild(i); i.select(); try { document.execCommand("copy"); done("Link copied"); } catch (e) { done("Copy failed"); } i.remove(); }
+  }
+  function sharedQuery() {
+    var p = new URLSearchParams(location.search); if (p.get("match") !== "1") return null;
+    return read(function (n) { return String(p.get(n) || "").trim().slice(0, 120); });
+  }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function summary(out, q, all) {
     if (!out) return;
@@ -153,6 +177,9 @@
       var dl = el("button", "cnm-btn cnm-btn-ghost", "Download list (CSV)"); dl.type = "button";
       dl.onclick = function () { download(all, q); };
       row.appendChild(dl);
+      var sh = el("button", "cnm-btn cnm-btn-ghost", "Share my matches"); sh.type = "button";
+      sh.onclick = function () { share(q, all.length, sh); };
+      row.appendChild(sh);
       p.appendChild(row);
     }
     var again = el("button", "cnm-link", "Edit details"); again.type = "button";
@@ -198,6 +225,24 @@
       form.addEventListener("input", live); form.addEventListener("change", live);
       if (window.CN) fill(form); else document.addEventListener("cn:ready", function () { fill(form); }, { once: true });
       document.addEventListener("cn:deals", function () { fill(form); });
+      var sq = sharedQuery();
+      if (sq) {
+        var shown = false;
+        var showShared = function () {
+          if (shown) return; shown = true;
+          var all = rank(sq);
+          window.CN.setMatches(all, sq.company);
+          var out = document.querySelector("[data-cn-match-out]") || (form.parentNode && form.parentNode.querySelector(".w-form-done"));
+          if (!out) return;
+          form.style.display = "none"; out.style.display = "block";
+          summary(out, sq, all);
+          var note = el("p", "cnm-result-text", "This is a shared Investor Match list. Want matches for your own company? Use Edit details below, it\u2019s free.");
+          var box = out.querySelector(".cnm-result"); if (box) box.insertBefore(note, box.children[1] || null);
+          track("shared_matches_view", { match_count: all.length });
+        };
+        var go = function () { document.addEventListener("cn:deals", showShared, { once: true }); setTimeout(showShared, 4000); };
+        if (window.CN) go(); else document.addEventListener("cn:ready", go, { once: true });
+      }
       form.addEventListener("submit", function () {
         function val(n) { var e = form.querySelector('[name="' + n + '"]'); return e ? e.value : ""; }
         function run() {

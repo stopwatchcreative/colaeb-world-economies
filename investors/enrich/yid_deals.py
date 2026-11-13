@@ -24,7 +24,7 @@ MAX_PAGES = int(os.environ.get("YID_PAGES", "60"))
 
 SUFFIX = r"(?:\s+(?:ventures?|capital|partners|vc|fund|funds|management|investments?|group|holdings|llc|lp|inc\.?|ltd\.?|equity|advisors))+$"
 STOP = set("""first general global human village next social future true new founders lead upfront index accel benchmark
-insight greenoaks lux point general catalyst valor felicis initialized""".split())  # single words too risky to match alone
+insight greenoaks lux point general catalyst valor felicis initialized backed seed series round raise""".split())  # single words too risky to match alone
 # ...except these well-known single-word firms, which are matched only right after "led by" / "from" / "including"
 SAFE_SHORT = set("accel benchmark insight lux felicis initialized greenoaks index upfront valor".split())
 FUNDING_TITLE = re.compile(r"\b(raises?|raised|lands?|secures?|closes?|bags?|nabs?|gets|snags?|funding|round|series [a-f]|seed|pre-seed|investment|backs?|backed|led by|valuation)\b", re.I)
@@ -149,6 +149,25 @@ def roles_in(text, pats):
     return found
 
 
+# Investors whose name is also an everyday funding word ("Backed VC" vs "backed by") are never tagged from articles.
+NEVER = {"h:backed.vc"}
+
+
+def write_deals(cache):
+    """Turn the article cache into yid-deals.json: the last year of rounds per investor, newest first."""
+    cutoff = (datetime.date.today() - datetime.timedelta(days=KEEP_DAYS)).isoformat()
+    deals = {}
+    for u, a in cache.items():
+        if not a.get("d") or a["d"] < cutoff: continue
+        for key, role in a.get("m", {}).items():
+            if key in NEVER: continue
+            deals.setdefault(key, []).append({"t": a["t"], "u": u, "d": a["d"], "r": role})
+    for k in deals:
+        deals[k] = sorted(deals[k], key=lambda x: (x["d"], x["r"] == "led"), reverse=True)[:5]
+    json.dump({"updated": datetime.date.today().isoformat(), "deals": deals}, open(OUT, "w"), separators=(",", ":"), ensure_ascii=False)
+    return deals
+
+
 def main():
     arts, cache = list_articles()
     pats = build_patterns()
@@ -168,15 +187,7 @@ def main():
         print("read", cache[u]["d"], t[:70], "->", len(cache[u]["m"]), flush=True)
         time.sleep(0.3)
     json.dump(cache, open(CACHE, "w"), indent=0, sort_keys=True, ensure_ascii=False)
-    cutoff = (datetime.date.today() - datetime.timedelta(days=KEEP_DAYS)).isoformat()
-    deals = {}
-    for u, a in cache.items():
-        if not a.get("d") or a["d"] < cutoff: continue
-        for key, role in a.get("m", {}).items():
-            deals.setdefault(key, []).append({"t": a["t"], "u": u, "d": a["d"], "r": role})
-    for k in deals:
-        deals[k] = sorted(deals[k], key=lambda x: (x["d"], x["r"] == "led"), reverse=True)[:5]
-    json.dump({"updated": datetime.date.today().isoformat(), "deals": deals}, open(OUT, "w"), separators=(",", ":"), ensure_ascii=False)
+    deals = write_deals(cache)
     print("investors with deals", len(deals), "articles", len(cache))
 
 

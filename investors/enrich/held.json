@@ -1,0 +1,289 @@
+[
+ {
+  "n": "100 Accelerator",
+  "w": "https://100accelerator.com",
+  "t": "Accelerator",
+  "k": "United Kingdom",
+  "why": "unlikely stage for an accelerator (Seed, Series B)"
+ },
+ {
+  "n": "200M",
+  "w": "https://startupportugal.com/programs/200m",
+  "t": "Venture capital",
+  "k": "Portugal",
+  "why": "website is a third-party page (startupportugal.com)"
+ },
+ {
+  "n": "360 Capital Poli360",
+  "w": "https://italian.tech/db-startup/db/investor/poli360-320204270",
+  "t": "Venture capital",
+  "k": "Italy",
+  "why": "website is a third-party page (italian.tech)"
+ },
+ {
+  "n": "A/O ProPtech",
+  "w": "https://aoproptech.com/reports/decarbonising-real-estate",
+  "t": "Venture capital",
+  "k": "United Kingdom",
+  "why": "website points to a report page"
+ },
+ {
+  "n": "Accelerated Digital Ventures",
+  "w": "https://pitchbook.com/profiles/investor/168793-30",
+  "t": "Venture capital",
+  "k": "United Kingdom",
+  "why": "website is a third-party page (pitchbook.com)"
+ },
+ {
+  "n": "Acurio Ventures",
+  "w": "https://alliron.vc",
+  "t": "Venture capital",
+  "k": "Spain",
+  "why": "website belongs to a different firm (Alliron)"
+ },
+ {
+  "n": "Aloft VC",
+  "w": "https://anathemventures.com",
+  "t": "Venture capital",
+  "k": "United States",
+  "why": "website belongs to a different firm (Anathem Ventures)"
+ },
+ {
+  "n": "Axilor Ventures",
+  "w": "https://axilor.com",
+  "t": "Accelerator",
+  "k": "India",
+  "why": "unlikely stage for an accelerator (Seed, Series A, Series B)"
+ },
+ {
+  "n": "Capdecisif",
+  "w": "https://karista.vc/stories/capdecisif-management-becomes-karista",
+  "t": "Venture capital",
+  "k": "France",
+  "why": "firm renamed (Capdecisif is now Karista)"
+ },
+ {
+  "n": "Climate Endowment Group",
+  "w": "https://wermutham.com",
+  "t": "Venture capital",
+  "k": "United Kingdom",
+  "why": "website belongs to a different firm (Wermuth Asset Management)"
+ },
+ {
+  "n": "Drake Star",
+  "w": "https://drakestar.com",
+  "t": "Venture capital",
+  "k": "United States",
+  "why": "advisory firm, not an investor"
+ },
+ {
+  "n": "EAF Finland",
+  "w": "https://eif.org/what_we_do/equity/eaf/finland.htm",
+  "t": "Venture capital",
+  "k": "Finland",
+  "why": "website is a third-party page (eif.org)"
+ },
+ {
+  "n": "East Ventures",
+  "w": "https://east.vc",
+  "t": "Accelerator",
+  "k": "Singapore",
+  "why": "unlikely stage for an accelerator (Seed, Series B, Growth)"
+ },
+ {
+  "n": "Element Ventures",
+  "w": "https://13bookscapital.com",
+  "t": "Venture capital",
+  "k": "United Kingdom",
+  "why": "website belongs to a different firm (13 Books Capital)"
+ },
+ {
+  "n": "Expert Dojo",
+  "w": "https://expertdojo.com",
+  "t": "Accelerator",
+  "k": "United States",
+  "why": "unlikely stage for an accelerator (Series A, Growth)"
+ },
+ {
+  "n": "FIRSTPICK",
+  "w": "https://firstpick.vc",
+  "t": "Accelerator",
+  "k": "Lithuania",
+  "why": "unlikely stage for an accelerator (Pre-seed, Seed, Series A, Growth)"
+ },
+ {
+  "n": "Florida Funders",
+  "w": "https://floridafunders.com",
+  "t": "Angel network",
+  "k": "United States",
+  "why": "unlikely stage for an angel network (Pre-seed, Seed, Series B)"
+ },
+ {
+  "n": "Founders Factory",
+  "w": "https://foundersfactory.com",
+  "t": "Accelerator",
+  "k": "United Kingdom",
+  "why": "unlikely stage for an accelerator (Pre-seed, Seed, Series A, Series B)"
+ },
+ {
+  "n": "Futuristic.VC",
+  "w": "https://thehub.io/funding/futuristicvc",
+  "t": "Venture capital",
+  "k": "Denmark",
+  "why": "website is a third-party page (thehub.io)"
+ },
+ {
+  "n": "Garuda Ventures",
+  "w": "https://garudaventures.com",
+  "t": "Angel network",
+  "k": "United States",
+  "why": "unlikely stage for an angel network (Series B)"
+ },
+ {
+  "n": "Hatch Blue",
+  "w": "https://hatch.blue",
+  "t": "Accelerator",
+  "k": "Ireland",
+  "why": "unlikely stage for an accelerator (Pre-seed, Seed, Series A, Series B, Growth)"
+ },
+ {
+  "n": "Idinvest Growth Fund",
+  "w": "https://eurazeo.com/fr",
+  "t": "Venture capital",
+  "k": "France",
+  "why": "fund absorbed into Eurazeo"
+ },
+ {
+  "n": "Indico Capital Partners",
+  "w": "https://indicocapital.com",
+  "t": "Accelerator",
+  "k": "Portugal",
+  "why": "unlikely stage for an accelerator (Pre-seed, Seed, Series A, Series B, Growth)"
+ },
+ {
+  "n": "Katie Shea",
+  "w": "https://about.me/katieshea",
+  "t": "Angel investor",
+  "k": "United States",
+  "why": "website is a third-party page (about.me)"
+ },
+ {
+  "n": "LetsVenture",
+  "w": "https://letsventure.com",
+  "t": "Angel network",
+  "k": "India",
+  "why": "unlikely stage for an angel network (Pre-seed, Seed, Series A, Series B, Growth)"
+ },
+ {
+  "n": "makesense SEED",
+  "w": "https://france.makesense.org/entrepreneurs/se-faire-financer",
+  "t": "Venture capital",
+  "k": "France",
+  "why": "website is a program page, not an investor"
+ },
+ {
+  "n": "MetaProp",
+  "w": "https://metaprop.vc",
+  "t": "Accelerator",
+  "k": "United States",
+  "why": "unlikely stage for an accelerator (Seed, Growth)"
+ },
+ {
+  "n": "Midlands Engine Investment Fund (MEIF)",
+  "w": "https://british-business-bank.co.uk/legacy-programmes/midlands-engine-investment-fund",
+  "t": "Venture capital",
+  "k": "United Kingdom",
+  "why": "website is a third-party page (british-business-bank.co.uk)"
+ },
+ {
+  "n": "Pretiosum Ventures",
+  "w": "https://pretiosum.vc/undefined",
+  "t": "Venture capital",
+  "k": "United Kingdom",
+  "why": "website points to a news, legal or broken page"
+ },
+ {
+  "n": "Rockstart",
+  "w": "https://rockstart.com",
+  "t": "Accelerator",
+  "k": "The Netherlands",
+  "why": "unlikely stage for an accelerator (Pre-seed, Seed, Series A, Series B)"
+ },
+ {
+  "n": "Rooks Nest Ventures",
+  "w": "https://rooksnestventures.com/lander",
+  "t": "Venture capital",
+  "k": "United Kingdom",
+  "why": "website points to a news, legal or broken page"
+ },
+ {
+  "n": "Salesforce Europe Trailblazer Fund",
+  "w": "https://salesforce.com/news/press-releases/2019/05/23/salesforce-ventures-launches-new-125-million-europe-trailblazer-fund-2",
+  "t": "Venture capital",
+  "k": "United Kingdom",
+  "why": "website points to a news, legal or broken page"
+ },
+ {
+  "n": "SHEIN Circularity Fund",
+  "w": "https://sheingroup.com/our-impact/process/designing-circular-systems",
+  "t": "Venture capital",
+  "k": "United Kingdom",
+  "why": "website is a corporate impact page"
+ },
+ {
+  "n": "Sodexo Ventures",
+  "w": "https://sodexo.com/news/newsroom/2016/sodexo-ventures-fund-wynd",
+  "t": "Venture capital",
+  "k": "France",
+  "why": "website points to a news, legal or broken page"
+ },
+ {
+  "n": "Sputnik ATX",
+  "w": "https://sputnikatx.com",
+  "t": "Accelerator",
+  "k": "United States",
+  "why": "unlikely stage for an accelerator (Pre-seed, Series B)"
+ },
+ {
+  "n": "Surround Ventures",
+  "w": "https://surround.vc/privacy",
+  "t": "Venture capital",
+  "k": "Israel",
+  "why": "website points to a news, legal or broken page"
+ },
+ {
+  "n": "Sustainable Aero Lab",
+  "w": "https://sustainable.aero",
+  "t": "Accelerator",
+  "k": "Germany",
+  "why": "unlikely stage for an accelerator (Growth)"
+ },
+ {
+  "n": "Taronga Ventures",
+  "w": "https://tarongagroup.com",
+  "t": "Accelerator",
+  "k": "Australia",
+  "why": "unlikely stage for an accelerator (Pre-seed, Series A, Series B)"
+ },
+ {
+  "n": "The Lab Ventures",
+  "w": "https://thelabventures.com/n",
+  "t": "Venture capital",
+  "k": "Spain",
+  "why": "website points to a news, legal or broken page"
+ },
+ {
+  "n": "TheVentureCity",
+  "w": "https://theventure.city",
+  "t": "Accelerator",
+  "k": "United States",
+  "why": "unlikely stage for an accelerator (Series A, Series B)"
+ },
+ {
+  "n": "UniCredit evo Investment Partnership",
+  "w": "https://unicreditgroup.eu/en/press-media/press-releases/2016/unicredit-spa-e-gruppo-anthemis-lanciano-unicredit-evo-investmen.html",
+  "t": "Venture capital",
+  "k": "Italy",
+  "why": "website points to a news, legal or broken page"
+ }
+]
