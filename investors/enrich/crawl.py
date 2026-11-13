@@ -110,7 +110,7 @@ def emails_in(html, host):
     base = ".".join(host.split(".")[-2:])
     out = set()
     for e in found:
-        e = e.strip().strip(".").lower()
+        e = re.sub(r"^(?:u003[ce]|x3[ce])+", "", e.strip().strip(".").lower())
         if not EMAIL.fullmatch(e) or EMAIL_SKIP.search(e): continue
         d = e.split("@")[1]
         if d == base or d.endswith("." + base) or base.endswith(d): out.add(e)
