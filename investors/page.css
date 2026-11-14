@@ -46,3 +46,12 @@
 .cnm-btn:hover{background:#F37A23}
 .cnm-link{background:none;border:0;padding:0;color:#B4520C;font-weight:600;font-size:15px;cursor:pointer;text-decoration:underline}
 @media (max-width:900px){.cnm-inner{grid-template-columns:1fr;gap:24px}.cnm-grid{grid-template-columns:1fr}.cnm-form-wrap{padding:20px}}
+.cn-join-points{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 18px}
+.cn-join-point{position:relative;padding-left:22px;font-size:15px;font-weight:600;color:inherit;opacity:.92}
+.cn-join-point::before{content:"";position:absolute;left:0;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:#F37A23 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/10px no-repeat}
+.cnm-actions{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 14px}
+.cnm-actions .cnm-btn{margin-right:0}
+.cnm-btn-ghost{background:transparent;color:#101828;border:1.5px solid #101828}
+.cnm-btn-ghost:hover{background:#101828;color:#fff}
+#list-your-firm,#investor-faq,#match{scroll-margin-top:90px}
+[data-cn="directory"]{scroll-margin-top:90px}
