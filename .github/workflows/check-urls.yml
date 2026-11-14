@@ -11,7 +11,7 @@ jobs:
       - name: Check each website (status, final URL, title)
         run: |
           while IFS=$'\t' read -r name url rest; do
-            out=$(curl -s -L -m 20 -A "Mozilla/5.0 (Macintosh) Chrome/120" -o /tmp/p.html -w "%{http_code} %{url_effective}" "https://$url" || echo "ERR")
+            rm -f /tmp/p.html; out=$(curl -s -L -m 20 -A "Mozilla/5.0 (Macintosh) Chrome/120" -o /tmp/p.html -w "%{http_code} %{url_effective}" "https://$url" || echo "ERR")
             title=$(grep -o -i '<title[^>]*>[^<]*' /tmp/p.html 2>/dev/null | head -1 | sed 's/<title[^>]*>//I' | tr -s ' \n' ' ' | cut -c1-90)
             echo "RESULT|$name|$out|$title"
           done < investors/enrich/check-urls.tsv
