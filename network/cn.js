@@ -528,7 +528,23 @@
       }).catch(function (e) { console.warn("[cn] could not load items from " + CFG.sourceUrl, e); withFeeds([]); });
     } else withFeeds(readItems());
   }
+  // CN_CONFIG.preset = { stage: "pre-?seed", focus: "fin-?tech", place: ", OH$|Ohio", type: "Accelerator" } (case-insensitive
+  // regex strings) limits the whole page (map, stats, directory, Investor Match) to matching items. Used by list pages
+  // such as colaeb.com/pre-seed-investors.
+  function presetKeep(p) {
+    function rx(v) { return v ? new RegExp(v, "i") : null; }
+    var st = rx(p.stage), fo = rx(p.focus), pl = rx(p.place), ty = rx(p.type);
+    return function (r) {
+      var x = r.extra || {};
+      if (st && !st.test(x.stage || "")) return false;
+      if (fo && !fo.test(x.focus || "")) return false;
+      if (pl && !pl.test([r.city, r.country].join(" | "))) return false;
+      if (ty && !ty.test(r.industry || "")) return false;
+      return true;
+    };
+  }
   function start(items) {
+    if (CFG.preset) items = items.filter(presetKeep(CFG.preset));
     state.items = items;
     window.CN = { items: function () { return state.items; }, setMatches: setMatches, clearMatches: clearMatches, facts: FACTS,
       // Repaint the directory after another script re-orders or tags state.items (e.g. investors/extras.js).
