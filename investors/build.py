@@ -132,7 +132,7 @@ for f in sorted(os.listdir(HERE)):
         for x in csv.DictReader(open(P(f)), delimiter="\t"):
             cc = cc_by_name.get((x.get("country") or "").strip().lower(), x.get("country", "")[:2].upper() if len(x.get("country", "")) == 2 else "")
             upsert(x["name"].strip(), x.get("website", ""), (x.get("linkedin") or "").strip(), (x.get("email") or "").strip(),
-                   city=x.get("city", ""), state=x.get("state", ""), cc=cc, type=x.get("type", ""), stage=x.get("stage", ""), focus=x.get("focus", ""))
+                   city=x.get("city", ""), state=x.get("state", ""), cc=cc, type=x.get("type", ""), stage=x.get("stage", ""), focus=x.get("focus", ""), check=x.get("check", ""))
 
 # Website fixes by investor name (listing pointed at an aggregator page)
 WEB_FIX = {"futuristic.vc": "futuristic.vc"}
@@ -214,6 +214,7 @@ for k, r in recs.items():
     x = {}
     if r.get("stage"): x["stage"] = r["stage"]
     if r.get("focus"): x["focus"] = r["focus"]
+    if r.get("check"): x["check"] = r["check"]
     if r.get("year"): x["raised"] = r["year"] + (" · " + r["size"] if r.get("size") else "")
     o = {"n": r["name"], "w": web, "t": gtype(r["name"], r.get("type")), "c": city, "k": country,
          "la": round(ll[0], 3), "lo": round(ll[1], 3)}
