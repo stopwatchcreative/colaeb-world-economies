@@ -21,6 +21,9 @@
   function css() {
     var s = document.createElement("style");
     s.textContent =
+      ".cnx-fv{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:#ECFDF3;color:#067647;border:1px solid #ABEFC6;font:600 11px/1.5 'Source Sans 3',system-ui,sans-serif;vertical-align:middle}" +
+      ".cnx-claim{display:inline-block;margin:8px 0 0;font-size:13px;color:#667085;text-decoration:underline}.cnx-claim:hover{color:#B4520C}" +
+      ".cn-actions .cnx-claim{margin:0 0 0 12px;align-self:center}" +
       ".cnx-deal{display:flex;gap:8px;align-items:flex-start;margin:10px 0 0;padding:8px 10px;border-radius:10px;background:#F0FDF4;border:1px solid #BBF7D0;font-size:13px;line-height:1.4;color:#14532D}" +
       ".cnx-deal b{font-weight:700;white-space:nowrap}.cnx-deal a{color:#14532D;text-decoration:underline}.cnx-deal small{color:#3F6212;white-space:nowrap}" +
       ".cnx-updated{max-width:1200px;margin:0 auto 14px;padding:0;font-size:14px;line-height:1.5;color:#475467}.cnx-updated b{color:#101828}.cnx-updated a{color:inherit;text-decoration:underline}" +
@@ -72,6 +75,11 @@
       foot.parentNode.insertBefore(p, foot);
       var nm = li.querySelector(".cn-card-name"); if (nm && !nm.querySelector(".cnx-active")) nm.insertAdjacentHTML("beforeend", '<span class="cnx-active">ACTIVE</span>');
     }
+    if (r.fv) { var nm2 = li.querySelector(".cn-card-name"); if (nm2 && !nm2.querySelector(".cnx-fv")) nm2.insertAdjacentHTML("beforeend", '<span class="cnx-fv" title="Details confirmed by the firm">\u2713 Verified by the firm</span>'); }
+    if (!li.querySelector(".cnx-claim")) {
+      var cl = document.createElement("a"); cl.className = "cnx-claim"; cl.href = claimUrl(r); cl.textContent = r.fv ? "Update this listing" : "Is this your firm?";
+      if (foot === li) li.appendChild(cl); else foot.parentNode.insertBefore(cl, foot.nextSibling);
+    }
     if (r.profile) {
       var name = li.querySelector(".cn-card-name");
       if (name && !name.querySelector("a")) { var t = name.firstChild; var a = document.createElement("a"); a.href = r.profile; a.textContent = r.name; if (t) name.replaceChild(a, t); }
@@ -88,6 +96,7 @@
       panel.insertBefore(p, acts);
     });
     if (acts) {
+      if (!acts.querySelector(".cnx-claim")) { var c2 = document.createElement("a"); c2.className = "cnx-claim"; c2.href = claimUrl(r); c2.textContent = r.fv ? "Update this listing" : "Is this your firm?"; acts.appendChild(c2); }
       if (r.profile && !acts.querySelector('a[href*="/investors/"]')) {
         var pr = document.createElement("a"); pr.className = "cn-btn"; pr.href = r.profile; pr.textContent = "Investor profile"; acts.appendChild(pr);
       }
@@ -102,6 +111,13 @@
   }
 
   var PROFILES = CFG.profileMap || "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/investors/enrich/profiles.json";
+  // Firms that confirmed their listing from a company email (investors/enrich/firm-verified.json).
+  var VERIFIED = CFG.firmVerified || "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/investors/enrich/firm-verified.json";
+  var verified = {};
+  function claimUrl(r) {
+    var form = document.getElementById("list-your-firm") ? location.pathname : "/investors";
+    return form + "?update=1&firm=" + encodeURIComponent(r.name || "") + (r.website && !/linkedin\.com/.test(r.website) ? "&site=" + encodeURIComponent(r.website) : "") + "#list-your-firm";
+  }
   function attach(deals, profiles) {
     var items = (window.CN && window.CN.items && window.CN.items()) || [];
     items.forEach(function (r) {
@@ -111,6 +127,7 @@
       if (d && d.length) r.deals = d;
       var sl = (h && profiles["h:" + h]) || profiles["n:" + keyName(r.name)];
       if (sl) r.profile = "/investors/" + sl;
+      if ((h && verified["h:" + h]) || verified["n:" + keyName(r.name)]) r.fv = 1;
     });
     ready = true;
     activeFirst(items);
@@ -128,7 +145,7 @@
       if (a) track("promo_click", { promo: a.getAttribute("data-cn-promo") });
     });
     var get = function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }); };
-    Promise.all([get(DEALS), get(PROFILES)]).then(function (a) { UPDATED = (a[0] && a[0].updated) || ""; attach((a[0] && a[0].deals) || {}, a[1] || {}); });
+    Promise.all([get(DEALS), get(PROFILES), get(VERIFIED)]).then(function (a) { UPDATED = (a[0] && a[0].updated) || ""; verified = a[2] || {}; attach((a[0] && a[0].deals) || {}, a[1] || {}); });
     new MutationObserver(function (muts) { if (!ready) return; muts.forEach(function (m) { m.addedNodes.forEach(function (n) { if (n.nodeType === 1) scan(n); }); }); })
       .observe(document.body, { childList: true, subtree: true });
   }

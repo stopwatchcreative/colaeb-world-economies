@@ -103,6 +103,14 @@
     var firm = val(form, "firm");
     var match = findExisting(firm, website, linkedin);
     if (m === "add" && match) return Promise.resolve((match.name || firm) + " is already on the list. Choose \u201cYes, update my listing\u201d above to send us your changes.");
+    // Firm verification: an update must come from an email at the firm's own domain.
+    var email = val(form, "email").toLowerCase(), edom = email.split("@")[1] || "";
+    var fh = match && match.website ? host(match.website) : (website ? host(website) : "");
+    if (/linkedin\.com$/.test(fh)) fh = "";
+    var domOk = !!(fh && edom && (edom === fh || edom.slice(-fh.length - 1) === "." + fh || fh.slice(-edom.length - 1) === "." + edom));
+    if (m === "update" && fh && !domOk) return Promise.resolve("To confirm you're with " + (match && match.name || firm) + ", use your work email at @" + fh + ". Personal emails can't update a listing.");
+    hidden(form, "email_domain_match").value = m === "update" ? (domOk ? "yes" : "manual review (no website domain)") : (domOk ? "yes" : "no");
+    hidden(form, "verify_host").value = fh;
     hidden(form, "request_type").value = m;
     hidden(form, "existing_match").value = match ? [match.name, match.website].filter(Boolean).join(" | ") : (m === "update" ? "Not found on the page" : "");
     hidden(form, "website_clean").value = website;
@@ -117,7 +125,7 @@
       hidden(form, "country_clean").value = g ? g.country : val(form, "country");
       var done = form.parentNode && form.parentNode.querySelector(".w-form-done");
       if (done) done.innerHTML = "<div>" + (m === "update"
-        ? "Thanks! We received your update for " + firm.replace(/[<>&]/g, "") + ". The Colaeb team will apply it to your listing shortly, without creating a duplicate."
+        ? "Thanks! Check your inbox at " + val(form, "email").replace(/[<>&]/g, "") + ": we've emailed you to confirm the request. Reply to that email and we'll apply your changes to " + firm.replace(/[<>&]/g, "") + " and mark the listing \u201cVerified by the firm.\u201d"
         : "Thanks! " + firm.replace(/[<>&]/g, "") + " is being added to the map. It usually appears within a minute or two.") + "</div>";
       return "";
     });
@@ -138,7 +146,13 @@
       if (st) {
         var opts = [["New listing", "No, add my firm"], ["Update existing listing", "Yes, update my listing"]];
         st.innerHTML = opts.map(function (o) { return '<option value="' + o[0] + '">' + o[1] + "</option>"; }).join("");
-        if (/[?&]update=1/.test(location.search)) st.value = "Update existing listing";
+        if (/[?&]update=1/.test(location.search)) {
+          st.value = "Update existing listing";
+          // "Is this your firm?" links pass the firm and its website.
+          var q = new URLSearchParams(location.search), f = form.querySelector('[name="firm"]'), w = form.querySelector('[name="website"]');
+          if (f && q.get("firm") && !f.value) f.value = q.get("firm");
+          if (w && q.get("site") && !w.value) w.value = q.get("site");
+        }
         var lab = function () { if (btn0) btn0.value = mode(form) === "update" ? "Update my listing" : "Add my firm"; say(form, ""); };
         st.addEventListener("change", lab); lab();
       }
