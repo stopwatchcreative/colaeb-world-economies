@@ -37,13 +37,28 @@
     if (document.getElementById("cnl-css")) return;
     var s = document.createElement("style"); s.id = "cnl-css";
     s.textContent = ".cnl-wide{grid-column:1/-1}.cnl-textarea{min-height:96px;resize:vertical;font:inherit}" +
-      ".cnl-msg{margin:10px 0 0;font-size:14px;color:#b42318}";
+      ".cnl-msg{margin:10px 0 0;font-size:14px;color:#b42318}.cnl-msg a{color:#B4520C;font-weight:600}" +
+      ".cnl-switch{border:0;background:none;padding:0;color:#B4520C;font:inherit;font-weight:600;text-decoration:underline;cursor:pointer}";
     document.head.appendChild(s);
   }
-  function say(form, text) {
+  function say(form, text, html) {
     var p = form.querySelector(".cnl-msg");
     if (!p) { p = document.createElement("p"); p.className = "cnl-msg"; p.setAttribute("role", "alert"); var b = form.querySelector('[type="submit"]'); b.parentNode.insertBefore(p, b.nextSibling); }
-    p.textContent = text || ""; p.style.display = text ? "" : "none";
+    if (html) p.innerHTML = html; else p.textContent = text || "";
+    p.style.display = (text || html) ? "" : "none";
+  }
+  function esc(t) { return String(t || "").replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  // An error the form shows: code goes to analytics (no personal details), text/html to the visitor.
+  function fail(code, text, html) { return { code: code, text: text, html: html }; }
+  function allItems() { return (window.CN && (window.CN.all ? window.CN.all() : window.CN.items && window.CN.items())) || []; }
+  function listingLink(r) { return r.profile || ("/investors?member=" + encodeURIComponent(r.slug || "")); }
+  // Clean profile URL: the firm's name, with a number only if another listing already uses it.
+  function cleanSlug(firm) {
+    var base = slugify(firm), taken = {};
+    allItems().forEach(function (r) { if (r.slug) taken[r.slug] = 1; if (r.profile) taken[r.profile.split("/").pop()] = 1; });
+    if (!taken[base]) return base;
+    for (var i = 2; i < 100; i++) if (!taken[base + "-" + i]) return base + "-" + i;
+    return base + "-" + Math.random().toString(36).slice(2, 6);
   }
 
   function host(u) { try { return new URL(url(u)).hostname.replace(/^www\./, "").toLowerCase(); } catch (e) { return ""; } }
@@ -51,7 +66,7 @@
   // Find this firm among everything on the page: the CMS list plus the bulk feed (window.CN).
   function findExisting(firm, website, linkedin) {
     var s = slugify(firm), h = website ? host(website) : "", li = linkedin ? liKey(linkedin) : "";
-    var items = (window.CN && window.CN.items && window.CN.items()) || [];
+    var items = allItems();
     for (var i = 0; i < items.length; i++) {
       var r = items[i], w = r.website || "";
       if (slugify(r.name) === s) return r;
@@ -98,17 +113,23 @@
   function prepare(form) {
     var m = mode(form);
     var website = url(val(form, "website")), linkedin = url(val(form, "linkedin"));
+    if (linkedin) linkedin = linkedin.replace(/linkedin\.com\/companies\//i, "linkedin.com/company/");
     if (linkedin && !/linkedin\.com$/i.test(new URL(linkedin).hostname.replace(/^www\./, ""))) linkedin = "";
-    if (!website && !linkedin) return Promise.resolve("Please add your website or LinkedIn page so founders can reach you.");
+    if (!website && !linkedin) return Promise.resolve(fail("no_link", "Please add your website or LinkedIn page so founders can reach you."));
     var firm = val(form, "firm");
     var match = findExisting(firm, website, linkedin);
-    if (m === "add" && match) return Promise.resolve((match.name || firm) + " is already on the list. Choose \u201cYes, update my listing\u201d above to send us your changes.");
+    if (m === "add" && match) {
+      var nm = esc(match.name || firm);
+      return Promise.resolve(fail("already_listed", "", "<b>" + nm + "</b> is already on the map. " +
+        '<a href="' + esc(listingLink(match)) + '">See the listing</a> or <button type="button" class="cnl-switch">update it instead</button>.'));
+    }
     // Firm verification: an update must come from an email at the firm's own domain.
     var email = val(form, "email").toLowerCase(), edom = email.split("@")[1] || "";
     var fh = match && match.website ? host(match.website) : (website ? host(website) : "");
     if (/linkedin\.com$/.test(fh)) fh = "";
     var domOk = !!(fh && edom && (edom === fh || edom.slice(-fh.length - 1) === "." + fh || fh.slice(-edom.length - 1) === "." + edom));
-    if (m === "update" && fh && !domOk) return Promise.resolve("To confirm you're with " + (match && match.name || firm) + ", use your work email at @" + fh + ". Personal emails can't update a listing.");
+    if (m === "update" && fh && !domOk) return Promise.resolve(fail("email_domain", "To confirm you're with " + (match && match.name || firm) + ", use your work email at @" + fh + ". Personal emails can't update a listing."));
+    var slug = m === "add" ? cleanSlug(firm) : (match && match.slug) || cleanSlug(firm);
     hidden(form, "email_domain_match").value = m === "update" ? (domOk ? "yes" : "manual review (no website domain)") : (domOk ? "yes" : "no");
     hidden(form, "verify_host").value = fh;
     hidden(form, "request_type").value = m;
@@ -116,17 +137,20 @@
     hidden(form, "website_clean").value = website;
     hidden(form, "linkedin_clean").value = linkedin;
     hidden(form, "listing_url").value = website || linkedin;
-    hidden(form, "slug").value = slugify(firm) + "-" + Math.random().toString(36).slice(2, 6);
+    hidden(form, "slug").value = slug;
     return geocode(val(form, "city"), val(form, "country")).then(function (g) {
-      if (!g && m === "add") return "We couldn't find that city on the map. Check the spelling of the city and country.";
+      if (!g && m === "add") return fail("city_not_found", "We couldn't find that city on the map. Check the spelling of the city and country.");
       hidden(form, "latitude").value = g ? g.lat : "";
       hidden(form, "longitude").value = g ? g.lng : "";
       hidden(form, "geo_place").value = g ? g.place : "";
       hidden(form, "country_clean").value = g ? g.country : val(form, "country");
       var done = form.parentNode && form.parentNode.querySelector(".w-form-done");
+      var nm2 = esc(firm), em = esc(val(form, "email"));
       if (done) done.innerHTML = "<div>" + (m === "update"
-        ? "Thanks! We received your update for " + firm.replace(/[<>&]/g, "") + ". We'll email you at " + val(form, "email").replace(/[<>&]/g, "") + " to confirm before we apply it, and confirmed listings get a \u201cVerified by the firm\u201d badge."
-        : "Thanks! " + firm.replace(/[<>&]/g, "") + " is being added to the map. It usually appears within a minute or two.") + "</div>";
+        ? "Thanks! We received your update for " + nm2 + ". We'll email you at " + em + " to confirm before we apply it, and confirmed listings get a \u201cVerified by the firm\u201d badge."
+        : "<b>You're on the map.</b> " + nm2 + " will appear within a minute or two, with its own profile at " +
+          '<a href="/investors/' + slug + '">colaeb.com/investors/' + slug + "</a>. " +
+          "Open your listing and choose \u201cGet a Listed on Colaeb badge\u201d to add it to your website.") + "</div>";
       return "";
     });
   }
@@ -155,6 +179,12 @@
         }
         var lab = function () { if (btn0) btn0.value = mode(form) === "update" ? "Update my listing" : "Add my firm"; say(form, ""); };
         st.addEventListener("change", lab); lab();
+        form.addEventListener("click", function (e) {
+          if (!e.target.closest || !e.target.closest(".cnl-switch")) return;
+          st.value = "Update existing listing"; st.dispatchEvent(new Event("change", { bubbles: true }));
+          var em = form.querySelector('[name="email"]'); if (em) em.focus();
+          say(form, "Switched to updating your listing. Use your work email at your firm's domain, then send.");
+        });
       }
       var ready = false;
       // Warm the geocoder while they type.
@@ -170,7 +200,11 @@
         say(form, "");
         prepare(form).then(function (err) {
           if (btn) { btn.disabled = false; btn.value = label; }
-          if (err) { say(form, err); return; }
+          if (err) {
+            say(form, err.text, err.html);
+            try { if (window.gtag) window.gtag("event", "investor_listing_error", { reason: err.code, request_type: mode(form) }); } catch (e) {}
+            return;
+          }
           try { if (window.gtag) window.gtag("event", "investor_listing_submit", { request_type: mode(form), firm: val(form, "firm") }); } catch (e) {}
           ready = true;
           if (form.requestSubmit) form.requestSubmit(); else form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
