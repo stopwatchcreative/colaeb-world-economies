@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="56" viewBox="0 0 200 56" role="img" aria-label="Listed on Colaeb">
+<title>Listed on Colaeb</title>
+<rect x="0.5" y="0.5" width="199" height="55" rx="12" fill="#FFFFFF" stroke="#D0D5DD"/>
+<g transform="translate(28 28)">
+<circle r="15" fill="none" stroke="#F37A23" stroke-width="1.6"/>
+<ellipse rx="6.5" ry="15" fill="none" stroke="#F37A23" stroke-width="1.2" opacity=".7"/>
+<line x1="-15" y1="0" x2="15" y2="0" stroke="#F37A23" stroke-width="1.2" opacity=".7"/>
+<circle cx="5" cy="-6" r="2.4" fill="#F37A23"/><circle cx="-7" cy="3" r="1.8" fill="#F37A23"/><circle cx="8" cy="7" r="1.5" fill="#F37A23"/><circle cx="-2" cy="-10" r="1.3" fill="#F37A23"/>
+</g>
+<text x="56" y="23" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9.5" font-weight="600" letter-spacing="1.6" fill="#B4520C">LISTED ON</text>
+<text x="55" y="44" font-family="Georgia,'Times New Roman',serif" font-size="22" font-weight="700" fill="#101828">Colaeb</text>
+</svg>

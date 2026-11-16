@@ -100,6 +100,15 @@ def main():
             held.append({"n": r.get("n"), "w": r.get("w"), "t": r.get("t"), "k": r.get("k"), "why": why}); st["held"] += 1; continue
         out.append(r); st["kept"] += 1
     json.dump(out, open(OUT, "w"), separators=(",", ":"), ensure_ascii=False)
+    # First-seen dates power the "New this week" strip. Keys: h:<host> or n:<lower name>.
+    fs_path = os.path.join(HERE, "first-seen.json")
+    fs = json.load(open(fs_path)) if os.path.exists(fs_path) else {}
+    today = __import__("datetime").date.today().isoformat()
+    for r in out:
+        h = host(r.get("w"))
+        k = "h:" + h if h and "linkedin.com" not in h else "n:" + (r.get("n") or "").lower().strip()
+        fs.setdefault(k, today)
+    json.dump(fs, open(fs_path, "w"), separators=(",", ":"), sort_keys=True)
     json.dump(sorted(held, key=lambda o: o["n"].lower()), open(HELD, "w"), indent=1, ensure_ascii=False)
     tot = len(out)
     have = lambda k: sum(1 for r in out if (r.get("x") or {}).get(k))

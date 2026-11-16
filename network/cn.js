@@ -547,6 +547,8 @@
     if (CFG.preset) items = items.filter(presetKeep(CFG.preset));
     state.items = items;
     window.CN = { items: function () { return state.items; }, setMatches: setMatches, clearMatches: clearMatches, facts: FACTS,
+      // Open a firm's panel by slug (used by investors/extras.js "New this week").
+      pick: function (slug) { var r = state.items.filter(function (x) { return x.slug === slug; })[0]; if (!r) return false; pick(r); var g = document.querySelector('[data-cn="globe"]'); if (g) g.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }); return true; },
       // Repaint the directory after another script re-orders or tags state.items (e.g. investors/extras.js).
       refresh: function () { state.limit = 0; paintStats(); paintDirectory(); } };
     setTimeout(function () { try { document.dispatchEvent(new CustomEvent("cn:ready")); } catch (e) {} }, 0);

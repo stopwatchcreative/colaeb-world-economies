@@ -21,6 +21,12 @@
   function css() {
     var s = document.createElement("style");
     s.textContent =
+      ".cnx-new{margin:0 0 20px;padding:16px 18px;border:1px solid #FDE2C8;background:#FFF8F1;border-radius:14px}.cnx-new-head{margin:0 0 10px;font:400 14px/1.4 'Source Sans 3',system-ui,sans-serif;color:#475467}.cnx-new-head b{color:#B4520C;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-right:4px}" +
+      ".cnx-new ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.cnx-new a{display:inline-flex;gap:6px;align-items:baseline;padding:7px 12px;border-radius:999px;background:#fff;border:1px solid #F9C99B;color:#101828;font:600 14px/1.2 'Source Sans 3',system-ui,sans-serif;text-decoration:none}.cnx-new a:hover{border-color:#F37A23}.cnx-new a span{font-weight:400;color:#667085;font-size:12px}" +
+      ".cnx-badge-modal{position:fixed;inset:0;z-index:10000;background:rgba(16,24,40,.55);display:flex;align-items:center;justify-content:center;padding:20px}.cnx-badge-box{position:relative;background:#fff;border-radius:16px;max-width:520px;width:100%;padding:26px;max-height:90vh;overflow:auto;font-family:'Source Sans 3',system-ui,sans-serif}" +
+      ".cnx-badge-box h3{font-family:'Newsreader',Georgia,serif;font-size:24px;margin:0 0 6px;color:#101828}.cnx-badge-box p{color:#475467;margin:0 0 16px}.cnx-badge-x{position:absolute;top:10px;right:14px;border:0;background:none;font-size:26px;cursor:pointer;color:#667085}" +
+      ".cnx-badge-opt{margin:0 0 18px}.cnx-badge-prev{padding:16px;border-radius:10px;margin:0 0 8px;display:flex;justify-content:center}.cnx-badge-light .cnx-badge-prev{background:#F2F4F7}.cnx-badge-dark .cnx-badge-prev{background:#0B1220}" +
+      ".cnx-badge-opt textarea{width:100%;box-sizing:border-box;font:12px/1.4 'JetBrains Mono',ui-monospace,Menlo,monospace;border:1px solid #D0D5DD;border-radius:8px;padding:8px;margin:0 0 8px;resize:none;color:#344054}" +
       ".cnx-fv{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:#ECFDF3;color:#067647;border:1px solid #ABEFC6;font:600 11px/1.5 'Source Sans 3',system-ui,sans-serif;vertical-align:middle}" +
       ".cnx-claim{display:inline-block;margin:8px 0 0;font-size:13px;color:#667085;text-decoration:underline}.cnx-claim:hover{color:#B4520C}" +
       ".cn-actions .cnx-claim{margin:0 0 0 12px;align-self:center}" +
@@ -97,6 +103,7 @@
     });
     if (acts) {
       if (!acts.querySelector(".cnx-claim")) { var c2 = document.createElement("a"); c2.className = "cnx-claim"; c2.href = claimUrl(r); c2.textContent = r.fv ? "Update this listing" : "Is this your firm?"; acts.appendChild(c2); }
+      if (!acts.querySelector(".cnx-badge-link")) { var bl = document.createElement("a"); bl.className = "cnx-claim cnx-badge-link"; bl.href = "#"; bl.textContent = "Get a \u201cListed on Colaeb\u201d badge"; bl.addEventListener("click", function (e) { e.preventDefault(); openBadge(r); }); acts.appendChild(bl); }
       if (r.profile && !acts.querySelector('a[href*="/investors/"]')) {
         var pr = document.createElement("a"); pr.className = "cn-btn"; pr.href = r.profile; pr.textContent = "Investor profile"; acts.appendChild(pr);
       }
@@ -114,6 +121,55 @@
   // Firms that confirmed their listing from a company email (investors/enrich/firm-verified.json).
   var VERIFIED = CFG.firmVerified || "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/investors/enrich/firm-verified.json";
   var verified = {};
+  // ---------------------------------------------------------------- "New this week" strip
+  // investors/enrich/first-seen.json maps h:<host> / n:<name> to the date a firm first appeared.
+  var firstSeen = {};
+  function seenOn(r) { var h = host(r.website); return (h && firstSeen["h:" + h]) || firstSeen["n:" + String(r.name || "").toLowerCase().trim()] || ""; }
+  function newThisWeek(items) {
+    var dir = document.querySelector('[data-cn="directory"]'); if (!dir || document.querySelector(".cnx-new")) return;
+    var since = new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10);
+    var fresh = items.filter(function (r) { return seenOn(r) >= since; })
+      .sort(function (a, b) { return seenOn(b) < seenOn(a) ? -1 : seenOn(b) > seenOn(a) ? 1 : 0; });
+    if (!fresh.length) return;
+    var sec = document.createElement("div"); sec.className = "cnx-new";
+    sec.innerHTML = '<p class="cnx-new-head"><b>New this week</b> · ' + fresh.length + " investor" + (fresh.length === 1 ? "" : "s") + " added</p><ul>" +
+      fresh.slice(0, 16).map(function (r) {
+        var where = [r.city, r.country].filter(Boolean)[0] || "";
+        return '<li><a href="?member=' + encodeURIComponent(r.slug) + '" data-slug="' + esc(r.slug) + '">' + esc(r.name) + (where ? "<span>" + esc(where) + "</span>" : "") + "</a></li>";
+      }).join("") + "</ul>";
+    sec.addEventListener("click", function (e) {
+      var a = e.target.closest("a[data-slug]"); if (!a) return;
+      track("new_this_week_click", { firm: a.getAttribute("data-slug") });
+      if (window.CN && window.CN.pick && window.CN.pick(a.getAttribute("data-slug"))) e.preventDefault();
+    });
+    dir.parentNode.insertBefore(sec, dir);
+  }
+
+  // ---------------------------------------------------------------- "Listed on Colaeb" badge for firms' own sites
+  var BADGE = "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/investors/badge/";
+  function badgeCode(r, dark) {
+    var link = "https://colaeb.com" + (r.profile || "/investors?member=" + encodeURIComponent(r.slug));
+    return '<a href="' + link + '" target="_blank" rel="noopener" title="' + esc(r.name) + ' on the Colaeb Investor List"><img src="' + BADGE + "listed-on-colaeb-" + (dark ? "dark" : "light") + '.svg" alt="Listed on Colaeb" width="200" height="56"></a>';
+  }
+  function openBadge(r) {
+    var old = document.querySelector(".cnx-badge-modal"); if (old) old.remove();
+    var m = document.createElement("div"); m.className = "cnx-badge-modal"; m.setAttribute("role", "dialog"); m.setAttribute("aria-label", "Listed on Colaeb badge");
+    m.innerHTML = '<div class="cnx-badge-box"><button type="button" class="cnx-badge-x" aria-label="Close">×</button>' +
+      "<h3>Show founders you’re on Colaeb</h3><p>Add this badge to your website. It links to " + esc(r.name) + "’s listing.</p>" +
+      ["light", "dark"].map(function (v) {
+        var code = badgeCode(r, v === "dark");
+        return '<div class="cnx-badge-opt cnx-badge-' + v + '"><div class="cnx-badge-prev">' + code.replace(/target="_blank"/, 'target="_blank" tabindex="-1"') + '</div><textarea readonly rows="3">' + esc(code) + '</textarea><button type="button" class="cn-btn cnx-badge-copy">Copy ' + v + " badge code</button></div>";
+      }).join("") + "</div>";
+    m.addEventListener("click", function (e) {
+      if (e.target === m || e.target.closest(".cnx-badge-x")) { m.remove(); return; }
+      var c = e.target.closest(".cnx-badge-copy"); if (!c) return;
+      var ta = c.parentNode.querySelector("textarea"); ta.select();
+      (navigator.clipboard ? navigator.clipboard.writeText(ta.value) : Promise.reject()).catch(function () { document.execCommand("copy"); });
+      c.textContent = "Copied"; track("badge_copy", { firm: r.name });
+    });
+    document.body.appendChild(m);
+  }
+
   function claimUrl(r) {
     var form = document.getElementById("list-your-firm") ? location.pathname : "/investors";
     return form + "?update=1&firm=" + encodeURIComponent(r.name || "") + (r.website && !/linkedin\.com/.test(r.website) ? "&site=" + encodeURIComponent(r.website) : "") + "#list-your-firm";
@@ -134,6 +190,7 @@
     if (window.CN.refresh) window.CN.refresh();
     liveCounts(items.length);
     updatedLine(items);
+    newThisWeek(items);
     scan(document);
     try { document.dispatchEvent(new CustomEvent("cn:deals")); } catch (e) {}
   }
@@ -145,7 +202,7 @@
       if (a) track("promo_click", { promo: a.getAttribute("data-cn-promo") });
     });
     var get = function (u) { return fetch(u).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }); };
-    Promise.all([get(DEALS), get(PROFILES), get(VERIFIED)]).then(function (a) { UPDATED = (a[0] && a[0].updated) || ""; verified = a[2] || {}; attach((a[0] && a[0].deals) || {}, a[1] || {}); });
+    Promise.all([get(DEALS), get(PROFILES), get(VERIFIED), CFG.firstSeen ? get(CFG.firstSeen) : Promise.resolve({})]).then(function (a) { UPDATED = (a[0] && a[0].updated) || ""; verified = a[2] || {}; firstSeen = a[3] || {}; attach((a[0] && a[0].deals) || {}, a[1] || {}); });
     new MutationObserver(function (muts) { if (!ready) return; muts.forEach(function (m) { m.addedNodes.forEach(function (n) { if (n.nodeType === 1) scan(n); }); }); })
       .observe(document.body, { childList: true, subtree: true });
   }
