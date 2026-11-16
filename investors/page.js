@@ -33,6 +33,38 @@
     ".cnx-lists-all{margin:8px 0 0}.cnx-lists-all a{color:#B4520C;font-weight:600}";
   document.head.appendChild(st);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", go); else go();
+
+  // Structured data for search engines on list pages (/pre-seed-investors, /investors-in-ohio, ...):
+  // a CollectionPage with an ItemList of the first 20 investors, built from the live list so it never goes stale.
+  function schema() {
+    var slug = location.pathname.replace(/^\/+|\/+$/g, "");
+    if (!slug || slug === "investors" || slug.indexOf("/") > -1 || document.getElementById("cnx-ld")) return;
+    var items = (window.CN && window.CN.items && window.CN.items()) || []; if (!items.length) return;
+    var url = "https://colaeb.com/" + slug, h1 = document.querySelector("h1"), name = h1 ? h1.textContent.trim() : document.title;
+    var md = document.querySelector('meta[name="description"]');
+    var list = items.slice(0, 20).map(function (r, i) {
+      var org = { "@type": "Organization", name: r.name };
+      if (r.website) org[/linkedin\.com/i.test(r.website) ? "sameAs" : "url"] = r.website;
+      if (r.city || r.country) org.address = { "@type": "PostalAddress", addressLocality: r.city || undefined, addressCountry: r.country || undefined };
+      var li = { "@type": "ListItem", position: i + 1, item: org };
+      if (r.profile) li.url = "https://colaeb.com" + r.profile;
+      return li;
+    });
+    var data = { "@context": "https://schema.org", "@graph": [
+      { "@type": "CollectionPage", "@id": url + "#page", url: url, name: name, description: md ? md.content : "", isAccessibleForFree: true,
+        isPartOf: { "@type": "WebSite", name: "Colaeb", url: "https://colaeb.com" }, publisher: { "@type": "Organization", name: "Colaeb", url: "https://colaeb.com" },
+        mainEntity: { "@id": url + "#list" }, breadcrumb: { "@id": url + "#crumbs" } },
+      { "@type": "ItemList", "@id": url + "#list", name: name, numberOfItems: items.length, itemListElement: list },
+      { "@type": "BreadcrumbList", "@id": url + "#crumbs", itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Colaeb", item: "https://colaeb.com" },
+        { "@type": "ListItem", position: 2, name: "Investor List", item: "https://colaeb.com/investors" },
+        { "@type": "ListItem", position: 3, name: name, item: url }] }] };
+    var sc = document.createElement("script"); sc.type = "application/ld+json"; sc.id = "cnx-ld"; sc.textContent = JSON.stringify(data);
+    document.head.appendChild(sc);
+  }
+  // Wait for extras.js to attach profile links and order active investors first.
+  document.addEventListener("cn:deals", function () { setTimeout(schema, 0); });
+  setTimeout(schema, 8000);
   window.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest('a[href="#list-your-firm"]'); if (!a) return;
     var t = document.getElementById("list-your-firm"); if (!t) return;
