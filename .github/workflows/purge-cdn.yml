@@ -16,4 +16,4 @@ jobs:
       - name: Report live feed size
         run: |
           sleep 60
-          curl -s https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/investors/investors-feed-enriched.json | python3 -c "import json,sys;d=json.load(sys.stdin);d=d if isinstance(d,list) else d['items'];n={x['n'] for x in d};print('LIVE',len(d),'present:',[k for k in ['Consilience Ventures','Tamarind Hill'] if k in n],'should_be_gone:',[k for k in ['Drummond Road Capital','Lumos Innovation','NCT Ventures','VentureForge','North Coast Angel Fund'] if k in n])"
+          curl -s https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/investors/investors-feed-enriched.json | python3 -c "import json,sys;d=json.load(sys.stdin);d=d if isinstance(d,list) else d['items'];n={x['n'] for x in d};print('LIVE',len(d),'present:',[k for k in ['Consilience Ventures','Acadian Ventures','Workday Ventures'] if k in n],'should_be_gone:',[k for k in ['Drummond Road Capital','Lumos Innovation','NCT Ventures','VentureForge','North Coast Angel Fund'] if k in n])"
