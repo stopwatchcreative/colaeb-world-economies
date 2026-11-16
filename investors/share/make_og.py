@@ -39,7 +39,7 @@ d.text((X*S,120*S),'The Colaeb',font=F(serif6,84),fill=CREAM)
 d.text((X*S,212*S),'Investor List',font=F(serif6,84),fill=OR)
 d.text((X*S,330*S),'VCs, angels and accelerators,',font=F(serif4,32),fill=(200,206,216))
 d.text((X*S,372*S),'mapped and searchable by stage.',font=F(serif4,32),fill=(200,206,216))
-stats=[('3,500+','INVESTORS'),('67','COUNTRIES'),('Free','TO SEARCH')]
+stats=[('3,300+','INVESTORS'),('67','COUNTRIES'),('Free','TO SEARCH')]
 x=X
 for big,lab in stats:
     d.text((x*S,452*S),big,font=F(serif6,46),fill=CREAM)
