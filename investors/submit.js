@@ -125,7 +125,7 @@
       hidden(form, "country_clean").value = g ? g.country : val(form, "country");
       var done = form.parentNode && form.parentNode.querySelector(".w-form-done");
       if (done) done.innerHTML = "<div>" + (m === "update"
-        ? "Thanks! Check your inbox at " + val(form, "email").replace(/[<>&]/g, "") + ": we've emailed you to confirm the request. Reply to that email and we'll apply your changes to " + firm.replace(/[<>&]/g, "") + " and mark the listing \u201cVerified by the firm.\u201d"
+        ? "Thanks! We received your update for " + firm.replace(/[<>&]/g, "") + ". We'll email you at " + val(form, "email").replace(/[<>&]/g, "") + " to confirm before we apply it, and confirmed listings get a \u201cVerified by the firm\u201d badge."
         : "Thanks! " + firm.replace(/[<>&]/g, "") + " is being added to the map. It usually appears within a minute or two.") + "</div>";
       return "";
     });
