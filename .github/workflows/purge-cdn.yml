@@ -1,0 +1,15 @@
+name: purge-cdn
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["investors/*.min.js", "investors/enrich/*.json", "investors/*.json"]
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Purge jsDelivr @main copies
+        run: |
+          for f in investors/loader.min.js investors/investors-feed-enriched.json investors/investors-feed.json investors/enrich/profiles.json investors/enrich/firm-verified.json investors/enrich/yid-deals.json; do
+            echo "$f: $(curl -s https://purge.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/$f | head -c 200)"
+          done
