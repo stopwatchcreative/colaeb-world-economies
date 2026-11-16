@@ -11,7 +11,7 @@ jobs:
       - name: Purge jsDelivr @main copies
         run: |
           for f in investors/loader.min.js investors/investors-feed-enriched.json investors/investors-feed.json investors/enrich/profiles.json investors/enrich/firm-verified.json investors/enrich/yid-deals.json; do
-            echo "$f: $(curl -s https://purge.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/$f | head -c 200)"
+            echo "$f: $(curl -s https://purge.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/$f | tr -d "\n " | grep -o "throttled[^,}]*\|status[^,}]*" | tr "\n" " ")"
           done
       - name: Report live feed size
         run: |
