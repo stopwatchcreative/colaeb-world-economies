@@ -13,3 +13,7 @@ jobs:
           for f in investors/loader.min.js investors/investors-feed-enriched.json investors/investors-feed.json investors/enrich/profiles.json investors/enrich/firm-verified.json investors/enrich/yid-deals.json; do
             echo "$f: $(curl -s https://purge.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/$f | head -c 200)"
           done
+      - name: Report live feed size
+        run: |
+          sleep 20
+          curl -s https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/investors/investors-feed-enriched.json | python3 -c "import json,sys;d=json.load(sys.stdin);d=d if isinstance(d,list) else d['items'];n={x['n'] for x in d};print('LIVE',len(d),[k for k in ['Rev1 Ventures','JumpStart Ventures','North Coast Ventures','Tamarind Hill','The O.H.I.O. Fund'] if k in n])"
