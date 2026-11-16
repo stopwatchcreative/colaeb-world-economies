@@ -76,6 +76,12 @@ def main():
     sites = json.load(open(SITES)) if os.path.exists(SITES) else {}
     out, held, st = [], [], {"kept": 0, "dropped_dead": 0, "held": 0, "stage_added": 0, "focus_added": 0, "check_added": 0}
     hand, keep = tsv("hold.tsv"), tsv("keep.tsv")
+    fixes = {}
+    for line in open(os.path.join(HERE, "fixes.tsv")) if os.path.exists(os.path.join(HERE, "fixes.tsv")) else []:
+        if not line.strip() or line.startswith("#"): continue
+        c = (line.rstrip("\n").split("\t") + ["", "", ""])[:3]
+        fixes[c[0].strip().lower()] = (c[1].strip(), c[2].strip())
+    st["fixed"] = 0
     tags = {}
     for k, v in tsv("tags.tsv").items(): tags.setdefault(k, []).append(v)
     for r in feed:
@@ -91,6 +97,12 @@ def main():
         if (r.get("x") or {}).get("stage"):
             r = {**r, "x": {**r["x"], "stage": tidy_stage(r["x"]["stage"])}}
         if r.get("t") == "Investor": r = {**r, "t": "Venture capital"}  # too vague to filter by
+        fx = fixes.get(host(r.get("w")))
+        if fx:
+            x = dict(r.get("x") or {})
+            if fx[0]: x["focus"] = fx[0]
+            if fx[1]: x["stage"] = fx[1]
+            r = {**r, "x": x}; st["fixed"] += 1
         for tag in tags.get(host(r.get("w")), []):
             f = (r.get("x") or {}).get("focus") or ""
             if tag.lower() not in f.lower():
