@@ -11,7 +11,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 P = lambda f: os.path.join(HERE, f)
 gc = geonamescache.GeonamesCache()
 
-EXCLUDE = {"jumpstartinc.org", "drummondroad.com", "lumosinnovation.com", "nctventures.com"}  # removed by Manny (Rev1 re-added 2026-11-15)
+EXCLUDE = {"jumpstartinc.org", "drummondroad.com", "lumosinnovation.com", "nctventures.com", "ventureforge.co", "northcoastangelfund.com"}  # removed by Manny (Rev1 re-added 2026-11-15)
 # Already live in Webflow CMS (cn.js also dedupes by host, this just keeps the feed lean)
 CMS = {"drivecapital.com", "cincytechusa.com", "m25vc.com", "highalpha.com", "kaporcapital.com", "harlem.capital",
        "goldenseeds.com", "collab.capital", "precursorvc.com", "hustlefund.vc", "firstround.com", "a16z.com",
