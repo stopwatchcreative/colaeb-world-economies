@@ -1,0 +1,38 @@
+name: publish-version
+# Points the live investor pages at the newest commit. The pages read investors/version.json
+# (GitHub raw, cached ~5 min) and load data and scripts from jsDelivr at that exact commit.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["investors/**", "network/**", "!investors/version.json", "!investors/enrich/check-urls.tsv"]
+  workflow_run:
+    workflows: ["Investors refresh"]
+    types: [completed]
+concurrency: { group: publish-version, cancel-in-progress: false }
+permissions: { contents: write }
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - name: Write version.json
+        run: |
+          SHA=$(git rev-parse HEAD)
+          printf '{"sha":"%s","at":"%s"}\n' "$SHA" "$(date -u +%FT%TZ)" > investors/version.json
+          git config user.name "colaeb-bot"; git config user.email "actions@users.noreply.github.com"
+          git add investors/version.json
+          git commit -m "version: $SHA" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && break; sleep 5; done
+          echo "PUBLISHED $SHA"
+      - name: Warm jsDelivr and refresh @main fallbacks
+        run: |
+          SHA=$(python3 -c "import json;print(json.load(open('investors/version.json'))['sha'])")
+          for f in investors/investors-feed-enriched.json investors/enrich/profiles.json investors/enrich/first-seen.json investors/extras.min.js investors/page.min.js investors/submit.min.js; do
+            curl -s -o /dev/null -w "$f %{http_code}\n" "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@$SHA/$f"
+          done
+          for f in investors/loader.min.js investors/investors-feed-enriched.json; do
+            curl -s "https://purge.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@main/$f" > /dev/null || true
+          done
+          curl -s "https://cdn.jsdelivr.net/gh/stopwatchcreative/colaeb-world-economies@$SHA/investors/investors-feed-enriched.json" | python3 -c "import json,sys;print('LIVE',len(json.load(sys.stdin)))"
