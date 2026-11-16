@@ -76,6 +76,8 @@ def main():
     sites = json.load(open(SITES)) if os.path.exists(SITES) else {}
     out, held, st = [], [], {"kept": 0, "dropped_dead": 0, "held": 0, "stage_added": 0, "focus_added": 0, "check_added": 0}
     hand, keep = tsv("hold.tsv"), tsv("keep.tsv")
+    tags = {}
+    for k, v in tsv("tags.tsv").items(): tags.setdefault(k, []).append(v)
     for r in feed:
         s = sites.get(host(r.get("w")))
         if s and s.get("status") == "dead" and s.get("dead_runs", 0) >= 2:
@@ -89,6 +91,10 @@ def main():
         if (r.get("x") or {}).get("stage"):
             r = {**r, "x": {**r["x"], "stage": tidy_stage(r["x"]["stage"])}}
         if r.get("t") == "Investor": r = {**r, "t": "Venture capital"}  # too vague to filter by
+        for tag in tags.get(host(r.get("w")), []):
+            f = (r.get("x") or {}).get("focus") or ""
+            if tag.lower() not in f.lower():
+                r = {**r, "x": {**(r.get("x") or {}), "focus": (f + ", " + tag) if f else tag}}
         why = hold_reason(r, hand, keep)
         if why:
             held.append({"n": r.get("n"), "w": r.get("w"), "t": r.get("t"), "k": r.get("k"), "why": why}); st["held"] += 1; continue
