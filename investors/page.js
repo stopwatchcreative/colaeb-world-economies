@@ -33,6 +33,11 @@
     ".cnx-lists-all{margin:8px 0 0}.cnx-lists-all a{color:#B4520C;font-weight:600}";
   document.head.appendChild(st);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", go); else go();
+  // The guide callout puts the link on its own line, so drop the stray trailing period.
+  (function tidyGuide() {
+    var g = document.querySelector(".cnf-guide"); if (!g) return;
+    var n = g.lastChild; if (n && n.nodeType === 3 && /^\s*\.\s*$/.test(n.textContent)) g.removeChild(n);
+  })();
 
   // Structured data for search engines on list pages (/pre-seed-investors, /investors-in-ohio, ...):
   // a CollectionPage with an ItemList of the first 20 investors, built from the live list so it never goes stale.
