@@ -6,6 +6,7 @@ keeps a cache of articles already read (yid-articles.json) and writes yid-deals.
   {"updated": "...", "deals": {"h:<host>" | "n:<name key>": [{"t": title, "u": url, "d": "2026-11-12", "r": "led"|"in"}]}}
 The page joins these to investors by website host, or by name for investors without a website.
 """
+import html as html_lib
 import json, os, re, datetime, time
 from urllib.parse import urljoin
 import requests
@@ -123,11 +124,32 @@ def build_patterns():
     return pats
 
 
-def roles_in(text, pats):
+VER = 6  # bump when the matching rules change: cached articles are read again
+
+ROUND = re.compile(r"\b(pre-seed|seed|series [a-h]|growth round|bridge round)\b", re.I)
+PAST = re.compile(r"\b(previous(?:ly)?|earlier|prior|last year|first raised|had raised|in 20(?:1\d|2[0-4]))\b", re.I)
+
+
+def clean_title(t):
+    """Decode HTML entities left in og:title (e.g. &#039; -> ')."""
+    t = html_lib.unescape(html_lib.unescape(t or ""))
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def round_of(title):
+    m = ROUND.search(title or "")
+    return m.group(1).lower() if m else ""
+
+
+def roles_in(text, pats, this_round=""):
     found = {}
     sentences = re.split(r"(?<=[.!?])\s+", text)
     for s in sentences:
         if not FUNDING.search(s): continue
+        # Background on earlier rounds names past investors: only tag investors in this round.
+        rounds = {r.lower() for r in ROUND.findall(s)}
+        if this_round and rounds and this_round not in rounds: continue
+        if PAST.search(s) and this_round not in rounds: continue
         hits = []
         for rx, key, name, strict in pats:
             for m in rx.finditer(s):
@@ -164,7 +186,7 @@ def write_deals(cache):
         if not a.get("d") or a["d"] < cutoff: continue
         for key, role in a.get("m", {}).items():
             if key in NEVER: continue
-            deals.setdefault(key, []).append({"t": a["t"], "u": u, "d": a["d"], "r": role})
+            deals.setdefault(key, []).append({"t": clean_title(a["t"]), "u": u, "d": a["d"], "r": role})
     for k in deals:
         deals[k] = sorted(deals[k], key=lambda x: (x["d"], x["r"] == "led"), reverse=True)[:5]
     json.dump({"updated": datetime.date.today().isoformat(), "deals": deals}, open(OUT, "w"), separators=(",", ":"), ensure_ascii=False)
@@ -177,9 +199,9 @@ def main():
     print("patterns", len(pats), flush=True)
     # Articles read under older matching rules are read again, so a rules change applies to the whole year.
     seen = {u for u, _ in arts}
-    arts = list(arts) + [(u, a.get("t", "")) for u, a in cache.items() if a.get("v") != 5 and u not in seen]
+    arts = list(arts) + [(u, a.get("t", "")) for u, a in cache.items() if a.get("v") != VER and u not in seen]
     for u, title in arts:
-        if u in cache and cache[u].get("v") == 5: continue
+        if u in cache and cache[u].get("v") == VER: continue
         try:
             html = S.get(u, timeout=20).text
         except Exception as e:
@@ -187,9 +209,9 @@ def main():
         body = text_of(html)
         t0 = meta(html, "og:title") or title
         if not FUNDING_TITLE.search(t0):
-            cache[u] = {"t": t0, "d": article_date(html), "m": {}, "v": 5}; continue
+            cache[u] = {"t": clean_title(t0), "d": article_date(html), "m": {}, "v": VER}; continue
         t = meta(html, "og:title") or title
-        cache[u] = {"t": t.replace("&amp;", "&"), "d": article_date(html), "m": roles_in(body, pats), "v": 5}
+        cache[u] = {"t": clean_title(t), "d": article_date(html), "m": roles_in(body, pats, round_of(t)), "v": VER}
         print("read", cache[u]["d"], t[:70], "->", len(cache[u]["m"]), flush=True)
         time.sleep(0.3)
     json.dump(cache, open(CACHE, "w"), indent=0, sort_keys=True, ensure_ascii=False)
