@@ -86,7 +86,7 @@ def main():
     for k, v in tsv("tags.tsv").items(): tags.setdefault(k, []).append(v)
     for r in feed:
         s = sites.get(host(r.get("w")))
-        if s and s.get("status") == "dead" and s.get("dead_runs", 0) >= 2:
+        if s and s.get("status") == "dead" and s.get("dead_runs", 0) >= 2 and host(r.get("w")) not in keep and (r.get("n") or "").lower() not in keep:
             st["dropped_dead"] += 1; continue
         if s and s.get("status") == "ok":
             x = dict(r.get("x") or {})
