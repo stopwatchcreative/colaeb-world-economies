@@ -16,7 +16,7 @@
 /* ---- How Colaeb works: sticky stacking step cards (desktop) ---- */
 @media (min-width:992px){
   .hp-how-grid.co-stack{display:block;position:relative;padding-bottom:4vh}
-  .co-slot{position:sticky;top:0;height:62vh;min-height:360px;display:flex;justify-content:center;align-items:flex-start;padding-top:clamp(96px,14vh,140px)}
+  .co-slot{position:sticky;top:0;height:48vh;min-height:330px;display:flex;justify-content:center;align-items:flex-start;padding-top:clamp(88px,11vh,120px)}
   .co-slot:last-child{height:auto;min-height:0;padding-bottom:0}
   .hp-how-grid.co-stack .hp-step{position:relative;top:calc(var(--i) * 26px);width:100%;max-width:1072px;transform-origin:top center;will-change:transform;
     display:grid;grid-template-columns:120px 1fr;grid-template-rows:auto 1fr;column-gap:40px;align-items:start;
