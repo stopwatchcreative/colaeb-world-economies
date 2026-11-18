@@ -71,7 +71,7 @@ def main():
     data = json.load(open(OUT)) if os.path.exists(OUT) else {}
     todo = [h for h in hosts if h not in data]
     print("hosts", len(hosts), "to read", len(todo), flush=True)
-    with ThreadPoolExecutor(max_workers=8) as ex:
+    with ThreadPoolExecutor(max_workers=16) as ex:
         for k, (h, rec) in enumerate(ex.map(one, todo)):
             rec["read"] = time.strftime("%Y-%m-%d"); data[h] = rec
             if k % 50 == 0: print("read", k, flush=True)
