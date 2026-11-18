@@ -1,0 +1,23 @@
+# Hand fixes applied on top of gen_profiles output before CMS import. slug -> dict of field overrides, or None to drop.
+FIX = {
+"accion-venture-lab": {"profile": "Accion Venture Lab is the seed-stage investment arm of Accion, a global nonprofit working to improve the lives of underserved people through responsible financial solutions. Its focus areas include fintech, climate and energy, food and agriculture, e-commerce and health, and the firm is based in Washington, DC."},
+"accomplice": {"profile": "Accomplice is a venture firm in Cambridge, Massachusetts, whose team is also behind Accomplice Blockchain and the Spearhead operator-angel program. Its focus areas include crypto and Web3 and climate and energy."},
+"ace-management-brienne": {"profile": "ACE Management is a French investor that backs industrial and technology companies at the growth stage. Its focus areas include Industry 4.0, automotive, smart grid, health tech and IoT. Its latest fund, closed in 2019, was €80m."},
+"acorn-pacific-ventures": {"profile": "Acorn Pacific Ventures is a seed investor in Santa Clara, California, whose network brings perspectives from across the Pacific Rim, including trade, manufacturing and partnerships."},
+"activate-fellowship": {"profile": "Activate Fellowship is a Berkeley-based program that supports scientists and engineers turning their research into products and companies. It backs founders at the pre-seed stage, with a focus on deep science and hard tech."},
+"acton-capital": {"profile": "Acton Capital is a German generalist investor that typically comes in at the early growth stage. It invests from seed to growth, and its latest fund, closed in 2018, was €195m."},
+"adm-ventures": {"profile": "ADM Ventures is the venture arm of agribusiness company ADM, based in Decatur, Illinois. It invests in startups in food, agriculture and sustainability."},
+"aera-vc": {"profile": "Aera VC is a venture capital firm based in the United States. Its focus areas include climate."},
+"agilegtm": None,
+"agla-ventures": {"profile": "Aglaé Ventures is a French investor that backs bold entrepreneurs with global ambition, from first cheque to pre-IPO. Its focus areas include SaaS, AI and digital media."},
+"alcova-capital-management": {"profile": "Alcova Capital Management is a venture capital firm based in New York, NY. Its focus areas include real estate and proptech and fintech."},
+"aligned-climate-capital": {"profile": "Aligned Climate Capital invests in innovative companies and projects driving the clean energy transition. The firm is based in the United States."},
+"alleycorp": {"profile": "AlleyCorp builds and invests in transformative companies. It invests at the seed and Series A stages, and the firm is based in New York."},
+"alpaca-vc": {"profile": "Alpaca VC is a seed investor that aims to show up for founders from day one through day one thousand. The firm is based in the United States."},
+"alpha-intelligence-capital": {"profile": "Alpha Intelligence Capital invests in deep artificial intelligence and machine learning companies from seed to Series B. The firm is based in Luxembourg, and its latest fund, closed in 2022, was €143m."},
+"als-investment-fund": {"profile": "ALS Investment Fund is a venture capital fund that invests in biotech companies developing drugs for neurodegeneration, with a particular focus on ALS. The firm is based in the United States."},
+"algebra-ventures": {"profile": "Algebra Ventures is an Egyptian venture firm whose $54M first fund backed 21 companies, including some of Egypt's most prominent technology startups. It invests from pre-seed to Series B."},
+"alstin-capital": {"profile": "Alstin Capital is a German early-stage venture capital fund focused on B2B software. It invests from seed to Series B, and its latest fund, closed in 2024, was €175m."},
+"amazon-climate-pledge-fund": {"profile": "The Climate Pledge Fund is Amazon's venture investment program backing companies whose technologies help the world reach net-zero carbon. Its focus areas include climate.", "city": "Seattle, WA", "country": "United States", "latitude": "47.606", "longitude": "-122.332"},
+"amplitude-ventures": {"profile": "Amplitude Ventures is a Canadian venture capital firm focused on precision medicine at the intersection of biology and AI. It invests at the Series A stage."},
+}
