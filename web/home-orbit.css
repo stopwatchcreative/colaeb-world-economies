@@ -1,0 +1,35 @@
+/* Colaeb homepage hero orbit rings. Adapted from MotionSites "Orbit rings with counter-rotating avatars" (MIT, github.com/Motionsites-AI/claude-skill). Desktop only (>=992px); phones keep the stats card. */
+.co-orbit-wrap{display:none}
+@media (min-width:992px){
+  .hp-hero-div-3.co-has-orbit{position:relative;display:flex;justify-content:flex-end;align-items:center}
+  .hp-hero-div-3.co-has-orbit .hp-pulse{display:none}
+  .co-orbit-wrap{--s:.58;display:flex;justify-content:flex-start;width:calc(660px * var(--s));height:calc(660px * var(--s));overflow:visible}
+}
+@media (min-width:992px) and (max-width:1199px){.co-orbit-wrap{--s:.5}}
+.co-orbits{position:relative;flex:none;width:660px;height:660px;transform:scale(var(--s));transform-origin:top left;
+  animation:co-orbits-in 1.2s cubic-bezier(.22,1,.36,1) .3s both}
+.co-orbit{position:absolute;left:50%;top:50%;width:var(--d);height:var(--d);translate:-50% -50%;border-radius:50%;
+  animation:co-spin var(--t) linear infinite}
+.co-orbit[data-dir="ccw"]{animation-direction:reverse}
+.co-orbit::before{content:"";position:absolute;inset:0;border-radius:50%;padding:1.5px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(46,204,113,0) 0%,rgba(46,204,113,.9) 43%,rgba(46,204,113,0) 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude}
+.co-orbit::after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid rgba(16,24,40,.07);pointer-events:none}
+.co-item{position:absolute;left:50%;top:50%;width:0;height:0;transform:rotate(var(--a)) translate(var(--r)) rotate(calc(-1 * var(--a)))}
+.co-upright{position:absolute;translate:-50% -50%;animation:co-spin var(--t) linear infinite reverse}
+.co-orbit[data-dir="ccw"] .co-upright{animation-direction:normal}
+.co-pop{display:grid;place-items:center;width:76px;height:76px;border-radius:50%;background:#fff;
+  box-shadow:0 0 0 1px rgba(16,24,40,.06),0 8px 22px rgba(16,24,40,.08),0 0 26px var(--glow,rgba(46,204,113,.25));
+  animation:co-pop 1s cubic-bezier(.22,1,.36,1) var(--delay,0s) both;overflow:hidden}
+.co-pop.is-sq{border-radius:22px}
+.co-pop.is-lg{width:96px;height:96px}
+.co-pop img{width:72%;height:72%;object-fit:contain;display:block}
+.co-center{position:absolute;inset:0;display:grid;place-content:center;text-align:center;pointer-events:none}
+.co-center strong{font:600 64px/1 Sora,sans-serif;color:#1b6e3f;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.co-center span{margin-top:10px;font:600 20px/1.3 Sora,sans-serif;color:#101828}
+.co-center em{margin-top:6px;font:400 17px/1.4 Sora,sans-serif;font-style:normal;color:#5a6575}
+@keyframes co-spin{to{rotate:360deg}}
+@keyframes co-pop{from{opacity:0;transform:scale(.3) rotate(-180deg);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@keyframes co-orbits-in{from{opacity:0;scale:.85}to{opacity:1;scale:1}}
+@media (prefers-reduced-motion:reduce){.co-orbit,.co-upright,.co-pop,.co-orbits{animation:none}}
