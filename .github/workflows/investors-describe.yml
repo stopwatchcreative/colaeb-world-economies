@@ -1,0 +1,28 @@
+name: Investors describe
+# Reads investor websites listed in investors/enrich/describe-hosts.txt and saves their own descriptions
+# to investors/enrich/site-text.json (used to write profile page descriptions).
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["investors/enrich/describe-hosts.txt"]
+permissions:
+  contents: write
+jobs:
+  describe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install requests
+      - run: python investors/enrich/describe.py
+      - name: Commit
+        run: |
+          git config user.name "colaeb-bot"
+          git config user.email "colaeb-bot@users.noreply.github.com"
+          git add investors/enrich/site-text.json
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "Investors: read websites for profile descriptions"
+          git pull --rebase && git push
