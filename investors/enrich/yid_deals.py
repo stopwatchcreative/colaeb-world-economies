@@ -20,8 +20,9 @@ BASE = "https://www.yourinfodaily.com"
 LIST = BASE + "/p/t/business"
 UA = "Mozilla/5.0 ColaebInvestorList/1.0 (+https://colaeb.com/investors)"
 S = requests.Session(); S.headers.update({"User-Agent": UA})
-KEEP_DAYS = 365
-MAX_PAGES = int(os.environ.get("YID_PAGES", "60"))
+KEEP_DAYS = int(os.environ.get("YID_KEEP_DAYS", "3650"))  # historical archive included; each investor shows its 5 newest
+DEEP = os.environ.get("YID_DEEP") == "1"  # walk every Business page, not just until caught up
+MAX_PAGES = int(os.environ.get("YID_PAGES", "400" if DEEP else "60"))
 
 SUFFIX = r"(?:\s+(?:ventures?|capital|partners|vc|fund|funds|management|investments?|group|holdings|llc|lp|inc\.?|ltd\.?|equity|advisors))+$"
 STOP = set("""first general global human village next social future true new founders lead upfront index accel benchmark
@@ -87,7 +88,7 @@ def list_articles():
             out.append((u, title))
         print("page", page, "articles", found, "new", new, flush=True)
         if not found: break
-        if cache and not new and page > 2: break  # caught up with what we already read
+        if cache and not new and page > 2 and not DEEP: break  # caught up with what we already read
         time.sleep(0.5)
     return out, cache
 
@@ -179,7 +180,7 @@ NEVER = {"h:backed.vc", "h:enterpriseequity.ie", "h:expansion-vc.eu", "h:ifinanc
 
 
 def write_deals(cache):
-    """Turn the article cache into yid-deals.json: the last year of rounds per investor, newest first."""
+    """Turn the article cache into yid-deals.json: up to 5 rounds per investor, newest first."""
     cutoff = (datetime.date.today() - datetime.timedelta(days=KEEP_DAYS)).isoformat()
     deals = {}
     for u, a in cache.items():

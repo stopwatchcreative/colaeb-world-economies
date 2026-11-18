@@ -29,6 +29,8 @@ jobs:
           EMAIL_KEY: age137278w9uy606hcecyvy5j65n46hugcq2jutkcp4xu7ghzj3mppusaly9jc
       - name: YourInfoDaily deals
         run: python investors/enrich/yid_deals.py
+        env:
+          YID_DEEP: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, 'deep scan')) && '1' || '0' }}
       - name: Build enriched feed
         run: python investors/enrich/apply.py
       - name: Commit
