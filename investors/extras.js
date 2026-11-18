@@ -40,7 +40,8 @@
 
   function dealHtml(d) {
     return '<span aria-hidden="true">●</span><span><b>' + (d.r === "led" ? "Led" : "Participated") + ":</b> " +
-      '<a href="' + esc(d.u) + '" target="_blank" rel="noopener">' + esc(d.t) + "</a></span>";
+      '<a href="' + esc(d.u) + '" target="_blank" rel="noopener">' + esc(d.t) + "</a>" +
+      (d.d ? " <small>" + new Date(d.d).toLocaleString("en-US", { month: "short", year: "numeric", timeZone: "UTC" }) + "</small>" : "") + "</span>";
   }
   var ACTIVE_DAYS = 90, UPDATED = "";
   function lastDeal(r) { return (r.deals && r.deals[0] && r.deals[0].d) || ""; }
