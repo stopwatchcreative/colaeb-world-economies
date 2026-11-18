@@ -1,0 +1,34 @@
+/* Colaeb homepage motion layer: staggered reveals, card spotlight, magnetic buttons,
+   pointer tilt on the product visuals, scroll-lit quote.
+   Adapted from MotionSites recipes (MIT, github.com/Motionsites-AI/claude-skill). */
+:root{--co-ease:cubic-bezier(.25,.1,.25,1);--co-quint:cubic-bezier(.22,1,.36,1)}
+
+/* 1. Viewport-triggered staggered reveal. Only elements that start below the fold are hidden. */
+.co-rv{opacity:0;transform:translate3d(var(--x,0px),var(--y,30px),0);
+  transition:opacity var(--dur,.7s) var(--co-ease) var(--d,0s),transform var(--dur,.7s) var(--co-ease) var(--d,0s)}
+.co-rv.co-scale{transform:translate3d(0,20px,0) scale(.95);transition-timing-function:var(--co-quint)}
+.co-rv.co-in{opacity:1;transform:none}
+.co-rv.co-done{transition:none}
+
+/* 2. Cursor spotlight on cards */
+.co-spot{position:relative;isolation:isolate}
+.co-glow{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;opacity:0;
+  transition:opacity .35s ease;
+  background:radial-gradient(260px circle at var(--gx,50%) var(--gy,50%),rgba(46,204,113,.16),rgba(46,204,113,.06) 40%,transparent 70%)}
+.co-spot.co-lit .co-glow{opacity:1}
+.co-spot.co-dark .co-glow{background:radial-gradient(260px circle at var(--gx,50%) var(--gy,50%),rgba(99,201,121,.28),rgba(99,201,121,.08) 40%,transparent 70%)}
+.hp-card.co-spot{transition:box-shadow .3s ease,border-color .3s ease}
+.hp-card.co-spot.co-lit{box-shadow:0 18px 40px rgba(31,42,60,.10)}
+
+/* 3. Pointer tilt on the funding and banking visuals */
+.co-tilt{perspective:1100px}
+.co-tilt > .co-tilt-in{transform:rotateX(calc(var(--ty,0) * -7deg)) rotateY(calc(var(--tx,0) * 9deg));transform-style:preserve-3d;will-change:transform}
+
+/* 4. Scroll-lit quote */
+.co-words .co-w{opacity:.18;transition:opacity .12s linear}
+
+@media (prefers-reduced-motion:reduce){
+  .co-rv{opacity:1!important;transform:none!important;transition:none!important}
+  .co-words .co-w{opacity:1!important}
+  .co-tilt > .co-tilt-in{transform:none!important}
+}
