@@ -16,8 +16,10 @@ FEED = os.path.join(HERE, "..", "investors-feed.json")
 CMS = os.path.join(HERE, "cms-investors.json")
 CACHE = os.path.join(HERE, "yid-articles.json")
 OUT = os.path.join(HERE, "yid-deals.json")
+ACACHE = os.path.join(HERE, "yid-archive.json")  # The Funding Archive on yourinfodaily.com/news: headlines linking to the original source
 BASE = "https://www.yourinfodaily.com"
 LIST = BASE + "/p/t/business"
+ARCHIVE = BASE + "/news"
 UA = "Mozilla/5.0 ColaebInvestorList/1.0 (+https://colaeb.com/investors)"
 S = requests.Session(); S.headers.update({"User-Agent": UA})
 KEEP_DAYS = int(os.environ.get("YID_KEEP_DAYS", "3650"))  # historical archive included; each investor shows its 5 newest
@@ -179,17 +181,108 @@ def roles_in(text, pats, this_round=""):
 NEVER = {"h:backed.vc", "h:enterpriseequity.ie", "h:expansion-vc.eu", "h:ifinancialventures.com", "h:founderequity.com", "h:frontiergrowth.com", "h:draperfrontier.com", "h:future.ventures", "h:generationvc.com", "h:globalinvestors.com.au", "h:growthpartners.capital", "h:healthcareventures.vc", "h:innovation-capital.com", "n:seedroundcapital"}
 
 
-def write_deals(cache):
+# ------------------------------------------------------------ The Funding Archive (yourinfodaily.com/news)
+# The /news page embeds the funding desk's archive as `var D=[[title, source url, outlet], ...]` (1,400+ rounds).
+# Each round is read from its original source (title, opening paragraphs, publish date); when the source
+# can't be read, the headline alone is used. Undated rounds take the date of their nearest dated neighbour.
+URL_DATE = re.compile(r"/(20\d\d)[/-](\d\d)[/-](\d\d)")
+URL_MONTH = re.compile(r"/(20\d\d)/(\d\d)/")
+AMOUNT = re.compile(r"[$€£]\s?[\d.,]+\s?(?:[MBK]|million|billion)", re.I)
+
+
+def archive_rows():
+    try:
+        html = S.get(ARCHIVE, timeout=30).text
+    except Exception as e:
+        print("archive error", e); return []
+    i = html.find("var D=")
+    if i < 0: print("archive: no data"); return []
+    try:
+        rows, _ = json.JSONDecoder().raw_decode(html, i + 6)
+    except Exception as e:
+        print("archive parse error", e); return []
+    return [r for r in rows if isinstance(r, list) and len(r) >= 2 and r[0] and r[1]]
+
+
+def lead_text(html):
+    """Opening paragraphs of an article: avoids sidebars and 'related stories' that name other rounds."""
+    paras = []
+    for p in re.findall(r"(?is)<p[^>]*>(.*?)</p>", html):
+        t = text_of(p)
+        if len(t) > 40: paras.append(t)
+        if len(paras) >= 14: break
+    return " ".join(paras)
+
+
+def read_archive(pats):
+    from concurrent.futures import ThreadPoolExecutor
+    rows = archive_rows()
+    print("archive rounds", len(rows), flush=True)
+    cache = json.load(open(ACACHE)) if os.path.exists(ACACHE) else {}
+    todo = [(n, r) for n, r in enumerate(rows) if cache.get(r[1], {}).get("v") != VER]
+
+    def one(item):
+        n, r = item
+        title, u = clean_title(r[0]), r[1]
+        html = ""
+        try:
+            resp = S.get(u, timeout=12)
+            if resp.ok and "html" in resp.headers.get("content-type", "html"): html = resp.text[:600000]
+        except Exception:
+            pass
+        d = article_date(html, "") if html else ""
+        if not re.match(r"20\d\d-\d\d-\d\d$", d or ""):
+            m = URL_DATE.search(u)
+            d = "%s-%s-%s" % m.groups() if m else ""
+            if not d:
+                m = URL_MONTH.search(u)
+                d = "%s-%s-15" % m.groups() if m else ""
+        text = title + ". " + (meta(html, "og:description") + ". " if html else "") + (lead_text(html) if html else "")
+        return u, {"t": title, "d": d, "m": roles_in(text, pats, round_of(title)), "v": VER, "s": (r[2] if len(r) > 2 else "") or "", "n": n, "read": bool(html)}
+
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        for k, (u, a) in enumerate(ex.map(one, todo)):
+            cache[u] = a
+            if k % 100 == 0: print("archive read", k, "/", len(todo), flush=True)
+    # position on the page is chronological: undated rounds borrow the nearest dated neighbour's date
+    order = {r[1]: n for n, r in enumerate(rows)}
+    dated = sorted((order[u], a["d"]) for u, a in cache.items() if u in order and a.get("d"))
+    for u, a in cache.items():
+        if u in order: a["n"] = order[u]
+        if a.get("d") or u not in order or not dated: continue
+        a["d"] = min(dated, key=lambda x: abs(x[0] - order[u]))[1]; a["est"] = 1
+    json.dump(cache, open(ACACHE, "w"), indent=0, sort_keys=True, ensure_ascii=False)
+    print("archive: read from source", sum(1 for a in cache.values() if a.get("read")), "of", len(cache),
+          "| rounds with investors", sum(1 for a in cache.values() if a.get("m")), flush=True)
+    return cache
+
+
+def write_deals(cache, archive=None):
     """Turn the article cache into yid-deals.json: up to 5 rounds per investor, newest first."""
     cutoff = (datetime.date.today() - datetime.timedelta(days=KEEP_DAYS)).isoformat()
     deals = {}
-    for u, a in cache.items():
-        if not a.get("d") or a["d"] < cutoff: continue
-        for key, role in a.get("m", {}).items():
-            if key in NEVER: continue
-            deals.setdefault(key, []).append({"t": clean_title(a["t"]), "u": u, "d": a["d"], "r": role})
+    sources = [(cache, True)] + ([(archive, False)] if archive else [])
+    for src, is_yid in sources:
+        for u, a in src.items():
+            if not a.get("d") or a["d"] < cutoff: continue
+            for key, role in a.get("m", {}).items():
+                if key in NEVER: continue
+                deals.setdefault(key, []).append({"t": clean_title(a["t"]), "u": u, "d": a["d"], "r": role, "_y": is_yid})
     for k in deals:
-        deals[k] = sorted(deals[k], key=lambda x: (x["d"], x["r"] == "led"), reverse=True)[:5]
+        rows = sorted(deals[k], key=lambda x: (x["_y"], x["d"], x["r"] == "led"), reverse=True)
+        keep = []
+
+        def near(a, b):
+            try: return abs((datetime.date.fromisoformat(a[:10]) - datetime.date.fromisoformat(b[:10])).days) <= 21
+            except ValueError: return False
+        for x in rows:  # the same round covered by YourInfoDaily and by the archive's source: keep one
+            amt = AMOUNT.search(x["t"])
+            if amt and any(AMOUNT.search(y["t"]) and AMOUNT.search(y["t"]).group(0).replace(" ", "") == amt.group(0).replace(" ", "")
+                           and near(x["d"], y["d"]) for y in keep):
+                continue
+            keep.append(x)
+        for x in keep: x.pop("_y", None)
+        deals[k] = sorted(keep, key=lambda x: (x["d"], x["r"] == "led"), reverse=True)[:5]
     json.dump({"updated": datetime.date.today().isoformat(), "deals": deals}, open(OUT, "w"), separators=(",", ":"), ensure_ascii=False)
     return deals
 
@@ -216,7 +309,8 @@ def main():
         print("read", cache[u]["d"], t[:70], "->", len(cache[u]["m"]), flush=True)
         time.sleep(0.3)
     json.dump(cache, open(CACHE, "w"), indent=0, sort_keys=True, ensure_ascii=False)
-    deals = write_deals(cache)
+    archive = read_archive(pats)
+    deals = write_deals(cache, archive)
     print("investors with deals", len(deals), "articles", len(cache))
 
 
