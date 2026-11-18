@@ -28,11 +28,25 @@
   "why": "Duplicate of 500 Startups (500.co); LinkedIn-only copy"
  },
  {
+  "n": "A&T Capital",
+  "w": "https://a-tcapital.com",
+  "t": "Venture capital",
+  "k": "Germany",
+  "why": "Site is a blank WordPress install (checked 2026-11-17)"
+ },
+ {
   "n": "A/O ProPtech",
   "w": "https://aoproptech.com/reports/decarbonising-real-estate",
   "t": "Venture capital",
   "k": "United Kingdom",
   "why": "website points to a report page"
+ },
+ {
+  "n": "Accelerate Skelleftea",
+  "w": "https://accelerateskelleftea.com",
+  "t": "Accelerator",
+  "k": "Sweden",
+  "why": "Domain now hosts an unrelated blog (checked 2026-11-17)"
  },
  {
   "n": "Accelerated Digital Ventures",
