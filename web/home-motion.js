@@ -16,12 +16,12 @@
         if (!e.isIntersecting) return;
         var el = e.target; io.unobserve(el); el.classList.add('co-in');
         var ms = (parseFloat(el.style.getPropertyValue('--d')) || 0) * 1000 + 950;
-        setTimeout(function(){ el.classList.add('co-done'); el.style.transform = ''; }, ms);
+        setTimeout(function(){ el.classList.add('co-done'); }, ms);
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     var used = [];
     var mark = function(el, o){
-      if (!el || skip(el) || used.indexOf(el) > -1) return;
+      if (!el || skip(el) || used.indexOf(el) > -1 || (el.parentElement && el.parentElement.closest('.tm-viewport'))) return;
       if (el.getBoundingClientRect().top < innerHeight) return;   /* already on screen: leave it alone */
       used.push(el); o = o || {};
       el.classList.add('co-rv'); if (o.scale) el.classList.add('co-scale');

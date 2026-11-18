@@ -14,7 +14,7 @@
 .co-spot{position:relative;isolation:isolate}
 .co-glow{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;opacity:0;
   transition:opacity .35s ease;
-  background:radial-gradient(260px circle at var(--gx,50%) var(--gy,50%),rgba(46,204,113,.16),rgba(46,204,113,.06) 40%,transparent 70%)}
+  background:radial-gradient(260px circle at var(--gx,50%) var(--gy,50%),rgba(46,204,113,.22),rgba(46,204,113,.08) 40%,transparent 70%)}
 .co-spot.co-lit .co-glow{opacity:1}
 .co-spot.co-dark .co-glow{background:radial-gradient(260px circle at var(--gx,50%) var(--gy,50%),rgba(99,201,121,.28),rgba(99,201,121,.08) 40%,transparent 70%)}
 .hp-card.co-spot{transition:box-shadow .3s ease,border-color .3s ease}
