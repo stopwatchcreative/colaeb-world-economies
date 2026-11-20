@@ -1,6 +1,6 @@
 /* Colaeb Network: "Today on the map" banner.
    Shows three network members, changing every day at midnight Eastern time.
-   Members are drawn from the live Network CMS list (window.CN from cn.js): only members with a
+   Members are read from the hidden Network CMS list on the page ([data-cn-source]): only members with a
    website and a map pin, and never the four Member Spotlight members. The order is a seeded
    shuffle, so every member appears once before anyone repeats (about 60 days for 180 members).
    Mount: inserted right after the Member Spotlight section. Styles live in daily.css. */
@@ -46,6 +46,44 @@
   function host(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return ""; } }
   function track(name, slug) { if (window.gtag) gtag("event", name, { promo: "network_daily", member: slug }); }
 
+  function field(it, n) {
+    var e = it.querySelector('[data-cn-field="' + n + '"]');
+    if (!e || e.classList.contains("w-dyn-bind-empty") || e.classList.contains("w-condition-invisible")) return "";
+    if (e.tagName === "IMG") { var s = e.getAttribute("src") || ""; return /placeholder|^data:/.test(s) ? "" : s; }
+    if (e.tagName === "A") { var hr = e.getAttribute("href") || ""; return hr === "#" ? "" : hr; }
+    return (e.textContent || "").trim();
+  }
+  function slugify(s) { return s.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+  function readItems() {
+    var out = [], seen = {}, base = (window.CN_CONFIG && CN_CONFIG.profileBase) || "/network/";
+    document.querySelectorAll("[data-cn-source] .w-dyn-item").forEach(function (it) {
+      var f = function (n) { return field(it, n); }, name = f("name");
+      if (!name) return;
+      var r = { name: name, slug: f("slug") || slugify(name), industry: f("industry"), city: f("city"), country: f("country"),
+        summary: f("summary"), website: f("website"), logo: f("logo"), featured: /^(true|yes|1)$/i.test(f("featured")),
+        hasPin: f("lat") !== "" && f("lng") !== "" && !isNaN(parseFloat(f("lat"))) };
+      if (seen[r.slug]) return; seen[r.slug] = 1;
+      r.place = [r.city, r.country].filter(Boolean).join(", ");
+      r.url = f("url") || base.replace(/\/?$/, "/") + r.slug;
+      out.push(r);
+    });
+    return out;
+  }
+  function showOnMap(r) {
+    // Use the map's own search: filter to this member, then press its "Show on globe" button.
+    var input = document.querySelector('[data-cn="globe"] input, [data-cn="directory"] input, .cn-search input');
+    if (!input) { location.href = r.url; return; }
+    input.value = r.name; input.dispatchEvent(new Event("input", { bubbles: true }));
+    var tries = 0;
+    (function look() {
+      var btn = [].slice.call(document.querySelectorAll('[data-cn="directory"] button')).filter(function (b) {
+        var c = b.closest("li, article, .cn-card"); return /globe|map/i.test(b.textContent) && c && c.textContent.indexOf(r.name) > -1;
+      })[0];
+      if (btn) { btn.click(); return; }
+      if (++tries < 15) setTimeout(look, 100); else location.href = r.url;
+    })();
+  }
+
   function card(r) {
     var li = el("li", "cnd-card");
     var head = el("div", "cnd-head");
@@ -63,17 +101,17 @@
     v.addEventListener("click", function () { track("network_daily_visit", r.slug); });
     acts.appendChild(v);
     var b = el("button", "cnd-btn", "See on the map"); b.type = "button";
-    b.addEventListener("click", function () { track("network_daily_map", r.slug); if (window.CN && CN.pick) CN.pick(r.slug); });
+    b.addEventListener("click", function () { track("network_daily_map", r.slug); showOnMap(r); });
     acts.appendChild(b);
     li.appendChild(acts);
     return li;
   }
 
   function build() {
-    if (!window.CN || document.querySelector(".cnd")) return;
+    if (document.querySelector(".cnd")) return;
     var spot = (window.CN_CONFIG && CN_CONFIG.spotlight) || [];
-    var pool = (CN.items() || []).filter(function (r) {
-      return r.website && r.points && r.points.length && !r.featured && spot.indexOf(r.slug) < 0;
+    var pool = readItems().filter(function (r) {
+      return r.website && r.hasPin && !r.featured && spot.indexOf(r.slug) < 0;
     }).sort(function (a, b) { return a.slug < b.slug ? -1 : 1; });
     if (pool.length < PER_DAY) return;
     var list = picks(pool, dayIndex());
@@ -103,6 +141,11 @@
     }
   }
 
-  if (window.CN) build();
-  document.addEventListener("cn:ready", function () { setTimeout(build, 0); });
+  // Wait for cn.js to draw the Member Spotlight, so the banner lands right below it.
+  var n = 0;
+  (function wait() {
+    var sp = document.querySelector('[data-cn="spotlight"]');
+    if (sp && (sp.children.length || sp.hidden || n > 40)) return build();
+    n++; setTimeout(wait, 150);
+  })();
 })();
