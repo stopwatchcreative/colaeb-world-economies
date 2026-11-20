@@ -79,7 +79,7 @@
       var btn = [].slice.call(document.querySelectorAll('[data-cn="directory"] button')).filter(function (b) {
         var c = b.closest("li, article, .cn-card"); return /globe|map/i.test(b.textContent) && c && c.textContent.indexOf(r.name) > -1;
       })[0];
-      if (btn) { btn.click(); return; }
+      if (btn) { btn.click(); setTimeout(function () { input.value = ""; input.dispatchEvent(new Event("input", { bubbles: true })); }, 400); return; }
       if (++tries < 15) setTimeout(look, 100); else location.href = r.url;
     })();
   }
