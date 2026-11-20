@@ -1,0 +1,30 @@
+/* Colaeb Network: "Today on the map" daily banner (see daily.js) */
+.cnd{max-width:1240px;margin:0 auto 8px;padding:0 24px;font-family:var(--cn-sans,"Source Sans 3",system-ui,sans-serif)}
+.cnd-wrap{background:var(--cn-ink,#101828);color:#fff;padding:36px 36px 34px;position:relative;overflow:hidden}
+.cnd-wrap:before{content:"";position:absolute;right:-120px;top:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(243,122,35,.22),rgba(243,122,35,0) 70%);pointer-events:none}
+.cnd-top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 32px;flex-wrap:wrap;margin-bottom:24px;position:relative}
+.cnd-eyebrow{font:600 12px/1.3 var(--cn-mono,"JetBrains Mono",monospace);letter-spacing:.14em;text-transform:uppercase;color:#F5BC86;margin:0 0 10px}
+.cnd-title{font-family:var(--cn-serif,"Newsreader",Georgia,serif);font-weight:600;font-size:clamp(28px,3vw,40px);line-height:1.05;margin:0;color:#fff}
+.cnd-note{margin:0;color:#C9D0DA;font-size:15px}
+.cnd-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;position:relative}
+.cnd-card{background:#fff;color:var(--cn-ink,#101828);border-top:4px solid var(--cn-accent,#F37A23);padding:20px;display:flex;flex-direction:column;min-width:0}
+.cnd-head{display:flex;gap:12px;align-items:flex-start}
+.cnd-mark{flex:0 0 44px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#fff;font:600 15px/1 var(--cn-mono,monospace);letter-spacing:.04em}
+.cnd-mark.has-logo{background:#fff;border:1px solid var(--cn-line,#EAECF0)}
+.cnd-mark img{max-width:84%;max-height:84%;object-fit:contain}
+.cnd-kicker{font:600 11px/1.3 var(--cn-mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:var(--cn-slate,#465A69);margin:0 0 4px}
+.cnd-name{font-family:var(--cn-serif,"Newsreader",Georgia,serif);font-weight:600;font-size:23px;line-height:1.1;margin:0}
+.cnd-name a{color:inherit;text-decoration:none}
+.cnd-name a:hover{text-decoration:underline;text-underline-offset:3px}
+.cnd-place{margin:12px 0 0;font-size:13px;color:var(--cn-slate,#465A69)}
+.cnd-summary{margin:8px 0 0;font-size:15px;line-height:1.5;flex:1;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.cnd-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.cnd-btn{appearance:none;border:1px solid var(--cn-ink,#101828);background:transparent;color:var(--cn-ink,#101828);font:600 14px/1 var(--cn-sans,sans-serif);padding:10px 14px;border-radius:2px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.cnd-btn:hover{background:var(--cn-ink,#101828);color:#fff}
+.cnd-btn-accent{background:var(--cn-accent,#F37A23);border-color:var(--cn-accent,#F37A23);color:#fff}
+.cnd-btn-accent:hover{background:#DD6A16;border-color:#DD6A16}
+.cnd-anim .cnd-card{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
+.cnd-anim .cnd-card:nth-child(2){transition-delay:.1s}.cnd-anim .cnd-card:nth-child(3){transition-delay:.2s}
+.cnd-anim.is-in .cnd-card{opacity:1;transform:none}
+@media (max-width:991px){.cnd-grid{grid-template-columns:1fr}.cnd-summary{-webkit-line-clamp:3}}
+@media (max-width:767px){.cnd{padding:0 16px}.cnd-wrap{padding:28px 20px}}
