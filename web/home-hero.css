@@ -1,0 +1,70 @@
+/* Colaeb homepage hero: brand color wash (desktop + mobile).
+   Soft green/orange aurora with a faint dot grid behind the existing hero content,
+   a pill eyebrow, and a deep-green stats card on phones. */
+.hp-hero-section{
+  background:
+    radial-gradient(55% 65% at 0% 0%, rgba(46,204,113,.26), rgba(46,204,113,0) 70%),
+    radial-gradient(45% 55% at 100% 0%, rgba(243,122,35,.18), rgba(243,122,35,0) 70%),
+    radial-gradient(60% 55% at 85% 100%, rgba(99,201,121,.22), rgba(99,201,121,0) 70%),
+    radial-gradient(40% 45% at 10% 100%, rgba(243,122,35,.10), rgba(243,122,35,0) 70%),
+    linear-gradient(160deg,#EEF9F2 0%,#F7FBF5 45%,#FFF5EC 100%) !important;
+  isolation:isolate;
+}
+/* faint dot grid, strongest behind the copy */
+.hp-hero-section::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(rgba(27,110,63,.20) 1.1px,transparent 1.2px);
+  background-size:22px 22px;
+  -webkit-mask-image:radial-gradient(70% 80% at 30% 40%,#000 0%,rgba(0,0,0,.35) 55%,transparent 85%);
+          mask-image:radial-gradient(70% 80% at 30% 40%,#000 0%,rgba(0,0,0,.35) 55%,transparent 85%);
+}
+/* slow-drifting color blobs */
+.hp-hero-section::after{
+  content:"";position:absolute;z-index:0;pointer-events:none;
+  width:560px;height:560px;left:-160px;top:-220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(46,204,113,.30),rgba(46,204,113,0) 65%);
+  filter:blur(20px);animation:coHeroDrift 18s ease-in-out infinite alternate;
+}
+@keyframes coHeroDrift{to{transform:translate(220px,140px) scale(1.15)}}
+.hp-hero-section>*{position:relative;z-index:1}
+
+/* eyebrow as a tinted pill */
+.hp-hero-section .hp-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px 7px 12px;border-radius:999px;
+  background:rgba(46,204,113,.14);border:1px solid rgba(46,111,63,.18);
+}
+.hp-hero-section .hp-eyebrow::before{
+  content:"";width:7px;height:7px;border-radius:50%;background:#2ECC71;flex:none;
+  box-shadow:0 0 0 0 rgba(46,204,113,.55);animation:coHeroPing 2.2s infinite;
+}
+@keyframes coHeroPing{70%{box-shadow:0 0 0 8px rgba(46,204,113,0)}100%{box-shadow:0 0 0 0 rgba(46,204,113,0)}}
+
+/* secondary button reads on the tinted background */
+.hp-hero-section .hp-btn:not(.is-btn-2){background:rgba(255,255,255,.8);backdrop-filter:blur(4px)}
+
+/* logo strip tiles sit on the color, not on white */
+.hp-hero-section .hp-ltile{box-shadow:0 6px 18px rgba(27,110,63,.08)}
+
+/* phones and small tablets: tighter top, deep-green stats card */
+@media (max-width:991px){
+  .hp-hero-section{padding-top:48px !important}
+  .hp-hero-section .hp-pulse{
+    background:linear-gradient(145deg,#0D2B1F 0%,#16573A 55%,#1F8A4E 100%) !important;
+    border:0 !important;border-radius:20px;position:relative;overflow:hidden;
+    box-shadow:0 18px 40px rgba(13,43,31,.25);
+  }
+  .hp-hero-section .hp-pulse::after{
+    content:"";position:absolute;width:240px;height:240px;right:-90px;top:-110px;border-radius:50%;
+    background:radial-gradient(circle,rgba(243,122,35,.45),rgba(243,122,35,0) 65%);pointer-events:none;
+  }
+  .hp-hero-section .hp-pulse .hp-hero-div-4{color:#fff !important;position:relative;z-index:1}
+  .hp-hero-section .hp-pulse .hp-hero-div-5{color:rgba(232,246,238,.82) !important;position:relative;z-index:1}
+}
+@media (max-width:767px){
+  .hp-hero-section{padding-top:36px !important}
+  .hp-hero-section::after{width:380px;height:380px;left:-140px;top:-160px}
+}
+@media (prefers-reduced-motion:reduce){
+  .hp-hero-section::after,.hp-hero-section .hp-eyebrow::before{animation:none}
+}
