@@ -3,17 +3,17 @@
    a pill eyebrow, and a deep-green stats card on phones. */
 .hp-hero-section{
   background:
-    radial-gradient(55% 65% at 0% 0%, rgba(46,204,113,.26), rgba(46,204,113,0) 70%),
-    radial-gradient(45% 55% at 100% 0%, rgba(243,122,35,.18), rgba(243,122,35,0) 70%),
-    radial-gradient(60% 55% at 85% 100%, rgba(99,201,121,.22), rgba(99,201,121,0) 70%),
-    radial-gradient(40% 45% at 10% 100%, rgba(243,122,35,.10), rgba(243,122,35,0) 70%),
-    linear-gradient(160deg,#EEF9F2 0%,#F7FBF5 45%,#FFF5EC 100%) !important;
+    radial-gradient(60% 70% at 0% 0%, rgba(46,204,113,.42), rgba(46,204,113,0) 72%),
+    radial-gradient(50% 60% at 100% 0%, rgba(243,122,35,.30), rgba(243,122,35,0) 72%),
+    radial-gradient(65% 60% at 85% 100%, rgba(46,204,113,.34), rgba(46,204,113,0) 72%),
+    radial-gradient(45% 50% at 10% 100%, rgba(243,122,35,.20), rgba(243,122,35,0) 72%),
+    linear-gradient(160deg,#DFF4E7 0%,#EEF8F0 45%,#FFEBDA 100%) !important;
   isolation:isolate;
 }
 /* faint dot grid, strongest behind the copy */
 .hp-hero-section::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:radial-gradient(rgba(27,110,63,.20) 1.1px,transparent 1.2px);
+  background-image:radial-gradient(rgba(27,110,63,.26) 1.1px,transparent 1.2px);
   background-size:22px 22px;
   -webkit-mask-image:radial-gradient(70% 80% at 30% 40%,#000 0%,rgba(0,0,0,.35) 55%,transparent 85%);
           mask-image:radial-gradient(70% 80% at 30% 40%,#000 0%,rgba(0,0,0,.35) 55%,transparent 85%);
@@ -22,7 +22,7 @@
 .hp-hero-section::after{
   content:"";position:absolute;z-index:0;pointer-events:none;
   width:560px;height:560px;left:-160px;top:-220px;border-radius:50%;
-  background:radial-gradient(circle,rgba(46,204,113,.30),rgba(46,204,113,0) 65%);
+  background:radial-gradient(circle,rgba(46,204,113,.40),rgba(46,204,113,0) 65%);
   filter:blur(20px);animation:coHeroDrift 18s ease-in-out infinite alternate;
 }
 @keyframes coHeroDrift{to{transform:translate(220px,140px) scale(1.15)}}
