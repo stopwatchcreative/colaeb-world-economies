@@ -46,6 +46,9 @@
 /* logo strip tiles sit on the color, not on white */
 .hp-hero-section .hp-ltile{box-shadow:0 6px 18px rgba(27,110,63,.08)}
 
+/* four stats: even 2x2 grid (Webflow spans the 3rd stat full width) */
+.hp-hero-section .hp-pulse.is-pulse-1>div:nth-child(3){grid-column:auto}
+
 /* phones and small tablets: tighter top, deep-green stats card */
 @media (max-width:991px){
   .hp-hero-section{padding-top:48px !important}
