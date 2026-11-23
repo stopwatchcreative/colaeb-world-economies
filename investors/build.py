@@ -11,7 +11,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 P = lambda f: os.path.join(HERE, f)
 gc = geonamescache.GeonamesCache()
 
-EXCLUDE = {"jumpstartinc.org", "drummondroad.com", "lumosinnovation.com", "nctventures.com", "ventureforge.co", "northcoastangelfund.com", "lvlup.vc"}  # removed by Manny (LvlUp removed 2026-11-20) (Rev1 re-added 2026-11-15)
+EXCLUDE = {"drummondroad.com", "lumosinnovation.com", "nctventures.com", "ventureforge.co", "northcoastangelfund.com", "lvlup.vc"}  # removed by Manny (LvlUp removed 2026-11-20) (Rev1 re-added 2026-11-15; JumpStart re-added 2026-11-17)
 # Already live in Webflow CMS (cn.js also dedupes by host, this just keeps the feed lean)
 CMS = {"drivecapital.com", "cincytechusa.com", "m25vc.com", "highalpha.com", "kaporcapital.com", "harlem.capital",
        "goldenseeds.com", "collab.capital", "precursorvc.com", "hustlefund.vc", "firstround.com", "a16z.com",
@@ -25,7 +25,7 @@ def norm(s):
 
 def dom(u):
     u = (u or "").strip().lower()
-    if not u or "crunchbase.com" in u or "notion.so" in u or "angel.co" in u or "linkedin.com" in u: return ""
+    if not u or "crunchbase.com" in u or "notion.so" in u or re.search(r"(^|//|\.)angel\.co(/|$)", u) or "linkedin.com" in u: return ""
     u = re.sub(r"^https?://", "", u); u = re.sub(r"^www\d?\.", "", u)
     u = u.split("?")[0].split("#")[0].rstrip("/")
     return u
@@ -47,7 +47,8 @@ COUNTRY_LABEL = {"US": "United States", "GB": "United Kingdom"}
 ALIAS = {"washington d.c.": ("Washington", "DC"), "dc": ("Washington", "DC"), "st louis": ("St. Louis", None), "saint louis": ("St. Louis", None),
          "ft lauderdale": ("Fort Lauderdale", None), "new york": ("New York City", None), "nyc": ("New York City", "NY"),
          "brooklyn": ("Brooklyn", None), "la jolla": ("San Diego", "CA"), "playa vista": ("Los Angeles", "CA"),
-         "west hollywood": ("West Hollywood", "CA"), "chestnut hill": ("Newton", "MA"), "champaign": ("Champaign", "IL")}
+         "west hollywood": ("West Hollywood", "CA"), "chestnut hill": ("Newton", "MA"), "champaign": ("Champaign", "IL"),
+         "fulton": ("Columbia", "MD")}
 
 def largest(cands):
     return max(cands, key=lambda c: c.get("population", 0)) if cands else None
@@ -81,13 +82,16 @@ def key_for(name, web, li):
     if li: return "l:" + li.lower().rstrip("/")
     return None
 
+# Different firms whose names normalise to an existing firm's ("Amplify Partners" vs Amplify LA)
+DISTINCT = {"amplifypartners.com", "dayoneventures.com", "sofinnova.com", "boost.vc", "venturespark.asia"}
+
 def upsert(name, web="", li="", email="", **kw):
     web_d = dom(web); h = host(web)
     if h in EXCLUDE: return
     nk = norm(name)
     k = key_for(name, web_d, li)
     if not k and nk in name_idx: k = name_idx[nk]
-    if k and k not in recs and nk in name_idx and name_idx[nk] in recs:
+    if k and k not in recs and nk in name_idx and name_idx[nk] in recs and h not in DISTINCT:
         k = name_idx[nk]  # same firm under a different/missing domain
     if not k:
         if not (web_d or li or email): return  # no contact -> skip (Manny's rule)
@@ -141,10 +145,6 @@ if os.path.exists(P("web_fixes.tsv")):
         k = name_idx.get(norm(x["name"]))
         if k in recs: recs[k]["web"] = dom(x["website"])
 
-# Location overrides by domain (HQs confirmed by hand)
-for x in csv.DictReader(open(P("loc_overrides.tsv")), delimiter="\t"):
-    r = recs.get("h:" + x["domain"])
-    if r: r["city"], r["state"], r["cc"] = x["city"], x["state"], x["cc"]
 
 # Browser-scraped lists: name|website|linkedin|email|city|country|type|stage|focus
 GENERIC = {"gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "icloud.com", "aol.com", "me.com", "protonmail.com", "live.com"}
@@ -168,6 +168,15 @@ for f in sorted(os.listdir(HERE)):
         if city.lower() in ("other", "remote", "global", "n/a"): city = ""
         stage = re.sub(r"\s+(?=(Pre-seed|Seed\+?|Late Seed|Series [A-D]|angel|Growth))", ", ", stage)
         upsert(nm, web, li, "", city=city, state=st, cc=cc, type=typ, stage=stage, focus=focus[:60])
+
+# Location overrides by domain (HQs confirmed by hand), applied after every source
+for x in csv.DictReader(open(P("loc_overrides.tsv")), delimiter="\t"):
+    r = recs.get("h:" + x["domain"])
+    if r: r["city"], r["state"], r["cc"] = x["city"], x["state"], x["cc"]
+
+# Display-name fixes by domain (first source listed a regional office)
+for d, nm in {"antler.co": "Antler", "valleycapital.vc": "Valley Capital Partners"}.items():
+    if "h:" + d in recs: recs["h:" + d]["name"] = nm
 
 # Shai Goldman fund list: no contacts, used only to add "latest fund" to firms already present
 shai = list(csv.reader(open(P("shai.csv"))))
