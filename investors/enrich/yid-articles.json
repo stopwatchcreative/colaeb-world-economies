@@ -971,6 +971,15 @@
 "t": "Santa Clara’s Nvidia Posts a $115.8 Billion Quarter in Its First Earnings Report Since Jensen Huang’s Exit",
 "v": 6
 },
+"https://www.yourinfodaily.com/p/odin-dynamics-13-75m-seed-freestyle-autonomous-undersea-defense": {
+"d": "2026-11-23",
+"m": {
+"h:blueyard.com": "in",
+"h:sierraventures.com": "in"
+},
+"t": "Odin Dynamics Exits Stealth With $13.75M Seed Led by Freestyle VC for Low-Cost Autonomous Undersea Vehicles",
+"v": 6
+},
 "https://www.yourinfodaily.com/p/ohio-startup-funding-report-30-companies-raised-134m-in-new-sec-form-d-filings": {
 "d": "2026-11-17",
 "m": {},
@@ -1341,6 +1350,15 @@
 "t": "Startup Funding News, Nov. 5, 2026: 20 Startups Raise Nearly $780 Million",
 "v": 6
 },
+"https://www.yourinfodaily.com/p/stepsecurity-20m-series-a-elephant-software-supply-chain-security": {
+"d": "2026-11-24",
+"m": {
+"h:elephantvc.com": "led",
+"h:innerloopcap.com": "in"
+},
+"t": "StepSecurity Raises $20M Series A Led by Elephant to Stop Software Supply Chain Attacks",
+"v": 6
+},
 "https://www.yourinfodaily.com/p/stimcardio-raises-30m-series-a-for-wearable-afib-therapy-rhyvive": {
 "d": "2026-11-02",
 "m": {},
@@ -1411,6 +1429,15 @@
 "h:benchmark.com": "led"
 },
 "t": "Tendrils Compute Raises $30M Led by Benchmark to Rebuild the CPU",
+"v": 6
+},
+"https://www.yourinfodaily.com/p/tesorai-5-3m-seed-perplexity-fund-iqt-life-sciences-data": {
+"d": "2026-11-24",
+"m": {
+"h:nextgenventures.nl": "in",
+"n:southcentralventures": "in"
+},
+"t": "Tesorai Raises $5.3M Seed Backed by Perplexity Fund and IQT to Make Raw Lab Data Searchable With AI",
 "v": 6
 },
 "https://www.yourinfodaily.com/p/the-man-who-brought-the-world-pokemon-and-yu-gi-oh-is-back-with-his-next-global-phenomenon-sumomon": {
@@ -1484,6 +1511,15 @@
 "t": "Two Point O Raises $10M Series A Led by Transition VC for Clean Energy",
 "v": 6
 },
+"https://www.yourinfodaily.com/p/unsiloed-ai-7-5m-seed-felicis-document-parsing-ai-agents": {
+"d": "2026-11-24",
+"m": {
+"h:felicis.com": "led",
+"h:ycombinator.com": "led"
+},
+"t": "Unsiloed AI Raises $7.5M Seed Led by Felicis to Make Enterprise Documents Readable for AI Agents",
+"v": 6
+},
 "https://www.yourinfodaily.com/p/urologic-design-raises-12m-pre-seed-for-male-incontinence-device": {
 "d": "2026-11-03",
 "m": {
@@ -1554,6 +1590,12 @@
 "h:a16z.com": "in"
 },
 "t": "Wabi Raises $55M at $1.25B Valuation in IVP-Led Round for Shared AI",
+"v": 6
+},
+"https://www.yourinfodaily.com/p/wepinion-500k-pre-seed-green-mountain-accelerator-fund": {
+"d": "2026-11-24",
+"m": {},
+"t": "Vermont Startup Wepinion Raises $500K Pre-Seed Led by Green Mountain Accelerator Fund",
 "v": 6
 },
 "https://www.yourinfodaily.com/p/what-margins-can-agencies-expect-from-reselling-ai-receptionists": {
