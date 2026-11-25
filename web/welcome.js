@@ -7,7 +7,7 @@
   if (SKIP.some(function (r) { return r.test(P); })) return;
 
   var JOIN = "/#plans";
-  var KEY_SEEN = "cw_seen_v1", KEY_OFF = "cw_guide_off";
+  var KEY_SEEN = "cw_seen_v2", KEY_OFF = "cw_guide_off";
   function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
   function ga(n, p) { try { window.gtag && gtag("event", n, p || {}); } catch (e) {} }
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -46,7 +46,7 @@
         '<div class="cw-wave">' + FACE.replace('class="cg-svg"', 'class="cg-svg" style="width:86px;height:110px;margin-top:-12px"') + '</div>' +
         '<span class="cw-eb">Collaborate and Elevate</span>' +
         '<h2 class="cw-h" id="cw-h">Welcome to Colaeb!</h2>' +
-        '<p class="cw-p"><b>Collaborate and Elevate</b> is a vetted community of humans leveraging technology to reach new customers. Enjoy!</p>' +
+        '<p class="cw-p"><b>Colaeb</b> (pronounced <i>collab</i>), aka <b>Collaborate and Elevate</b>, is a vetted community of humans leveraging technology to reach their goals. Enjoy!</p>' +
         '<button class="cw-go">Let’s go →</button>' +
       '</div>';
     document.body.appendChild(ov);
