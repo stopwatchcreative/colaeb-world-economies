@@ -19,20 +19,20 @@
       '<path d="M22 104 L25 76 H61 L64 104 Z" fill="#16233A"/>' +                         // trousers
       '<path d="M18 80 Q17 54 30 50 H56 Q69 54 68 80 Z" fill="#1E2F4D"/>' +               // blazer
       '<path d="M36 50 H50 L43 66 Z" fill="#fff"/>' +                                    // shirt
-      '<path d="M43 53 L46 57 L44 72 L43 74 L42 72 L40 57 Z" fill="#2ECC71"/>' +         // tie
+      '<path d="M43 53 L46 57 L44 72 L43 74 L42 72 L40 57 Z" fill="#FF8A3D"/>' +         // tie
       '<path d="M30 50 L43 70 L36 50 Z M56 50 L43 70 L50 50 Z" fill="#2A3F63"/>' +       // lapels
       '<path d="M24 58 Q17 70 20 84" stroke="#1E2F4D" stroke-width="8" stroke-linecap="round" fill="none"/>' +
-      '<circle cx="20" cy="85" r="4.5" fill="#8D5A3B"/>' +
+      '<circle cx="20" cy="85" r="4.5" fill="#2ECC71"/>' +
       '<g class="cg-arm"><path d="M62 58 Q74 50 76 36" stroke="#1E2F4D" stroke-width="8" stroke-linecap="round" fill="none"/>' +
-        '<circle cx="76.5" cy="33" r="5" fill="#8D5A3B"/></g>' +
-      '<rect x="38" y="42" width="10" height="9" rx="3" fill="#7A4C31"/>' +              // neck
-      '<circle cx="43" cy="28" r="17" fill="#8D5A3B"/>' +                                // head
+        '<circle cx="76.5" cy="33" r="5" fill="#2ECC71"/></g>' +
+      '<rect x="38" y="42" width="10" height="9" rx="3" fill="#1F9A55"/>' +              // neck
+      '<circle cx="43" cy="28" r="17" fill="#2ECC71"/>' +                                // head
       '<path d="M26 26 Q26 9 43 9 Q60 9 60 26 Q56 17 43 17 Q31 17 26 26 Z" fill="#1B1410"/>' + // hair
       '<ellipse class="cg-eye" cx="37" cy="29" rx="2.2" ry="2.6" fill="#1B1410"/>' +
       '<ellipse class="cg-eye" cx="49" cy="29" rx="2.2" ry="2.6" fill="#1B1410"/>' +
       '<path d="M37 36 Q43 41 49 36" stroke="#1B1410" stroke-width="2" stroke-linecap="round" fill="none"/>' +
-      '<circle cx="33" cy="34" r="2.6" fill="#FF8A3D" opacity=".35"/><circle cx="53" cy="34" r="2.6" fill="#FF8A3D" opacity=".35"/>' +
-      '<rect x="48" y="66" width="12" height="8" rx="1.5" fill="#2ECC71"/>' +            // pocket square
+      '<circle cx="33" cy="34" r="2.6" fill="#0D6B3A" opacity=".35"/><circle cx="53" cy="34" r="2.6" fill="#0D6B3A" opacity=".35"/>' +
+      '<rect x="48" y="66" width="12" height="8" rx="1.5" fill="#FF8A3D"/>' +            // pocket square
     '</svg>';
 
   /* ---------- welcome screen ---------- */
