@@ -1,0 +1,42 @@
+/* Membership popup on /investors (see member.js) */
+.cmb-ov{position:fixed;inset:0;z-index:2147483600;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(10,30,22,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .3s ease;overflow-y:auto}
+.cmb-ov.cmb-on{opacity:1}
+.cmb-card{position:relative;width:min(500px,100%);max-height:calc(100vh - 32px);overflow-y:auto;border-radius:24px;padding:32px 30px 22px;background:#fff;color:#13241A;box-shadow:0 30px 80px rgba(0,0,0,.35);
+  font-family:"Source Sans 3",system-ui,sans-serif;transform:translateY(16px) scale(.97);transition:transform .4s cubic-bezier(.2,.8,.2,1);text-align:left}
+.cmb-on .cmb-card{transform:none}
+.cmb-card:before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:linear-gradient(90deg,#2ECC71,#FF8A3D,#2ECC71);background-size:200% 100%;animation:cmbBar 4s linear infinite;border-radius:24px 24px 0 0}
+.cmb-x{position:absolute;top:12px;right:12px;width:34px;height:34px;border:0;border-radius:50%;background:#F1F5F2;color:#13241A;font-size:20px;line-height:34px;cursor:pointer;padding:0}
+.cmb-x:hover{background:#E3EAE5}
+.cmb-eb{display:inline-block;padding:6px 11px;border-radius:999px;background:#E6F6EA;color:#1B6E3F;font:700 12px/1 Sora,system-ui,sans-serif;letter-spacing:1.2px;text-transform:uppercase}
+.cmb-h{margin:14px 34px 0 0;font:700 clamp(24px,5vw,30px)/1.12 Sora,system-ui,sans-serif;letter-spacing:-.4px;color:#13241A;text-transform:none}
+.cmb-lede{margin:12px 0 0;font-size:17px;line-height:1.5;color:#3B4A41}
+.cmb-list{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:9px}
+.cmb-list li{position:relative;padding-left:28px;font-size:16px;line-height:1.4;color:#3B4A41}
+.cmb-list li b{color:#13241A;font-weight:700}
+.cmb-list li:before{content:"";position:absolute;left:0;top:2px;width:18px;height:18px;border-radius:50%;background:#2ECC71 no-repeat center/11px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230D2B1F' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E")}
+.cmb-plan{margin-top:18px;padding:16px;border-radius:16px;background:linear-gradient(150deg,#0D2B1F,#16573A 60%,#1F8A4E);color:#fff}
+.cmb-plan-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.cmb-plan-name{font:700 18px/1 Sora,system-ui,sans-serif}
+.cmb-price{font:800 32px/1 Sora,system-ui,sans-serif;color:#fff}
+.cmb-price small{font-size:15px;font-weight:600;opacity:.75}
+.cmb-join{display:flex;align-items:center;justify-content:center;margin-top:14px;min-height:50px;padding:0 18px;border-radius:12px;background:#2ECC71;color:#0D2B1F !important;font:700 17px/1.2 Sora,system-ui,sans-serif;text-decoration:none !important;text-align:center;transition:transform .15s,box-shadow .15s}
+.cmb-join:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(46,204,113,.4)}
+.cmb-yearly{display:block;margin-top:9px;text-align:center;color:#B9F3CF !important;font-size:14px;text-decoration:underline !important;text-underline-offset:3px}
+.cmb-appeal{margin:14px 0 0;padding:11px 14px;border-radius:12px;background:#FFF4E8;color:#7A3A0C;font-size:15px;line-height:1.45}
+.cmb-appeal b{color:#5C2A06}
+.cmb-more{display:block;width:100%;margin-top:12px;padding:11px;border:1px solid #D9E4DC;border-radius:12px;background:#fff;color:#1B6E3F;font:700 15px/1 Sora,system-ui,sans-serif;cursor:pointer}
+.cmb-more:hover{border-color:#2ECC71}
+.cmb-others{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.cmb-others[hidden]{display:none}
+.cmb-opt{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid #E3EAE5;border-radius:12px;color:#13241A !important;text-decoration:none !important;transition:border-color .15s,background .15s}
+.cmb-opt:hover{border-color:#2ECC71;background:#F6FBF7}
+.cmb-opt b{display:block;font:700 16px/1.2 Sora,system-ui,sans-serif}
+.cmb-opt em{display:block;font-style:normal;font-size:14px;color:#55636E;margin-top:2px}
+.cmb-opt strong{flex:none;font:800 20px/1 Sora,system-ui,sans-serif}
+.cmb-opt strong small{font-size:13px;font-weight:600;color:#55636E}
+.cmb-all{display:block;text-align:center;padding:6px;color:#1B6E3F !important;font-weight:700;font-size:15px;text-decoration:underline !important;text-underline-offset:3px}
+.cmb-skip{display:block;margin:12px auto 0;padding:8px 12px;border:0;background:none;color:#55636E;font:600 15px/1.2 "Source Sans 3",system-ui,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.cmb-skip:hover{color:#13241A}
+@keyframes cmbBar{to{background-position:-200% 0}}
+@media (max-width:480px){.cmb-card{padding:28px 18px 18px;border-radius:20px}.cmb-list li{font-size:15px}.cmb-price{font-size:28px}}
+@media (prefers-reduced-motion:reduce){.cmb-ov,.cmb-card{transition:none}.cmb-card:before{animation:none}}
