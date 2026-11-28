@@ -1,4 +1,22 @@
 {
+"https://www.yourinfodaily.com/p/'+esc(cover.u)+'": {
+"d": "",
+"m": {},
+"t": "'+(cover.i?' ':'')+' '+esc(cover.t)+'",
+"v": 6
+},
+"https://www.yourinfodaily.com/p/'+esc(r.u)+'": {
+"d": "",
+"m": {},
+"t": "'+esc(r.c)+'",
+"v": 6
+},
+"https://www.yourinfodaily.com/p/'+esc(s.u)+'": {
+"d": "",
+"m": {},
+"t": "'+esc(s.t)+'",
+"v": 6
+},
 "https://www.yourinfodaily.com/p/1komma5-raises-81m-at-a-135b-valuation-is-a-us-expansion-next": {
 "d": "2026-10-20",
 "m": {},
@@ -509,6 +527,12 @@
 "t": "Flapping Airplanes Raises $1B Series A at $6B Valuation to Build Data-Efficient AI",
 "v": 6
 },
+"https://www.yourinfodaily.com/p/for-good-ai-35m-andrew-filev-hops-ai-workspace": {
+"d": "2026-11-27",
+"m": {},
+"t": "Wrike Founder Andrew Filev's For Good AI Has $35M Behind New Hops AI Team Workspace",
+"v": 6
+},
 "https://www.yourinfodaily.com/p/form5-raises-50k-launches-patented-bike-arm-adapter-for-kids": {
 "d": "2026-11-05",
 "m": {},
@@ -607,6 +631,14 @@
 "h:ventures.citi.com": "in"
 },
 "t": "Homeward Raises $120M Series D to Expand Buy Before You Sell Home Financing",
+"v": 6
+},
+"https://www.yourinfodaily.com/p/hoplite-5-5m-seed-collison-brothers-ai-coding-agents": {
+"d": "2026-11-28",
+"m": {
+"h:ycombinator.com": "led"
+},
+"t": "Hoplite Raises $5.5M Seed Led by Stripe's Collison Brothers to Run AI Coding Agents in the Cloud",
 "v": 6
 },
 "https://www.yourinfodaily.com/p/how-are-multi-location-businesses-and-call-centers-using-voice-ai": {
